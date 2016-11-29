@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>640</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>Client.java
+Package::goserver
+--
+TODO
+--
+Responsibilities
+--BuildClient</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>610</x>
+      <y>470</y>
+      <w>210</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>Server.java
+Package::goserver
+--
+- socket : Socket
+- clients : Vector&lt;ClientHandler&gt;
+- ssocket : ServerSocket
+- sst : StartServerThread
+- clientHandler : ClientHandler
+- port : int
+- listening : boolean
+
+--
++ Server()
++ startServer(): void
++ stopServer(): void
+--
+Responsibilities
+--create and manage server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>340</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>StartServerThread
+Extends Thread
+--
+- listen : boolean
+--
++StartServerThread()
++stopServerThread(): void
++main(String[] args): void
+--
+Responsibilities
+--Manage Server Thread</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>240</x>
+      <y>350</y>
+      <w>80</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Runnable
+--
++run(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>570</x>
+      <y>330</y>
+      <w>80</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Observer
+--
++update()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>70</x>
+      <y>220</y>
+      <w>240</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>220.0;30.0;90.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>250</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Observable</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>90</x>
+      <y>240</y>
+      <w>210</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>190.0;120.0;150.0;60.0;90.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>610</x>
+      <y>310</y>
+      <w>140</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;40.0;50.0;10.0;110.0;40.0;120.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>70</x>
+      <y>550</y>
+      <w>120</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>100.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>480</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;130.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>360</x>
+      <y>460</y>
+      <w>140</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Exceptions:
+-WrongMove
+-WrongName</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>290</y>
+      <w>240</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>220.0;50.0;90.0;10.0;10.0;180.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>310</y>
+      <w>210</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>ClientHandler.java
+Package::goserver
+Extends Observable
+--
+- reader: BufferedReader
+- writer: PrintWriter
+- socket: Socket
+- running: boolean
+--
++ClientHandler(socket: Socket
++stopClient(): void
+
+--
+Responsibilities
+--Manage Client</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>930</x>
+      <y>140</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Thread
+--
++run(): void
++finalize: void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>200</y>
+      <w>110</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>50.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+</diagram>
