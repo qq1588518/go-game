@@ -7,11 +7,10 @@ import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * @author mk
+ * Panel to keep non-resizable BoardPanel in the center.
  *
  */
 @SuppressWarnings("serial")
@@ -28,7 +27,7 @@ public class GamePanel extends JPanel
     }
 
     /**
-     * 
+     * Initialises panel and sets BoardPanel in the right position.
      */
     private void initComponents()
     {
@@ -43,6 +42,10 @@ public class GamePanel extends JPanel
     }
     
 
+    /**
+     * Returns board (for communication between GUI components)
+     * @return BoardPanel situated on this panel
+     */
     public BoardPanel getBoardPanel() { return this.board; }
   
 }

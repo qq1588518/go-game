@@ -3,21 +3,21 @@
  */
 package goclient;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * @author mk
+ * TODO: Pewnie jakieś przyciski typu: pas, poddaj się, statystki rozgrywki
+ * Side panel of the frame, showing game info
  *
  */
+@SuppressWarnings("serial")
 public class OptionsPanel extends JPanel
 {
-    private final JFrame parent;
+    private final GUIMediator parent;
     
-    public OptionsPanel(JFrame parent)
+    public OptionsPanel(GUIMediator parent)
     {
         this.parent = parent;
         
@@ -29,10 +29,6 @@ public class OptionsPanel extends JPanel
      */
     private void initComponents()
     {
-        //setMinimumSize(new Dimension(500, 500));
-        //setBackground(new Color(220, 179, 92));
-        
-
         Dimension panelSize = new Dimension(300, 300);
         setMaximumSize(panelSize);
         setPreferredSize(panelSize);

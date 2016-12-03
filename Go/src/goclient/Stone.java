@@ -6,7 +6,7 @@ package goclient;
 import java.awt.Point;
 
 /**
- * @author mk
+ * Ta klasa jest chyba tylko po to, żeby móc na planszy trzymać kamienie w jednej tablicy...
  *
  */
 class Stone

@@ -12,14 +12,17 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
- * @author mk
+ * Main frame of the program and also the Mediator between GUI components
  *
  */
 public class GUIMediator extends JFrame
 {
     private GamePanel gamePanel;
-    private OptionsPanel optionsPanel;
+    private OptionsPanel optionsPanel; 
     
+    /**
+     * Constructs a new GUIMediator frame.
+     */
     public GUIMediator() 
     {
         this.gamePanel = new GamePanel(this);
@@ -28,6 +31,9 @@ public class GUIMediator extends JFrame
         initComponents();
     }
     
+    /**
+     * Initialises frame components and sets its properties.
+     */
     private void initComponents()
     {
         try { UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");}
@@ -51,17 +57,23 @@ public class GUIMediator extends JFrame
         this.setVisible(true); 
     }
     
+    /**
+     *  Returns GamePanel for communication between components.
+     *  @return GamePanel 
+     */
     public GamePanel getGamePanel()
     {
         return gamePanel;
     }
     
+    /**
+     *  Returns OptionsPanel for communication between components.
+     *  @return OptionsPanel 
+     */
     public OptionsPanel getOptionsPanel()
     {
         return optionsPanel;
     }
     
-
-    private static final long serialVersionUID = 1L;
     
 }
