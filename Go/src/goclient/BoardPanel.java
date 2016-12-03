@@ -7,8 +7,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -18,19 +29,27 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel
 {
-    private final JFrame parent;
+    private final GUIMediator parent;
+    private MoveManager moveManager;
     
     private int n;
     private int fieldSize;
+    private int stoneRadius;
     private Point[][] fields;
     private Point[] hoshi;
+    private Vector<Stone> stones;
+    
+    private BufferedImage blackStone;
+    private BufferedImage whiteStone;
+    
     
     /**
      * Initialises a new Board Panel and sets its parent (mediator) frame.
      */
-    public BoardPanel(JFrame parent)
+    public BoardPanel(GUIMediator parent)
     {
         this.parent = parent;
+        stones = new Vector<Stone>();
         initComponents();
     }
 
@@ -47,7 +66,19 @@ public class BoardPanel extends JPanel
 
         setBackground(new Color(220, 179, 92));
         createBoard();
-
+        
+        moveManager = new MoveManager(parent);
+        addMouseListener(new Mouse(parent)); 
+        
+        try
+        {
+            blackStone = ImageIO.read(this.getClass().getResource("black.png"));
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -58,6 +89,7 @@ public class BoardPanel extends JPanel
     {
         super.paintComponent(g);
         drawBoard(g);
+        drawStone(g);
     }
     
     /**
@@ -78,8 +110,7 @@ public class BoardPanel extends JPanel
             for (int y = 0; y < n; y++)
             {
                 fields[x][y] = new Point(xPosition, yPosition);
-                yPosition += fieldSize;
-                                
+                yPosition += fieldSize;                   
             }
             xPosition += fieldSize;
         }
@@ -95,6 +126,7 @@ public class BoardPanel extends JPanel
         hoshi[7] = new Point((int)fields[3][n/2].getX(), (int)fields[3][n/2].getY());
         hoshi[8] = new Point((int)fields[n/2][n/2].getX(), (int)fields[n/2][n/2].getY());
         
+        stoneRadius = fieldSize/2;
         //repaint();
     }
     
@@ -114,11 +146,11 @@ public class BoardPanel extends JPanel
                        (int)fields[i][n-1].getX(),
                        (int)fields[i][n-1].getY() + fieldSize / 2);
             g2d.drawString(String.valueOf(column), 
-                            (int)fields[i][0].getX() - fieldSize / 4, 
-                            (int)fields[i][0].getY() - fieldSize );
+                          (int)fields[i][0].getX() - fieldSize / 4, 
+                          (int)fields[i][0].getY() - fieldSize );
             g2d.drawString(String.valueOf(column), 
-                            (int)fields[i][n-1].getX() - fieldSize / 4, 
-                            (int)fields[i][n-1].getY() + (5 * fieldSize) / 4);
+                          (int)fields[i][n-1].getX() - fieldSize / 4, 
+                          (int)fields[i][n-1].getY() + (5 * fieldSize) / 4);
             column++;
         }
         
@@ -146,4 +178,55 @@ public class BoardPanel extends JPanel
         }
         
     }
+
+    private void drawStone(Graphics g)
+    {        
+        for (Stone stone : stones)
+        {
+            g.drawImage(blackStone, 
+                        fields[stone.getX()][stone.getY()].x - stoneRadius, 
+                        fields[stone.getX()][stone.getY()].y - stoneRadius, 
+                        stoneRadius * 2, stoneRadius * 2, null);
+        }
+        
+    }
+    
+    private Point pullToGrid(Point p)
+    {
+        double x = p.getX();
+        double y = p.getY();
+       
+       
+       int x0 = fields[0][0].x;
+       int y0 = fields[0][0].y;
+       
+       int xn = fields[n-1][n-1].x;
+       int yn = fields[n-1][n-1].y;
+       int xsize = xn-x0 + fieldSize;
+       int ysize = yn-y0 + fieldSize;
+       
+       double gridX= (x - x0) / xsize * n;
+       double gridY= (y - y0) / ysize * n;
+       
+       int gridYrounded =  (int)Math.round(gridY);
+       int gridXrounded = (int)Math.round(gridX);
+        
+       double deltax = gridX - gridXrounded;
+       double deltay =  gridY - gridYrounded;
+
+       double precision = 0.25;
+       
+        if (deltax > precision || deltay > precision) return null;
+
+        return new Point(gridXrounded, gridYrounded);
+    }
+    
+    public void addStone(StoneType stoneType, Point p)
+    {
+        Point field = pullToGrid(p);
+        if (field != null) stones.add(new Stone(field, stoneType));
+        repaint();
+    }
+
+
 }

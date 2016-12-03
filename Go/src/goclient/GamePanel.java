@@ -3,8 +3,6 @@
  */
 package goclient;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.Box;
@@ -16,20 +14,17 @@ import javax.swing.JPanel;
  * @author mk
  *
  */
+@SuppressWarnings("serial")
 public class GamePanel extends JPanel
 {
-    private final JFrame parent;
+    private final GUIMediator parent;
     private final BoardPanel board;
 
-    public GamePanel(JFrame parent) 
+    public GamePanel(GUIMediator parent) 
     {
         this.parent = parent;
         this.board = new BoardPanel(this.parent);
-//        anotherPanel = new AnotherPanel(this.parent);
-//
-//        this.add(anotherPanel);
         initComponents();
-        
     }
 
     /**
@@ -38,7 +33,6 @@ public class GamePanel extends JPanel
     private void initComponents()
     {
         setPreferredSize(new Dimension(500, 500));
-        drawBoard();
         Box box = new Box(BoxLayout.Y_AXIS);
 
         box.add(Box.createVerticalGlue());
@@ -46,21 +40,9 @@ public class GamePanel extends JPanel
         box.add(Box.createVerticalGlue());
 
         add(box);
-        
-        
     }
     
-    /**
-     * 
-     */
-    private void drawBoard()
-    {
-        // TODO Auto-generated method stub
-        
-    }
 
-    public BoardPanel getBoardPanel(){
-        return board;
-    }
+    public BoardPanel getBoardPanel() { return this.board; }
   
 }

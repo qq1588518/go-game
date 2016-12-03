@@ -11,16 +11,14 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import javafx.scene.image.Image;
-
 /**
  * @author mk
  *
  */
 public class GUIMediator extends JFrame
 {
-    GamePanel gamePanel;
-    OptionsPanel optionsPanel;
+    private GamePanel gamePanel;
+    private OptionsPanel optionsPanel;
     
     public GUIMediator() 
     {
@@ -39,27 +37,29 @@ public class GUIMediator extends JFrame
         catch (ClassNotFoundException ex) { ex.printStackTrace(); }
         UIManager.put("swing.boldMetal", Boolean.FALSE); 
         
-
-   //     this.getContentPane().add(this.boardPanel); 
-   //     this.getContentPane().add(this.optionsPanel);
-        
-       // this.setBounds(0, 0, 1024, 708); 
-
         Dimension size = new Dimension(870, 570);
         this.setMinimumSize(size );
-        //this.setSize(800, 500);
         java.awt.Image im = Toolkit.getDefaultToolkit().getImage("/Go/images/Realistic_Go_Stone.svg.png");
         this.setIconImage(im);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setTitle("Go");
      
         setLayout(new BorderLayout());
         add(this.gamePanel, BorderLayout.CENTER);
         add(this.optionsPanel, BorderLayout.WEST);
-       // setResizable(false);
         
         this.setVisible(true); 
     }
     
+    public GamePanel getGamePanel()
+    {
+        return gamePanel;
+    }
+    
+    public OptionsPanel getOptionsPanel()
+    {
+        return optionsPanel;
+    }
     
 
     private static final long serialVersionUID = 1L;
