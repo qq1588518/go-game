@@ -7,31 +7,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * @author mk
- *
+ * Panel representing game board. Handles drawing board and stones on screen
  */
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel
 {
     private final GUIMediator parent;
-    private MoveManager moveManager;
-    
     private int n;
     private int fieldSize;
     private int stoneRadius;
@@ -54,7 +44,9 @@ public class BoardPanel extends JPanel
     }
 
     /**
+     * TODO: coś zrobić z wyjątkiem wyrzucanym jak brak obrazka 
      * 
+     * Initialises components of the BoardPanel.
      */
     private void initComponents()
     {
@@ -67,7 +59,7 @@ public class BoardPanel extends JPanel
         setBackground(new Color(220, 179, 92));
         createBoard();
         
-        moveManager = new MoveManager(parent);
+        new MoveManager(parent);
         addMouseListener(new Mouse(parent)); 
         
         try
@@ -76,13 +68,12 @@ public class BoardPanel extends JPanel
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     /**
-     * 
+     * Paints board and stones
      */
     @Override
     public void paintComponent(Graphics g) 
@@ -126,8 +117,7 @@ public class BoardPanel extends JPanel
         hoshi[7] = new Point((int)fields[3][n/2].getX(), (int)fields[3][n/2].getY());
         hoshi[8] = new Point((int)fields[n/2][n/2].getX(), (int)fields[n/2][n/2].getY());
         
-        stoneRadius = fieldSize/2;
-        //repaint();
+        stoneRadius = fieldSize / 2;
     }
     
     /**
@@ -175,10 +165,15 @@ public class BoardPanel extends JPanel
         for (Point point : hoshi)
         {
             g.fillOval(point.x - radius, point.y - radius, 2 * radius, 2 * radius);
-        }
-        
+        } 
     }
 
+    /**
+     * TODO: zmienić algorytm skalowania na jakiś lepszy 
+     * 
+     * Draw images representing Stones on board
+     * @param g Graphics object to handle drawing
+     */
     private void drawStone(Graphics g)
     {        
         for (Stone stone : stones)
@@ -187,40 +182,58 @@ public class BoardPanel extends JPanel
                         fields[stone.getX()][stone.getY()].x - stoneRadius, 
                         fields[stone.getX()][stone.getY()].y - stoneRadius, 
                         stoneRadius * 2, stoneRadius * 2, null);
-        }
-        
+        }  
     }
     
+    /**
+     * TODO: to powinna chyba być publiczna funkcja, wołana z zewnątrz, 
+     * żeby mieć pole, na którym chcemy postawić kamień - i dalej sprawdzać, 
+     * czy możemy go tam postawić.
+     * 
+     * Calculates point on grid which is closest to given one. 
+     * If given point is further than precision allows, returns null.
+     * @param Point to pull to grid
+     * @return Point on grid closest to given point or null if given point doesn't match any.
+     */
     private Point pullToGrid(Point p)
     {
         double x = p.getX();
         double y = p.getY();
-       
-       
-       int x0 = fields[0][0].x;
-       int y0 = fields[0][0].y;
-       
-       int xn = fields[n-1][n-1].x;
-       int yn = fields[n-1][n-1].y;
-       int xsize = xn-x0 + fieldSize;
-       int ysize = yn-y0 + fieldSize;
-       
-       double gridX= (x - x0) / xsize * n;
-       double gridY= (y - y0) / ysize * n;
-       
-       int gridYrounded =  (int)Math.round(gridY);
-       int gridXrounded = (int)Math.round(gridX);
+
+        int x0 = fields[0][0].x;
+        int y0 = fields[0][0].y;
         
-       double deltax = gridX - gridXrounded;
-       double deltay =  gridY - gridYrounded;
-
-       double precision = 0.25;
+        int xn = fields[n-1][n-1].x;
+        int yn = fields[n-1][n-1].y;
+        int xsize = xn-x0 + fieldSize;
+        int ysize = yn-y0 + fieldSize;
        
-        if (deltax > precision || deltay > precision) return null;
-
+        double gridX= (x - x0) / xsize * n;
+        double gridY= (y - y0) / ysize * n;
+       
+        int gridYrounded = (int)Math.round(gridY);
+        int gridXrounded = (int)Math.round(gridX);
+        
+        double deltaX = gridX - gridXrounded;
+        double deltaY = gridY - gridYrounded;
+    
+        double precision = 0.25;
+       
+        if (deltaX > precision || deltaY > precision) return null;
+    
         return new Point(gridXrounded, gridYrounded);
     }
     
+    
+    /**
+     * TODO: ostatecznie tu pewnie nie powinno być sprawdzania, czy jest nullem.
+     * Ta fcja wołana powinna być tylko dla kamieni, o których wiemy, że są dobre 
+     * i można je postawić. 
+     * 
+     * Adds a new Stone to Vector of Stones to draw on board.
+     * @param stoneType color of Stone
+     * @param p Point with coords on grid
+     */
     public void addStone(StoneType stoneType, Point p)
     {
         Point field = pullToGrid(p);
