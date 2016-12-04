@@ -46,7 +46,7 @@ public class ClientHandler extends Observable implements Runnable
     public void run()
     {
         String message = null;
-
+        System.out.println("asas");
         try 
         {
             running = false;
@@ -61,14 +61,16 @@ public class ClientHandler extends Observable implements Runnable
         }
 
         try 
-        {
+        {	
+        	System.out.println("blalbksld");
             message = reader.readLine();
             while (message != null && running) 
             {
                 /**
                  * TODO: server logic
                  */
-
+            	System.out.println(message); //echo w/o communication
+            	
                 writer.println(message); //echo
                 
                 reader.readLine();
