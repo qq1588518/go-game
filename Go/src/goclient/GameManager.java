@@ -3,11 +3,6 @@
  */
 package goclient;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.Icon;
-
 /**
  * To chyba ma być coś, co komunikuje GUI z resztą klienta. Ale nie jestem pewna. 
  * Albo może klienta z serwerem też trochę? 
