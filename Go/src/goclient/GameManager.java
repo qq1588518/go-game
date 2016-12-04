@@ -15,27 +15,35 @@ import javax.swing.Icon;
  * http://blue-walrus.com/2011/10/swing-and-design-patterns-%e2%80%93-part-3-command-pattern/
  *
  */
-public class MoveManager extends AbstractAction
+public class GameManager
 {
-    GUIMediator mediator;
+    GameState state;
     
     /**
      * 
      */
-    public MoveManager(GUIMediator mediator)
+    public GameManager(GameState state)
     {
-        super("Manage Moves");
-        this.mediator = mediator;
-        
+        this.state = state;
     }
     
-    /* (non-Javadoc)
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent e)
+    public void setState(GameState state)
     {
-       
+        this.state = state;
     }
+    
+    
+    public GameState getState()
+    {
+        return state;
+    }
+    
+
+    public void makeMove()
+    {
+       state.makeMove();
+    }
+    
+    
     
 }

@@ -20,11 +20,14 @@ public class Program
      */
     public static void main(String[] args) 
     {
+        
+        
         EventQueue.invokeLater(new Runnable() 
         {
+            GameManager manager = new GameManager(new GameStateMyMove());
             @Override
             public void run() {
-                JFrame frame = new GUIMediator();
+                JFrame frame = new GUIMediator(manager);
             }
         });     
     }

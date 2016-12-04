@@ -18,15 +18,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class GUIMediator extends JFrame
 {
     private GamePanel gamePanel;
-    private OptionsPanel optionsPanel; 
+    private OptionsPanel optionsPanel;
+    private GameManager manager;
+    
     
     /**
      * Constructs a new GUIMediator frame.
      */
-    public GUIMediator() 
+    public GUIMediator(GameManager manager) 
     {
         this.gamePanel = new GamePanel(this);
         this.optionsPanel = new OptionsPanel(this);
+        this.manager = manager;
  
         initComponents();
     }
@@ -75,5 +78,13 @@ public class GUIMediator extends JFrame
         return optionsPanel;
     }
     
+    /**
+     *  Returns GameManager for handling game activities
+     *  @return GameManager 
+     */
+    public GameManager getManager()
+    {
+        return manager;
+    }
     
 }

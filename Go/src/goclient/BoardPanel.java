@@ -59,7 +59,6 @@ public class BoardPanel extends JPanel
         setBackground(new Color(220, 179, 92));
         createBoard();
         
-        new MoveManager(parent);
         addMouseListener(new Mouse(parent)); 
         
         try
