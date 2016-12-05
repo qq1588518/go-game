@@ -24,7 +24,7 @@ public class Program
         
         EventQueue.invokeLater(new Runnable() 
         {
-            GameManager manager = new GameManager(new GameStateMyMove());
+            GameManager manager = new GameManager(19);
             @Override
             public void run() {
                 JFrame frame = new GUIMediator(manager);

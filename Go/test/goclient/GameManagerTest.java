@@ -14,15 +14,12 @@ import org.junit.Test;
  */
 public class GameManagerTest
 {
-    
-    GameStateMyMove mm;
     GameManager gm;
     
     @Before
     public void setUp()
     {
-        mm = new GameStateMyMove();
-        gm = new GameManager(mm);
+        gm = new GameManager(19);
     }
     
     /**
@@ -42,7 +39,7 @@ public class GameManagerTest
     {
         GameState s = new GameStateOpponentsMove();
         gm.setState(s);
-        assertEquals(s, gm.getState());
+        assertSame(s, gm.getState());
     }
     
     /**
@@ -51,7 +48,7 @@ public class GameManagerTest
     @Test
     public void testGetState()
     {
-        assertSame(gm.getState(), mm);
+        assertEquals(gm.getState().getClass(), GameStateNotStartedYet.class);
     }
     
     /**

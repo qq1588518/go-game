@@ -13,13 +13,15 @@ package goclient;
 public class GameManager
 {
     GameState state;
+    int boardSize;
     
     /**
      * 
      */
-    public GameManager(GameState state)
+    public GameManager(int boardSize)
     {
-        this.state = state;
+        this.boardSize = boardSize;
+        this.state = new GameStateNotStartedYet();
     }
     
     public void setState(GameState state)
@@ -27,13 +29,11 @@ public class GameManager
         this.state = state;
     }
     
-    
     public GameState getState()
     {
         return state;
     }
-    
-
+   
     public void makeMove()
     {
        state.makeMove();

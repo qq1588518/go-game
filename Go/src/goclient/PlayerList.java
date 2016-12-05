@@ -49,7 +49,7 @@ public class PlayerList extends JDialog implements ActionListener {
 		listScrollPane = new JScrollPane(list);
 		
 		//Test Data
-		listModel.addElement("Stefan ¯eromski");
+		listModel.addElement("Stefan ï¿½eromski");
 		listModel.addElement("Steve Jobs");
 		listModel.addElement("Pan Rektor");
 		
@@ -61,7 +61,7 @@ public class PlayerList extends JDialog implements ActionListener {
 		add(ok);
 		add(listScrollPane, BorderLayout.CENTER);
 		add(cancel);
-		
+
 		this.setVisible(true);
 	}
 
@@ -69,7 +69,7 @@ public class PlayerList extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getActionCommand()=="OK"){
-			//System.out.println("Po³¹cz z graczem " + listModel.getElementAt(list.getSelectedIndex()));
+			System.out.println("Poï¿½ï¿½cz z graczem " + listModel.getElementAt(list.getSelectedIndex()));
 			if(socket == null){ 
 				
 				try {

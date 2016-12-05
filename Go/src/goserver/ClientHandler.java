@@ -49,31 +49,17 @@ public class ClientHandler extends Observable implements Runnable
         
         try 
         {
-            running = false;
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
-            running = true; 
+            running = true; 	
             writer.println("Welcome to go!");
-        }
-        catch(IOException ioe) 
-        {
-            System.out.println(ioe);
-        }
-
-        try 
-        {	
-        	
-            message = reader.readLine();
-            while (message != null && running) 
+            while ((message = reader.readLine()) != null && running) 
             {
                 /**
                  * TODO: server logic
                  */
-            	System.out.println(message); //echo w/o communication
-            	
-                writer.println(message); //echo
-                
-                reader.readLine();
+            	System.out.println("dostałem od klienta " + message); //echo w/o communication
+                writer.println("odebrałem od ciebie:" + message);
             }
             running = false;
         }
