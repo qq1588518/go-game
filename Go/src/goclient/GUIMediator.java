@@ -1,4 +1,4 @@
-/**
+ /**
  * 
  */
 package goclient;
@@ -15,6 +15,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Main frame of the program and also the Mediator between GUI components
  *
  */
+@SuppressWarnings("serial")
 public class GUIMediator extends JFrame
 {
     private GamePanel gamePanel;
