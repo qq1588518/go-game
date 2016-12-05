@@ -28,6 +28,7 @@ public class Program
             @Override
             public void run() {
                 JFrame frame = new GUIMediator(manager);
+                PlayerList plist = new PlayerList();
             }
         });     
     }
