@@ -102,7 +102,6 @@ public class OptionsPanel extends JPanel
         add(statisticsArea);
         add(Box.createRigidArea(gap));
        
-        
         add(buttonPanel);
       
         add(Box.createRigidArea(gap));
