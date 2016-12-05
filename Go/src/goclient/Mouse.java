@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 /**
  * @author mk
- *
+ * Nie powinno byæ w gogame packed¿u? /MZ
  */
 public class Mouse implements MouseListener
 {

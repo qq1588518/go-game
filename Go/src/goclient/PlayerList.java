@@ -70,6 +70,8 @@ public class PlayerList extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getActionCommand()=="OK"){
 			//System.out.println("Po³¹cz z graczem " + listModel.getElementAt(list.getSelectedIndex()));
+			
+			//If socket doesnt exist, create it
 			if(socket == null){ 
 				
 				try {
