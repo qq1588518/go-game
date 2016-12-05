@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
+ * Test case for GUIMediator Class.
  * @author mk
  *
  */
