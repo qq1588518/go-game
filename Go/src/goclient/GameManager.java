@@ -13,17 +13,20 @@ package goclient;
 public class GameManager
 {
     GameState state;
+    GUIMediator mediator;
     int boardSize;
     
     /**
      * 
      */
-    public GameManager(int boardSize)
+    public GameManager(int boardSize, GUIMediator mediator)
     {
         this.boardSize = boardSize;
+        this.mediator = mediator;
         this.state = new GameStateNotStartedYet();
     }
     
+
     public void setState(GameState state)
     {
         this.state = state;
@@ -37,6 +40,14 @@ public class GameManager
     public void makeMove()
     {
        state.makeMove();
+    }
+
+    /**
+     * @param input
+     */
+    public void displayMessage(String input)
+    {
+        mediator.displayMessage(input);
     }
     
     

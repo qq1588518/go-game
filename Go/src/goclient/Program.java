@@ -24,11 +24,15 @@ public class Program
         
         EventQueue.invokeLater(new Runnable() 
         {
-            GameManager manager = new GameManager(19);
             @Override
             public void run() {
-                JFrame frame = new GUIMediator(manager);
-                PlayerList plist = new PlayerList();
+                
+                GUIMediator frame = new GUIMediator();
+                GameManager manager = new GameManager(19, frame);
+                ServerMessagesTranslator translator = new ServerMessagesTranslator(manager);
+                SocketClient socket = new SocketClient(translator);
+                socket.start();
+                //PlayerList plist = new PlayerList();
             }
         });     
     }

@@ -19,7 +19,7 @@ public class GameManagerTest
     @Before
     public void setUp()
     {
-        gm = new GameManager(19);
+        gm = new GameManager(19, new GUIMediator());
     }
     
     /**

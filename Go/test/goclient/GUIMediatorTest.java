@@ -5,6 +5,7 @@ package goclient;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,13 +15,20 @@ import org.junit.Test;
  */
 public class GUIMediatorTest
 {
+    GUIMediator m;
+    
+    @Before
+    public void setUp()
+    {
+        m = new GUIMediator();
+    }
+    
     /**
      * Test method for {@link goclient.GUIMediator#GUIMediator(goclient.GameManager)}.
      */
     @Test
     public void testGUIMediator()
     {
-        GUIMediator m = new GUIMediator(new GameManager(19));
         assertNotNull(m);
     }
     
@@ -30,7 +38,6 @@ public class GUIMediatorTest
     @Test
     public void testGetGamePanel()
     {
-        GUIMediator m = new GUIMediator(new GameManager(19));
         assertTrue(m.getGamePanel() instanceof GamePanel);
     }
     
@@ -40,7 +47,6 @@ public class GUIMediatorTest
     @Test
     public void testGetOptionsPanel()
     {
-        GUIMediator m = new GUIMediator(new GameManager(19));
         assertTrue(m.getOptionsPanel() instanceof OptionsPanel);
     }
     
@@ -50,9 +56,7 @@ public class GUIMediatorTest
     @Test
     public void testGetManager()
     {
-        GameManager gm = new GameManager(19);
-        GUIMediator m = new GUIMediator(gm);
-        assertSame(m.getManager(), gm);
+        assertTrue(m.getManager() instanceof GameManager);
     }
     
 }

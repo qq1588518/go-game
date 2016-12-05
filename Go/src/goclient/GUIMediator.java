@@ -26,11 +26,11 @@ public class GUIMediator extends JFrame
     /**
      * Constructs a new GUIMediator frame.
      */
-    public GUIMediator(GameManager manager) 
+    public GUIMediator() 
     {
         this.gamePanel = new GamePanel(this);
         this.optionsPanel = new OptionsPanel(this);
-        this.manager = manager;
+        this.manager = new GameManager(19, this);
  
         initComponents();
     }
@@ -86,6 +86,14 @@ public class GUIMediator extends JFrame
     public GameManager getManager()
     {
         return manager;
+    }
+
+    /**
+     * @param input
+     */
+    public void displayMessage(String input)
+    {
+        optionsPanel.displayMessage(input);
     }
     
 }

@@ -19,6 +19,12 @@ public class SocketClient extends Thread
     Socket socket = null;
     PrintWriter out = null;
     BufferedReader in = null;
+    ServerMessagesTranslator translator;
+    
+    public SocketClient(ServerMessagesTranslator translator)
+    {
+        this.translator = translator;
+    }
     
     /**
      * Listens to the socket, sends user queries and prints out server responses.
@@ -33,11 +39,11 @@ public class SocketClient extends Thread
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
    
             String userInput;
-            System.out.println(in.readLine());
+            translator.processIncommingMessage(in.readLine());
             while ((userInput = stdIn.readLine()) != null) 
             {
                 out.println(userInput);
-                System.out.println(in.readLine());
+                translator.processIncommingMessage(in.readLine());
             }
         }
         catch (UnknownHostException e) 
@@ -77,14 +83,14 @@ public class SocketClient extends Thread
     @Override
     public void run() { listenSocket(); }
     
-    /**
-     * Starts a new BSTclient.
-     * @param args the command line arguments, not used.
-     */
-    public static void main(String[] args)
-    {
-        SocketClient sc = new SocketClient();
-        sc.start();
-    }
+//    /**
+//     * Starts a new BSTclient.
+//     * @param args the command line arguments, not used.
+//     */
+//    public static void main(String[] args)
+//    {
+//        SocketClient sc = new SocketClient();
+//        sc.start();
+//    }
     
 }
