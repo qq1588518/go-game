@@ -37,7 +37,7 @@ public class PlayerList extends JDialog implements ActionListener {
 	/*
 	 * Create List of Players GUI
 	 */
-	public PlayerList(){
+	public PlayerList(String playersList, GUIMediator parent){
 		
 		this.setBounds(300, 300, 300, 400);
 		this.setLayout(null);
@@ -45,13 +45,12 @@ public class PlayerList extends JDialog implements ActionListener {
 		listModel = new DefaultListModel<String>();
 		cancel = new JButton("Cancel");
 		ok = new JButton("OK");
-		list = new JList<String>(listModel);
+		//list = new JList<String>(listModel);
+		
+		
+		list = new JList<String>(playersList.split(" "));
 		listScrollPane = new JScrollPane(list);
 		
-		//Test Data
-		listModel.addElement("Stefan ¯eromski");
-		listModel.addElement("Steve Jobs");
-		listModel.addElement("Pan Rektor");
 		
 		listScrollPane.setBounds(10, 10, 265,300);
 		list.setSelectionMode(JList.VERTICAL_WRAP);
@@ -61,7 +60,7 @@ public class PlayerList extends JDialog implements ActionListener {
 		add(ok);
 		add(listScrollPane, BorderLayout.CENTER);
 		add(cancel);
-		
+
 		this.setVisible(true);
 	}
 
@@ -69,9 +68,7 @@ public class PlayerList extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getActionCommand()=="OK"){
-			//System.out.println("Po³¹cz z graczem " + listModel.getElementAt(list.getSelectedIndex()));
-			
-			//If socket doesnt exist, create it
+			System.out.println("Poï¿½ï¿½cz z graczem " + listModel.getElementAt(list.getSelectedIndex()));
 			if(socket == null){ 
 				
 				try {

@@ -1,4 +1,4 @@
-/**
+ /**
  * 
  */
 package goclient;
@@ -15,22 +15,33 @@ import javax.swing.UnsupportedLookAndFeelException;
  * Main frame of the program and also the Mediator between GUI components
  *
  */
+@SuppressWarnings("serial")
 public class GUIMediator extends JFrame
 {
+    private Program parent;
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
-    private GameManager manager;
+    private GameManager gameManager;
+    private ProgramManager programManager;
+    
+    private PlayerList playerList;
+    private ChooseNameDialog chooseNameDialog;
     
     
     /**
      * Constructs a new GUIMediator frame.
      */
-    public GUIMediator(GameManager manager) 
+    public GUIMediator(Program program) 
     {
         this.gamePanel = new GamePanel(this);
         this.optionsPanel = new OptionsPanel(this);
-        this.manager = manager;
+        
+        this.parent = program;
+        
+        this.chooseNameDialog = new ChooseNameDialog(this);
  
+        
+        
         initComponents();
     }
     
@@ -82,9 +93,37 @@ public class GUIMediator extends JFrame
      *  Returns GameManager for handling game activities
      *  @return GameManager 
      */
-    public GameManager getManager()
+    public GameManager getGameManager()
     {
-        return manager;
+        return gameManager;
     }
+    
+    public ProgramManager getProgramManager()
+    {
+        return parent.getProgramManager();
+    }
+
+    /**
+     * @param input
+     */
+    public void displayMessage(String input)
+    {
+        optionsPanel.displayMessage(input);
+    }
+
+    /**
+     * @param list
+     */
+    public void displayPlayersDialog(String list)
+    {
+        PlayerList playersDialog = new PlayerList(list, this);
+    }
+    
+    public void displayChooseNameDialog(String text)
+    {
+        chooseNameDialog.setText(text);
+        chooseNameDialog.setVisible(true);
+    }
+    
     
 }

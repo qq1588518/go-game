@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 
 /**
  * @author mk
- * Nie powinno byæ w gogame packed¿u? /MZ
+ *
  */
 public class Mouse implements MouseListener
 {
