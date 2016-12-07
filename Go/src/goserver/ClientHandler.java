@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
 
+import goserver.Server;
+
+
+
 public class ClientHandler extends Observable implements Runnable
 {
     private BufferedReader reader;
@@ -14,14 +18,17 @@ public class ClientHandler extends Observable implements Runnable
     
     private Socket socket;
     private boolean running;
+    private Server parent;
     
     /**
      * Creates a new thread to handle single client with given socket
      * @param socket Socket given by the server
+     * @param parent 
      */
-    public ClientHandler(Socket socket)
+    public ClientHandler(Socket socket, Server parent)
     {
         this.socket = socket;
+        this.parent = parent;
     }
     
     /**
@@ -49,31 +56,24 @@ public class ClientHandler extends Observable implements Runnable
         
         try 
         {
-            running = false;
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
-            running = true; 
-            writer.println("Welcome to go!");
-        }
-        catch(IOException ioe) 
-        {
-            System.out.println(ioe);
-        }
-
-        try 
-        {	
-        	
-            message = reader.readLine();
-            while (message != null && running) 
+            running = true; 	
+            writer.println("WELCOME ");
+            reader.readLine();
+            writer.println("SETNAME ");
+            while ((message = reader.readLine()) != null && running) 
             {
                 /**
                  * TODO: server logic
                  */
             	System.out.println(message); //echo w/o communication
-            	
-                writer.println(message); //echo
                 
-                reader.readLine();
+            	if(message.startsWith("USERNAME: ")){
+            		message.substring(10, message.length());           		            		
+            	}
+            	
+            	writer.println(message);
             }
             running = false;
         }

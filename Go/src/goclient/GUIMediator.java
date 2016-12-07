@@ -39,6 +39,7 @@ public class GUIMediator extends JFrame
         this.parent = program;
         
         this.chooseNameDialog = new ChooseNameDialog(this);
+        chooseNameDialog.setAlwaysOnTop(true);
  
         
         

@@ -101,7 +101,7 @@ public class Server implements Observer
                 {
                      Server.this.socket = Server.this.ssocket.accept();
                      System.out.println("Client connected");
-                     Server.this.clientHandler = new ClientHandler(Server.this.ssocket.accept());
+                     Server.this.clientHandler = new ClientHandler(Server.this.socket, Server.this);
                     
                      Thread t = new Thread(Server.this.clientHandler);
                      Server.this.clientHandler.addObserver(Server.this);
