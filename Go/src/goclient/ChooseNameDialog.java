@@ -1,0 +1,108 @@
+/**
+ * 
+ */
+package goclient;
+
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+/**
+ * @author mk
+ *
+ */
+public class ChooseNameDialog extends JDialog implements ActionListener
+{
+    private GUIMediator parent;
+    private JLabel text;
+    private JTextField field;
+    private JPanel panel;
+    private JButton button;
+        
+    /**
+     * 
+     */
+    public ChooseNameDialog(GUIMediator parent)
+    {
+        text = new JLabel("Please choose your nickname:");
+        field = new JTextField();
+        panel = new JPanel();
+        button = new JButton("OK");
+        this.parent = parent;
+        
+        initComponents();
+    }
+    
+    private void initComponents()
+    {
+        this.setBounds(300, 300, 300, 400);
+        
+        Dimension size= new Dimension(300, 180);
+        Dimension gap = new Dimension(300, 15);
+        
+        this.setSize(size);
+        setMinimumSize(size);
+        setPreferredSize(size);
+        setMaximumSize(size);
+        panel.setSize(size);  
+        panel.setMinimumSize(size); 
+        panel.setPreferredSize(size);
+        
+        this.setTitle("Go - choose your name");
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        
+        Dimension fieldSize = new Dimension(280, 40);
+        field.setSize(fieldSize);
+        field.setMinimumSize(fieldSize);
+        field.setMaximumSize(fieldSize);
+        
+        text.setAlignmentX(CENTER_ALIGNMENT);
+        button.setAlignmentX(CENTER_ALIGNMENT);
+        
+        Box box = new Box(BoxLayout.PAGE_AXIS);
+        
+        button.addActionListener(this);
+        
+        box.add(Box.createRigidArea(gap));
+        box.add(text);
+        box.add(Box.createRigidArea(gap));
+        box.add(field);
+        box.add(Box.createRigidArea(gap));
+        box.add(button);
+        panel.add(box);
+        
+        add(panel);
+        //this.setVisible(true);
+    }
+    
+    public void setText(String s)
+    {
+        text.setText(s);
+    }
+    
+    
+    /* (non-Javadoc)
+     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        String name = field.getText();
+        name.trim();
+       parent.getProgramManager().sendChosenName(name);
+        
+        this.setVisible(false);
+    }
+    
+    
+    
+}

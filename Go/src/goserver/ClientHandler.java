@@ -52,7 +52,9 @@ public class ClientHandler extends Observable implements Runnable
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
             running = true; 	
-            writer.println("SERVERMESSAGE: Welcome to go!");
+            writer.println("WELCOME ");
+            reader.readLine();
+            writer.println("SETNAME ");
             while ((message = reader.readLine()) != null && running) 
             {
                 /**

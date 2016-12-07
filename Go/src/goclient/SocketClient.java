@@ -19,13 +19,18 @@ public class SocketClient extends Thread
     Socket socket = null;
     PrintWriter out = null;
     BufferedReader in = null;
-    ServerMessagesTranslator translator;
+    ServerTranslator translator = null;
+    Program program = null;
     
-    public SocketClient(ServerMessagesTranslator translator)
+    public SocketClient(Program program)
     {
-        this.translator = translator;
+        this.program = program;
+        this.translator = program.getTranslator();
     }
     
+ 
+
+
     /**
      * Listens to the socket, sends user queries and prints out server responses.
      */
@@ -39,11 +44,18 @@ public class SocketClient extends Thread
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
    
             String userInput;
-            translator.processIncommingMessage(in.readLine());
+            System.out.println(in.readLine());
+           // sleep(100);
+            out.println("działa");
+            String serverLine = in.readLine();
+            translator.processIncommingMessage(serverLine);
+            System.out.println(serverLine);
             while ((userInput = stdIn.readLine()) != null) 
             {
                 out.println(userInput);
-                translator.processIncommingMessage(in.readLine());
+                serverLine = in.readLine();
+                translator.processIncommingMessage(serverLine);
+                
             }
         }
         catch (UnknownHostException e) 
@@ -56,6 +68,11 @@ public class SocketClient extends Thread
             System.out.println("No I/O"); 
             System.exit(1);
         }
+//        catch (InterruptedException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
     }
     
 //    /**
@@ -75,13 +92,24 @@ public class SocketClient extends Thread
      * Gets the PrintWriter to write to the server.
      * @return PrintWriter.
      */
-    public  PrintWriter getPrintWriter() { return out; }
+    public  void send(String text) 
+    { 
+        out.println(text); }
     
     /**
      * Listens to the socket.
      */
     @Override
     public void run() { listenSocket(); }
+
+    /**
+     * @param translator2
+     */
+    public void setTranslator(ServerTranslator translator)
+    {
+        this.translator = translator;
+        
+    }
     
 //    /**
 //     * Starts a new BSTclient.

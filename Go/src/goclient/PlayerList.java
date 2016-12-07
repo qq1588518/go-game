@@ -37,7 +37,7 @@ public class PlayerList extends JDialog implements ActionListener {
 	/*
 	 * Create List of Players GUI
 	 */
-	public PlayerList(){
+	public PlayerList(String playersList, GUIMediator parent){
 		
 		this.setBounds(300, 300, 300, 400);
 		this.setLayout(null);
@@ -45,7 +45,10 @@ public class PlayerList extends JDialog implements ActionListener {
 		listModel = new DefaultListModel<String>();
 		cancel = new JButton("Cancel");
 		ok = new JButton("OK");
-		list = new JList<String>(listModel);
+		//list = new JList<String>(listModel);
+		
+		
+		list = new JList<String>(playersList.split(" "));
 		listScrollPane = new JScrollPane(list);
 		
 		//Test Data
