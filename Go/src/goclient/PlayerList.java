@@ -3,6 +3,8 @@ package goclient;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+
+
 
 
 /**
@@ -37,23 +41,31 @@ public class PlayerList extends JDialog implements ActionListener {
 	/*
 	 * Create List of Players GUI
 	 */
-	public PlayerList(String playersList, GUIMediator parent){
+	public PlayerList(String playersList, GUIMediator guiMediator){
 		
+		this.setModal(true);
+		this.setAlwaysOnTop(true);
 		this.setBounds(300, 300, 300, 400);
 		this.setLayout(null);
+		this.setResizable(false);
+		
+		this.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				System.exit(0);
+			}
+		});
 		
 		listModel = new DefaultListModel<String>();
 		cancel = new JButton("Cancel");
 		ok = new JButton("OK");
-		//list = new JList<String>(listModel);
-		
+				
 		
 		list = new JList<String>(playersList.split(" "));
 		listScrollPane = new JScrollPane(list);
 		
-		
 		listScrollPane.setBounds(10, 10, 265,300);
 		list.setSelectionMode(JList.VERTICAL_WRAP);
+		list.setSelectedIndex(0);
 		ok.setBounds(100, 325, 90, 25);
 		ok.addActionListener(this);
 		

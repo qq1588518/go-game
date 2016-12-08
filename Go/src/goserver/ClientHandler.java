@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
 
+import gogame.Game;
+import gogame.Player;
 import goserver.Server;
 
 
@@ -19,6 +21,8 @@ public class ClientHandler extends Observable implements Runnable
     private Socket socket;
     private boolean running;
     private Server parent;
+    private Game game;
+    private String clientName;
     
     /**
      * Creates a new thread to handle single client with given socket
@@ -29,6 +33,8 @@ public class ClientHandler extends Observable implements Runnable
     {
         this.socket = socket;
         this.parent = parent;
+       game = new Game(parent);
+       
     }
     
     /**
@@ -46,6 +52,10 @@ public class ClientHandler extends Observable implements Runnable
         };
     }
     
+    public String getName(){
+    	return clientName;
+    }
+    
     /**
      * Runs a thread and handles communication between server and client programs
      */
@@ -59,18 +69,36 @@ public class ClientHandler extends Observable implements Runnable
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
             running = true; 	
-            writer.println("WELCOME ");
+            writer.println("WELCOME");
             reader.readLine();
-            writer.println("SETNAME ");
+            writer.println("SETNAME");
+            
+           
             while ((message = reader.readLine()) != null && running) 
             {
                 /**
                  * TODO: server logic
                  */
-            	System.out.println(message); //echo w/o communication
-                
-            	if(message.startsWith("USERNAME: ")){
-            		message.substring(10, message.length());           		            		
+            	//writer.println(message); //echo w/o communication
+                //System.out.println("sasasaasas sasadsa " + message);
+            	if(message.startsWith("USERNAME")){
+            		        		
+            			if(game.addPlayer(message.substring(10, message.length()))){
+            				writer.println("NAMEOK" + parent.getPlayers());
+            				clientName = message.substring(10, message.length());
+            			}
+            			
+            			else{
+            				
+            				writer.println("NAMETAKEN");
+            				System.out.println("nametaken");
+            			}
+            			
+            			
+            			//writer.println(game.writePlayers());
+            			System.out.println(game.getPlayers());
+            			
+            		    		            		
             	}
             	
             	writer.println(message);
@@ -85,6 +113,8 @@ public class ClientHandler extends Observable implements Runnable
         try 
         {
             System.out.println("Closing connection");
+            parent.deletePlayer(clientName);
+            
             this.socket.close();
         } catch (IOException ioe) { System.out.println(ioe); }
 

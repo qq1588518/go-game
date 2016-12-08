@@ -32,7 +32,10 @@ public class ProgramServerTranslator extends ServerTranslator
         }
         else if(input.startsWith("NAMEOK"))
         {
-           
+        	String playerList = input.replaceFirst("NAMEOK", "").replaceAll(",", "").replaceAll("\\[", "").replaceAll("\\]", "");
+        	
+        	parent.getGUIMediator().displayPlayersDialog(playerList);;
+        	
         }
         else if(input.startsWith("CHOOSEOPPONENT"))
         {
@@ -60,7 +63,6 @@ public class ProgramServerTranslator extends ServerTranslator
     public void chooseName(String name)
     {
         parent.getSocket().send("USERNAME: " + name);
-        
         
     }
     

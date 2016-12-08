@@ -98,7 +98,10 @@ public class GUIMediator extends JFrame
     {
         return gameManager;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public ProgramManager getProgramManager()
     {
         return parent.getProgramManager();
@@ -113,12 +116,18 @@ public class GUIMediator extends JFrame
     }
 
     /**
+     * shows list of players
      * @param list
      */
     public void displayPlayersDialog(String list)
     {
-        PlayerList playersDialog = new PlayerList(list, this);
+        new PlayerList(list, this);
     }
+    
+    /**
+     * call method building chooseNameDialog
+     * @param text
+     */
     
     public void displayChooseNameDialog(String text)
     {
