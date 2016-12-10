@@ -36,10 +36,12 @@ public class ProgramManager
      */
     public void sendChosenName(String name)
     {
-       System.out.println(this.toString());
+       //System.out.println(this.toString());
         
-        translator.chooseName(name);
+        translator.processOutcommingMessage("NAME" + name);
     }
+    
+   
     
     public void setTranslator(ProgramServerTranslator translator)
     {
@@ -49,14 +51,10 @@ public class ProgramManager
     /**
      * @param replaceFirst
      */
-    public void chooseOpponent(String list)
-    {
-                
+    public void chooseOpponent(String oppname)
+    {	
+    	translator.processOutcommingMessage("CHOOSEOPPONENT" + oppname);
     }
 
-	public void askForPlayerList() {
-		// TODO Auto-generated method stub
-		
-	}
     
 }

@@ -45,7 +45,7 @@ public class Game extends Thread
            {
         	   Player player = new Player(name);
         	  
-        	   server.addPlayer(player);
+        	   server.addPlayerToList(player);
         	         
                return true;
            }
@@ -58,12 +58,21 @@ public class Game extends Thread
         	
         		for (Player player : server.getPlayers())
         		{
-        			if (player.getName().equals(name)) return true;
+        			
+        			if (player.getName().equals(name)){
+        				
+        				return true;
+        			}
         		}
-           
+        		System.out.println("1" + name);
         		return false;
         	
         	
+        }
+        
+        public boolean isNameInArray(String name){
+        	System.out.println("4" + name);
+        	return isNameTaken(name);
         }
 }
 

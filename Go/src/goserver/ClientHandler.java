@@ -23,6 +23,8 @@ public class ClientHandler extends Observable implements Runnable
     private Server parent;
     private Game game;
     private String clientName;
+    private ClientMessagesTranslator clientMessagesTranslator;
+    private BufferedReader stdIn;
     
     /**
      * Creates a new thread to handle single client with given socket
@@ -36,6 +38,23 @@ public class ClientHandler extends Observable implements Runnable
        game = new Game(parent);
        
     }
+    
+    public Game getGame(){
+    	return game;
+    }
+    
+    public BufferedReader getReader(){
+    	return reader;
+    }
+    
+    public PrintWriter getWriter(){
+    	return writer;
+    }
+    
+    public void setName(String name){
+    	clientName = name;
+    }
+    
     
     /**
      * 
@@ -66,42 +85,31 @@ public class ClientHandler extends Observable implements Runnable
         
         try 
         {
+        	running = false;
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
+           // stdIn = new BufferedReader(new InputStreamReader(System.in));
+            clientMessagesTranslator = new ClientMessagesTranslator(this);
             running = true; 	
             writer.println("WELCOME");
             reader.readLine();
             writer.println("SETNAME");
             
-           
+          
             while ((message = reader.readLine()) != null && running) 
             {
                 /**
                  * TODO: server logic
                  */
-            	//writer.println(message); //echo w/o communication
-                //System.out.println("sasasaasas sasadsa " + message);
-            	if(message.startsWith("USERNAME")){
-            		        		
-            			if(game.addPlayer(message.substring(10, message.length()))){
-            				writer.println("NAMEOK" + parent.getPlayers());
-            				clientName = message.substring(10, message.length());
-            			}
-            			
-            			else{
-            				
-            				writer.println("NAMETAKEN");
-            				System.out.println("nametaken");
-            			}
-            			
-            			
-            			//writer.println(game.writePlayers());
-            			System.out.println(game.getPlayers());
-            			
-            		    		            		
-            	}
-            	
+            	System.out.println("Server:" + message);
             	writer.println(message);
+            	clientMessagesTranslator.processIncommingMessage(reader.readLine());
+            	
+            	
+            	
+            	
+            	
+            	
             }
             running = false;
         }
@@ -122,5 +130,7 @@ public class ClientHandler extends Observable implements Runnable
         this.setChanged();              
         this.notifyObservers(this);     
     }
+
+	
     
 }

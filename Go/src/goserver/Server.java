@@ -37,7 +37,8 @@ public class Server implements Observer
         
     }
     
-    public void addPlayer(Player player){
+    public void addPlayerToList(Player player){
+    	
     	players.addElement(player);
     }
     

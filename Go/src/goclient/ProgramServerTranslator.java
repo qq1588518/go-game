@@ -13,6 +13,7 @@ public class ProgramServerTranslator extends ServerTranslator
 {
     private ProgramManager manager;
     private Program parent;
+    private String playerList;
     
     public ProgramServerTranslator(Program program)
     {
@@ -22,6 +23,8 @@ public class ProgramServerTranslator extends ServerTranslator
     
     public void processIncommingMessage(String input) 
     {
+    	
+    	
         if(input.startsWith("SETNAME"))
         {
             manager.askForName("Please choose your nickname.");
@@ -32,14 +35,17 @@ public class ProgramServerTranslator extends ServerTranslator
         }
         else if(input.startsWith("NAMEOK"))
         {
-        	String playerList = input.replaceFirst("NAMEOK", "").replaceAll(",", "").replaceAll("\\[", "").replaceAll("\\]", "");
+        	playerList = getPlayerList(input);
         	
-        	parent.getGUIMediator().displayPlayersDialog(playerList);;
-        	
+        	parent.getGUIMediator().displayPlayersDialog(playerList, "Wybierz przeciwnika");        	
         }
-        else if(input.startsWith("CHOOSEOPPONENT"))
-        {
-            manager.chooseOpponent(input.replaceFirst("CHOOSEOPPONENT", ""));
+        else if(input.startsWith("ENEMYOK")){
+        	System.out.println("TE¯ S£YSZE!");
+        }
+        else if(input.startsWith("ENEMYBAD")){
+        	System.out.println("Slysze");
+        	playerList = getPlayerList(input);
+           	parent.getGUIMediator().displayPlayersDialog(playerList, "Gracz juz nie istnieje");
         }
         else
         {
@@ -47,24 +53,35 @@ public class ProgramServerTranslator extends ServerTranslator
         }
     }
 
-    /* (non-Javadoc)
+    private String getPlayerList(String input) {
+		// TODO Auto-generated method stub
+		return input.replaceFirst("NAMEOK", "").replaceAll(",", "").replaceAll("\\[", "").replaceAll("\\]", "");
+	}
+
+	/* (non-Javadoc)
      * @see goclient.ServerTranslator#processOutcommingMessage(java.lang.String)
      */
     @Override
     public void processOutcommingMessage(String output)
     {
-        // TODO Auto-generated method stub
+    	if(output.startsWith("NAME")){
+    		//inaczej nie dziala :c
+    		String nowyout = output.replaceFirst("NAME", "");
+    		
+    		parent.getSocket().send("USERNAME " + nowyout);
+    	}
+    	else if(output.startsWith("CHOOSEOPPONENT")){
+    		
+    		String nowyout = output.replaceFirst("CHOOSEOPPONENT", "");
+    		parent.getSocket().send("ENEMY" + nowyout);
+    	}
         
     }
 
     /**
      * @param name
      */
-    public void chooseName(String name)
-    {
-        parent.getSocket().send("USERNAME: " + name);
-        
-    }
+    
     
     public void setManager(ProgramManager manager)
     {

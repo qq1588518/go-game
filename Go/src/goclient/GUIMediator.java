@@ -118,10 +118,11 @@ public class GUIMediator extends JFrame
     /**
      * shows list of players
      * @param list
+     * @param tytul 
      */
-    public void displayPlayersDialog(String list)
+    public void displayPlayersDialog(String list, String tytul)
     {
-        new PlayerList(list, this);
+        new PlayerList(list, this, tytul);
     }
     
     /**
