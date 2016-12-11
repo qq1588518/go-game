@@ -11,16 +11,16 @@ import java.awt.EventQueue;
  */
 public class Program
 {   
-    ProgramManager programManager;
-    ProgramServerTranslator translator;
-    GUIMediator frame;
-    SocketClient socket;
+    private ProgramManager programManager;
+    private ProgramServerTranslator translator;
+    private GUIMediator frame;
+    private SocketClient socket;
     
     Program()
     {
         programManager = new ProgramManager(this);
         translator = new ProgramServerTranslator(this);
-        socket = new SocketClient(this);
+        socket = new SocketClient();
         frame = new GUIMediator(this);
 
         init();
@@ -28,6 +28,7 @@ public class Program
     
     private void init()
     {
+        socket.setTranslator(translator);
         programManager.setTranslator(translator);
         translator.setManager(programManager);
         socket.start();

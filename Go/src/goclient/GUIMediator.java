@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -21,10 +22,8 @@ public class GUIMediator extends JFrame
     private Program parent;
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
-    private GameManager gameManager;
-    private ProgramManager programManager;
+    private GameManager gameManager = null;
     
-//    private PlayerList playerListDialog;
     private ChooseNameDialog chooseNameDialog;
     
     
@@ -39,7 +38,7 @@ public class GUIMediator extends JFrame
         this.parent = program;
         
         this.chooseNameDialog = new ChooseNameDialog(this);
-        chooseNameDialog.setAlwaysOnTop(true);
+
         initComponents();
     }
     
@@ -55,6 +54,7 @@ public class GUIMediator extends JFrame
         catch (ClassNotFoundException ex) { ex.printStackTrace(); }
         UIManager.put("swing.boldMetal", Boolean.FALSE); 
         
+        chooseNameDialog.setAlwaysOnTop(true);
         Dimension size = new Dimension(870, 570);
         this.setMinimumSize(size );
         java.awt.Image im = Toolkit.getDefaultToolkit().getImage("/Go/images/Realistic_Go_Stone.svg.png");
@@ -132,6 +132,16 @@ public class GUIMediator extends JFrame
         chooseNameDialog.setText(text);
         chooseNameDialog.setVisible(true);
     }
-    
-    
+
+    /**
+     * @param name
+     */
+    public void displayInvitation(String name)
+    {
+        String text = "<html>You have been invited to play with " + name + ". Do you agree?</html>";
+        int choice = JOptionPane.showConfirmDialog(this, text, "Invitation", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) getProgramManager().respondInvitation(name, true);
+        else getProgramManager().respondInvitation(name, false);
+    }
+
 }

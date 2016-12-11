@@ -37,8 +37,12 @@ public class ProgramServerTranslator extends ServerTranslator
             input = input.replaceFirst("LIST ", "");
             parent.getGUI().displayPlayersDialog(input, "Please choose your opponent");   
         }
+        else if(input.startsWith("INVITATIONFROM"))
+        {
+            manager.invite(input.replaceFirst("INVITATIONFROM ", ""));
+        }
         else if(input.startsWith("GAMESTART")){
-            // TODO: Co dalej? 
+            manager.startGame(); 
         }
         else if(input.startsWith("CHOOSEOPPONENTAGAIN")){
         	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");
@@ -81,4 +85,14 @@ public class ProgramServerTranslator extends ServerTranslator
     {
        parent.getSocket().send("LIST");
     }
+
+    /**
+     * @param name
+     */
+    public void sendAgreement(String name)
+    {
+        parent.getSocket().send("INVAGREE " + name);
+    }
+
+
 }

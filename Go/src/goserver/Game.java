@@ -77,10 +77,21 @@ public class Game extends Thread
     {
         if (getNotBusyPlayersNames().contains(name))
         {
+            Player opponent = getPlayerNamed(name);            
+            GamePlay gp = new GamePlay(player, opponent);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public synchronized boolean inviteOpponent(String name, String byWho)
+    {
+        if (getNotBusyPlayersNames().contains(name))
+        {
             Player opponent = getPlayerNamed(name);
             if (opponent == null) return false;
-            
-            GamePlay gp = new GamePlay(player, opponent);
+            opponent.beInvited(byWho);
             return true;
         }
         

@@ -28,7 +28,6 @@ public class OptionsPanel extends JPanel
     public OptionsPanel(GUIMediator parent)
     {
         this.parent = parent;
-        
         initComponents();
     }
 

@@ -20,13 +20,10 @@ public class SocketClient extends Thread
     PrintWriter out = null;
     BufferedReader in = null;
     ServerTranslator translator = null;
-    Program program = null;
-    String messageToSend = null;
-    
-    public SocketClient(Program program)
+
+    public SocketClient()
     {
-        this.program = program;
-        this.translator = program.getTranslator();
+
     }
     
     /**

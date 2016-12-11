@@ -3,6 +3,7 @@ package goserver;
 public class Player
 {
     private ClientHandler handler;
+    private ClientMessagesTranslator translator;
     private String name;
     private boolean busy = false;
     
@@ -10,6 +11,7 @@ public class Player
     {
         this.name = name;
         this.handler = handler;
+        this.translator = handler.getTranslator();
     }
     
     public String getName()  { return name;  }
@@ -23,5 +25,17 @@ public class Player
     public void makeMove()
     {
 //        handler.sendMoveRequest();
+    }
+
+    public void sendMessage(String message)
+    {
+        
+    }
+    /**
+     * @param player
+     */
+    public void beInvited(String player)
+    {
+        translator.sendInvitation(player);
     }
 }

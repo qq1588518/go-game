@@ -7,13 +7,13 @@ package goclient;
  * @author mk
  *
  */
-public class ServerMessagesTranslator
+public class GameServerTranslator extends ServerTranslator
 {
     GameManager manager;
     /**
      * 
      */
-    public ServerMessagesTranslator(GameManager manager)
+    public GameServerTranslator(GameManager manager)
     {
        this.manager = manager;
     }

@@ -9,8 +9,9 @@ package goclient;
  */
 public class ProgramManager
 {
-    private Program parent;
+    private Program parent = null;
     private ProgramServerTranslator translator;
+    private GameManager game = null;
     /**
      * 
      */
@@ -48,5 +49,34 @@ public class ProgramManager
     public void askForList()
     {
         translator.sendListRequest();
+    }
+    
+    public void startGame()
+    {
+        game = new GameManager(19, parent.getGUI());
+        parent.getSocket().setTranslator(new GameServerTranslator(game));
+    }
+    
+    public void endGame()
+    {
+        game = null;
+        parent.getSocket().setTranslator(translator);
+    }
+
+    /**
+     * @param replaceFirst
+     */
+    public void invite(String name)
+    {
+        parent.getGUI().displayInvitation(name);
+    }
+
+    /**
+     * @param name
+     * @param b
+     */
+    public void respondInvitation(String name, boolean accepted)
+    {
+        if (accepted) translator.sendAgreement(name);
     }
 }

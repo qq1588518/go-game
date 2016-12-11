@@ -29,12 +29,8 @@ public class ClientHandler extends Observable implements Runnable
         this.game = game;       
     }
     
-    public BufferedReader getReader(){
-    	return reader;
-    }
-    
-    public PrintWriter getWriter(){
-    	return writer;
+    public ClientMessagesTranslator getTranslator(){
+    	return clientMessagesTranslator;
     }
     
     public void setPlayer(Player player){

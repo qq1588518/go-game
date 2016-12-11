@@ -16,17 +16,12 @@ public class ClientMessagesTranslator {
 		String response = "";
 		if(message.startsWith("CONNECTION OK"))
 		{
-		    System.out.println("klient połączył się");
 		    clientHandler.send("SETNAME");
 		    return;
 		}
 		else if(message.startsWith("USERNAME"))
 	    {
-			System.out.println("klient chce ustawic nazwe");
-	        if(game.addPlayer(message.substring(9, message.length()), clientHandler))
-			{
-	            response = "NAMEOK";     				
-			}
+	        if(game.addPlayer(message.replaceFirst("USERNAME ", ""), clientHandler)) response = "NAMEOK";  
 			else response = "NAMETAKEN";
 		}	
 		else if(message.startsWith("LIST"))
@@ -35,17 +30,18 @@ public class ClientMessagesTranslator {
 		}
 		else if (message.startsWith("OPPONENT"))
 		{
-		    System.out.println("klient chce wybrać przeciwnika");
 		    message = message.replaceFirst("OPPONENT ", "");	
-		    if (game.chooseOpponent(message, clientHandler.getPlayer())) response = "GAMESTART";
+		    if (game.inviteOpponent(message, clientHandler.getPlayer().getName())) return;
 		    else response = "CHOOSEOPPONENTAGAIN " + getList(); 
+		}
+		else if (message.startsWith("INVAGREE"))
+		{
+		    message = message.replaceFirst("INVAGREE ", "");
+		    if (game.chooseOpponent(message, clientHandler.getPlayer())) response = "GAMESTART";
+		    else response = "CHOOSEOPPONENTAGAIN " + getList();
 		}
 		else response = "UNKNOWNCOMMAND";
 	    clientHandler.send(response);
-	}
-	
-	public void processOutcommingMessage(String message){
-		
 	}
 	
 	private String getList()
@@ -59,5 +55,20 @@ public class ClientMessagesTranslator {
 	    
 	    return b.toString();
 	}
+
+    /**
+     * @param player
+     */
+    public void sendInvitation(String player)
+    {
+        clientHandler.send("INVITATIONFROM " + player);
+                        
+        //"You have been invited to play with " + player + ". Do you agree?");
+    }
+    
+    public void sendMessage(String message)
+    {
+        clientHandler.send(message);
+    }
 
 }

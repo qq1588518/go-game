@@ -15,6 +15,7 @@ public class GamePlay extends Thread
     Player white;
     Field[][] board;
     int n = 19;
+    GamePlayState state;
     
     /**
      * 
@@ -36,9 +37,49 @@ public class GamePlay extends Thread
     @Override
     public void run()
     {
-        do{
-            black.makeMove();
-            
-        }while(true);
+        state = new GamePlayStateBlackMoves(this);
     }
+    
+    public void makeMove(Player p, int x, int y)
+    {
+        state.makeMove(p, x, y);
+    }
+    
+    public Player getBlack()
+    {
+        return black;
+    }
+
+    public Player getWhite()
+    {
+        return white;
+    }
+
+    /**
+     * @param string
+     */
+    private void send(String message)
+    {
+        black.sendMessage(message);    
+        white.sendMessage(message);
+    }
+
+
+    /**
+     * TODO: sprawdzanie możliwości ruchu
+     * @param black2
+     * @param x
+     * @param y
+     */
+    public boolean checkIfMovePossible(Color c, int x, int y)
+    {
+        if (board[x][y] == Field.EMPTY) return true;
+        return false;
+    }
+    
+    public void putStone(Color c, int x, int y)
+    {
+        board[x][y] = (c == Color.BLACK) ? Field.BLACK : Field.WHITE;
+    }
+    
 }
