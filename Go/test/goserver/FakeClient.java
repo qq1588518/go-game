@@ -1,11 +1,15 @@
 package goserver;
 
+import static org.junit.Assert.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import org.junit.Test;
 
 public class FakeClient
 {
@@ -40,9 +44,25 @@ public class FakeClient
         
     }
     
-    public static void main (String args[])
-    {
-        FakeClient client = new FakeClient();
-        client.listenSocket();
+    
+    
+//    public static void main(String args[])
+//    {
+//        FakeClient client = new FakeClient();
+//                
+//        client.listenSocket();
+//    }
+    
+    @Test
+    public void CommunicationTest(){
+    	FakeClient client = new FakeClient();
+    	client.listenSocket();
+    	client.out.println("Message");
+    	try {
+			assertEquals(in.readLine(), "Message");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
