@@ -1,19 +1,25 @@
 package goclient;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import javax.swing.DefaultListModel;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+
 
 
 /**
@@ -29,76 +35,100 @@ public class PlayerList extends JDialog implements ActionListener {
     PrintWriter out = null;
     BufferedReader in = null;
 	private static final long serialVersionUID = 1L;
-	private JButton cancel, ok;
+	private JButton refresh, ok;
 	JList<String> list;
-	private DefaultListModel<String> listModel;
 	private JScrollPane listScrollPane;
+	private GUIMediator parent;
+	private JPanel panel;
 	
 	/*
 	 * Create List of Players GUI
 	 */
-	public PlayerList(String playersList, GUIMediator parent, String title){
+	public PlayerList(String playersList, GUIMediator guiMediator, String title){
 		
+		this.setTitle(title);
+		this.setModal(true);
+		this.setAlwaysOnTop(true);
 		this.setBounds(300, 300, 300, 400);
-		this.setLayout(null);
 		
-		listModel = new DefaultListModel<String>();
-		cancel = new JButton("Cancel");
-		ok = new JButton("OK");
-		//list = new JList<String>(listModel);
+		this.setResizable(false);
+		this.parent = guiMediator;
+		this.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				System.exit(0);
+			}
+		});
 		
-		
-		list = new JList<String>(playersList.split(" "));
-		listScrollPane = new JScrollPane(list);
-		
-		//Test Data
-		listModel.addElement("Stefan �eromski");
-		listModel.addElement("Steve Jobs");
-		listModel.addElement("Pan Rektor");
-		
-		listScrollPane.setBounds(10, 10, 265,300);
-		list.setSelectionMode(JList.VERTICAL_WRAP);
-		ok.setBounds(100, 325, 90, 25);
-		ok.addActionListener(this);
-		
-		add(ok);
-		add(listScrollPane, BorderLayout.CENTER);
-		add(cancel);
+        Dimension size= new Dimension(300, 400);
+        Dimension insideSize = new Dimension(280, 350);
+        
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));       
+        
+        setSize(size);
+        setMinimumSize(size);
+        setPreferredSize(size);
+        setMaximumSize(size);		
 
+		Box box = new Box(BoxLayout.PAGE_AXIS);
+		refresh = new JButton("Refresh");
+		ok = new JButton("OK");
+		JLabel label = new JLabel("<html>Currently there are no players avaliable.<br>Please try again later.</html>");
+				
+		if (playersList.trim().equals(""))
+		{
+		    label.setSize(insideSize);
+		    label.setMaximumSize(insideSize);
+		    label.setAlignmentX(CENTER_ALIGNMENT);
+		    ok.setEnabled(false);
+		    box.add(label);
+		}
+		else
+		{
+	        list = new JList<String>(playersList.split(" "));
+	        listScrollPane = new JScrollPane(list);
+	        
+	        listScrollPane.setBounds(10, 10, 265,300);
+	        list.setSelectionMode(JList.VERTICAL_WRAP);
+	        list.setSelectedIndex(0);
+	        box.add(listScrollPane);
+		}
+		
+		Dimension gap = new Dimension(300, 15);
+		box.add(Box.createRigidArea(gap));
+		
+		
+		ok.setSize(100, 50);
+		refresh.setSize(100, 50);
+		ok.addActionListener(this);
+		refresh.addActionListener(this);
+		
+		Box bottom = new Box(BoxLayout.LINE_AXIS);
+		
+		bottom.add(ok);
+		bottom.add(Box.createRigidArea(new Dimension(30, 15)));
+		bottom.add(refresh);
+		box.add(bottom);
+		box.add(Box.createRigidArea(gap));
+		add(box);
 		this.setVisible(true);
+	}
+	
+	public GUIMediator getGuiMediator(){
+		return parent;
 	}
 
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getActionCommand()=="OK"){
-			System.out.println("Po��cz z graczem " + listModel.getElementAt(list.getSelectedIndex()));
-			if(socket == null){ 
-				
-				try {
-					socket = new Socket("localhost", 5556);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	            try {
-					out = new PrintWriter(socket.getOutputStream(), true);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	            try {
-					in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	            
-			}
-			
-			//test communication client -> server
-			out.println(socket.toString());
+		if(arg0.getActionCommand()=="OK")
+		{	
+			 parent.getProgramManager().chooseOpponent(list.getSelectedValue());
+			 this.setVisible(false);
+		}
+		else if(arg0.getActionCommand()=="Refresh")
+		{
+		    parent.getProgramManager().askForList();
+		    this.setVisible(false);
 		}
 		
 	}

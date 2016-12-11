@@ -16,4 +16,12 @@ public class Player
     public boolean isBusy()  { return busy;  }
     public void setBusy()    { busy = true;  }
     public void setNotBusy() { busy = false; }
+
+    /**
+     * 
+     */
+    public void makeMove()
+    {
+//        handler.sendMoveRequest();
+    }
 }

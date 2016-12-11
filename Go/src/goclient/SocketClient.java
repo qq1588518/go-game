@@ -42,15 +42,13 @@ public class SocketClient extends Thread
             socket = new Socket("localhost", 5556);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-            PrintWriter stdOut = new PrintWriter(System.out);
+   //         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+  //          PrintWriter stdOut = new PrintWriter(System.out);
            // std
          //   
             System.out.println(in.readLine());
             out.println("CONNECTION OK");
-          //  String userInput = stdIn.readLine();
             String serverLine;
-            //stdIn.
             while((serverLine = in.readLine()) != null)
             {
                 System.out.println("Serwer: " + serverLine);

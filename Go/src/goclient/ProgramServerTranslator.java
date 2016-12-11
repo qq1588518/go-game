@@ -3,8 +3,6 @@
  */
 package goclient;
 
-import java.io.PrintWriter;
-
 /**
  * @author mk
  *
@@ -23,8 +21,6 @@ public class ProgramServerTranslator extends ServerTranslator
     
     public void processIncommingMessage(String input) 
     {
-    	
-    	
         if(input.startsWith("SETNAME"))
         {
             manager.askForName("Please choose your nickname.");
@@ -35,17 +31,23 @@ public class ProgramServerTranslator extends ServerTranslator
         }
         else if(input.startsWith("NAMEOK"))
         {
-        	playerList = getPlayerList(input);
-        	
-        	parent.getGUI().displayPlayersDialog(playerList, "Wybierz przeciwnika");        	
+            sendListRequest();
         }
-        else if(input.startsWith("ENEMYOK")){
-        	System.out.println("TE� S�YSZE!");
+        else if(input.startsWith("LIST"))
+        {
+            input = input.replaceFirst("LIST ", "");
+            playerList = getPlayerList(input);
+            
+            parent.getGUI().displayPlayersDialog(playerList, "Please choose your opponent");   
         }
-        else if(input.startsWith("ENEMYBAD")){
+        else if(input.startsWith("GAMESTART")){
+            
+        }
+        else if(input.startsWith("CHOOSEOPPONENTAGAIN")){
         	System.out.println("Slysze");
+        	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");
         	playerList = getPlayerList(input);
-           	parent.getGUI().displayPlayersDialog(playerList, "Gracz juz nie istnieje");
+           	parent.getGUI().displayPlayersDialog(playerList, "Chosen player is no longer avaliable. Please choose again.");
         }
         else
         {
@@ -55,7 +57,7 @@ public class ProgramServerTranslator extends ServerTranslator
 
     private String getPlayerList(String input) {
 		// TODO Auto-generated method stub
-		return input.replaceFirst("NAMEOK", "").replaceAll(",", "").replaceAll("\\[", "").replaceAll("\\]", "");
+		return input.replaceAll(",", "").replaceAll("\\[", "").replaceAll("\\]", "");
 	}
 
 	/* (non-Javadoc)
@@ -101,5 +103,13 @@ public class ProgramServerTranslator extends ServerTranslator
     public void sendOpponent(String oppname)
     {
         parent.getSocket().send("OPPONENT " + oppname);
+    }
+
+    /**
+     * 
+     */
+    public void sendListRequest()
+    {
+       parent.getSocket().send("LIST");
     }
 }

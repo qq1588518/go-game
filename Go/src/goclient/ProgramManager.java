@@ -3,8 +3,6 @@
  */
 package goclient;
 
-import java.util.Vector;
-
 /**
  * @author mk
  *
@@ -13,7 +11,6 @@ public class ProgramManager
 {
     private Program parent;
     private ProgramServerTranslator translator;
-    //private Vector<PlayerList> playerLists;
     /**
      * 
      */
@@ -37,8 +34,6 @@ public class ProgramManager
     public void sendChosenName(String name)
     {
         translator.sendName(name);
-        
-       // translator.processOutcommingMessage("NAME" + name);
     }
     
    
@@ -54,7 +49,11 @@ public class ProgramManager
     public void chooseOpponent(String oppname)
     {	
     	translator.sendOpponent(oppname);
-        //translator.processOutcommingMessage("CHOOSEOPPONENT" + oppname);
+    }
+    
+    public void askForList()
+    {
+        translator.sendListRequest();
     }
 
     

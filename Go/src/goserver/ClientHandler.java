@@ -86,19 +86,12 @@ public class ClientHandler extends Observable implements Runnable
             clientMessagesTranslator = new ClientMessagesTranslator(this);
             running = true;
             writer.println("WELCOME");
-            message = reader.readLine();
-            System.out.println("Client sent: " + message);
-            writer.println("SETNAME");
-            while ((message = reader.readLine()) != null && running) 
+            while ((message = reader.readLine()) != null) 
             {
-                /**
-                 * TODO: server logic
-                 */
             	System.out.println("Client sent: " + message);
-            //	writer.println(message);
             	clientMessagesTranslator.processIncommingMessage(message);
-            	
-            }
+            }          
+            
             running = false;
         }
         catch (IOException ioe) 
@@ -117,6 +110,12 @@ public class ClientHandler extends Observable implements Runnable
         // Observer methods
         this.setChanged();              
         this.notifyObservers(this);     
+    }
+
+    public void send(String message)
+    {
+        writer.println(message);
+        System.out.println("Sending: " + message);
     }
 
 	

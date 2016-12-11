@@ -24,7 +24,7 @@ public class GUIMediator extends JFrame
     private GameManager gameManager;
     private ProgramManager programManager;
     
-    private PlayerList playerList;
+//    private PlayerList playerListDialog;
     private ChooseNameDialog chooseNameDialog;
     
     
@@ -40,9 +40,6 @@ public class GUIMediator extends JFrame
         
         this.chooseNameDialog = new ChooseNameDialog(this);
         chooseNameDialog.setAlwaysOnTop(true);
- 
-        
-        
         initComponents();
     }
     

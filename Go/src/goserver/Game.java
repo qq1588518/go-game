@@ -60,6 +60,16 @@ public class Game extends Thread
         
         return false;
     }
+    
+    private Player getPlayerNamed(String name)
+    {
+        for (Player player : players)
+        {
+            if (player.getName().equals(name)) return player;
+        }
+        
+        return null;
+    }
 
     /**
      * @param message
@@ -69,12 +79,12 @@ public class Game extends Thread
     {
         if (getNotBusyPlayersNames().contains(name))
         {
+            Player opponent = getPlayerNamed(name);
+            if (opponent == null) return false;
             
-            //       GamePlay gp = new GamePlay(first, second);
+            GamePlay gp = new GamePlay(player, opponent);
             return true;
         }
-        
-        
         
         return false;
     }

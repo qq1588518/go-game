@@ -6,8 +6,7 @@ package goclient;
 import java.awt.EventQueue;
 
 /**
- * TODO: tu póki co nic nie ma, ale pewnie powinny być podpięte różne elementy klienta
- * tj. GUI, komunikacja z serwerem, jakaś logika (sprawdzanie ruchu?) może też...
+ * TODO: Jak rozwiązać zmianę translatorów i managerów?
  *
  */
 public class Program
@@ -23,8 +22,7 @@ public class Program
         translator = new ProgramServerTranslator(this);
         socket = new SocketClient(this);
         frame = new GUIMediator(this);
-        
-        
+
         init();
     }
     
@@ -33,7 +31,6 @@ public class Program
         programManager.setTranslator(translator);
         translator.setManager(programManager);
         socket.start();
-        
     }
     
     
@@ -66,8 +63,7 @@ public class Program
         {
             @Override
             public void run() {
-                    new Program();
-                
+                    new Program(); 
             }
         });     
     }
