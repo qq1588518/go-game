@@ -11,7 +11,6 @@ public class ProgramServerTranslator extends ServerTranslator
 {
     private ProgramManager manager;
     private Program parent;
-    private String playerList;
     
     public ProgramServerTranslator(Program program)
     {
@@ -36,54 +35,24 @@ public class ProgramServerTranslator extends ServerTranslator
         else if(input.startsWith("LIST"))
         {
             input = input.replaceFirst("LIST ", "");
-            playerList = getPlayerList(input);
-            
-            parent.getGUI().displayPlayersDialog(playerList, "Please choose your opponent");   
+            parent.getGUI().displayPlayersDialog(input, "Please choose your opponent");   
         }
         else if(input.startsWith("GAMESTART")){
-            
+            // TODO: Co dalej? 
         }
         else if(input.startsWith("CHOOSEOPPONENTAGAIN")){
-        	System.out.println("Slysze");
         	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");
-        	playerList = getPlayerList(input);
-           	parent.getGUI().displayPlayersDialog(playerList, "Chosen player is no longer avaliable. Please choose again.");
+           	parent.getGUI().displayPlayersDialog(input, "Chosen player is no longer avaliable. Please choose again.");
         }
         else
         {
             System.out.println("Uknown server response");
         }
     }
-
-    private String getPlayerList(String input) {
-		// TODO Auto-generated method stub
-		return input.replaceAll(",", "").replaceAll("\\[", "").replaceAll("\\]", "");
-	}
-
-	/* (non-Javadoc)
-     * @see goclient.ServerTranslator#processOutcommingMessage(java.lang.String)
-     */
-//    @Override
-//    public void processOutcommingMessage(String output)
-//    {
-//    	if(output.startsWith("NAME")){
-//    		//inaczej nie dziala :c
-//    		String nowyout = output.replaceFirst("NAME", "");
-//    		
-//    		parent.getSocket().send("USERNAME " + nowyout);
-//    	}
-//    	else if(output.startsWith("CHOOSEOPPONENT")){
-//    		
-//    		String nowyout = output.replaceFirst("CHOOSEOPPONENT", "");
-//    		parent.getSocket().send("ENEMY" + nowyout);
-//    	}
-//        
-//    }
-
+    
     /**
      * @param name
      */
-
     public void setManager(ProgramManager manager)
     {
         this.manager = manager;

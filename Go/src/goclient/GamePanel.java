@@ -47,5 +47,4 @@ public class GamePanel extends JPanel
      * @return BoardPanel situated on this panel
      */
     public BoardPanel getBoardPanel() { return this.board; }
-  
 }

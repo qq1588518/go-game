@@ -13,9 +13,6 @@ import java.awt.event.MouseListener;
  */
 public class Mouse implements MouseListener
 {
-    private int x;
-    private int y;
-    
     private GUIMediator parent;
     
     public Mouse(GUIMediator parent)

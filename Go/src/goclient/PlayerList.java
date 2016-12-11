@@ -1,6 +1,5 @@
 package goclient;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,10 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-
 
 
 /**
@@ -39,8 +35,6 @@ public class PlayerList extends JDialog implements ActionListener {
 	JList<String> list;
 	private JScrollPane listScrollPane;
 	private GUIMediator parent;
-	private JPanel panel;
-	
 	/*
 	 * Create List of Players GUI
 	 */
@@ -132,9 +126,5 @@ public class PlayerList extends JDialog implements ActionListener {
 		}
 		
 	}
-	
-	
-	
-	
 	
 }

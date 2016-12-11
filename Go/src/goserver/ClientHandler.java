@@ -14,11 +14,9 @@ public class ClientHandler extends Observable implements Runnable
     private PrintWriter writer;
     
     private Socket socket;
-    private boolean running;
     private Game game;
     private Player player;
     private ClientMessagesTranslator clientMessagesTranslator;
-    private BufferedReader stdIn;
     
     /**
      * Creates a new thread to handle single client with given socket
@@ -79,25 +77,19 @@ public class ClientHandler extends Observable implements Runnable
         
         try 
         {
-        	running = false;
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream(), true);
-           // stdIn = new BufferedReader(new InputStreamReader(System.in));
             clientMessagesTranslator = new ClientMessagesTranslator(this);
-            running = true;
             writer.println("WELCOME");
             while ((message = reader.readLine()) != null) 
             {
             	System.out.println("Client sent: " + message);
             	clientMessagesTranslator.processIncommingMessage(message);
             }          
-            
-            running = false;
         }
         catch (IOException ioe) 
         {
             System.out.println(ioe);
-            running = false;
         }
         try 
         {
@@ -118,6 +110,4 @@ public class ClientHandler extends Observable implements Runnable
         System.out.println("Sending: " + message);
     }
 
-	
-    
 }

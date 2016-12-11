@@ -1,19 +1,13 @@
 package goserver;
 
-import java.io.PrintWriter;
-
-import com.sun.net.ssl.internal.www.protocol.https.Handler;
-
 public class ClientMessagesTranslator {
 	
 	ClientHandler clientHandler;
-	private PrintWriter writer;
 	private Game game;
 	
 	public ClientMessagesTranslator(ClientHandler clientHandler)
 	{
 		this.clientHandler = clientHandler;
-		writer = clientHandler.getWriter();
 		game = clientHandler.getGame();
 	}
 	

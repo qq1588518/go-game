@@ -2,8 +2,6 @@ package goserver;
 
 import java.util.Vector;
 
-import com.sun.media.jfxmedia.events.PlayerStateEvent.PlayerState;
-
 public class Game extends Thread
 {
     Vector<Player> players;

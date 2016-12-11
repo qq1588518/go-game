@@ -16,17 +16,13 @@ public class ProgramManager
      */
     public ProgramManager(Program program)
     {
-        this.parent = program;
-       
+        this.parent = program; 
     }
 
     public void askForName(String text)
     {
         parent.getGUI().displayChooseNameDialog(text);
     }
-    
-  
-    
     
     /**
      * @param string
@@ -35,9 +31,7 @@ public class ProgramManager
     {
         translator.sendName(name);
     }
-    
-   
-    
+
     public void setTranslator(ProgramServerTranslator translator)
     {
         this.translator = translator;
@@ -55,6 +49,4 @@ public class ProgramManager
     {
         translator.sendListRequest();
     }
-
-    
 }

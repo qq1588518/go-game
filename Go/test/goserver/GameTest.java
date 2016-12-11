@@ -29,6 +29,5 @@ public class GameTest
     {
         game.addPlayer("Ania", new ClientHandler(null, game));
         assertTrue(game.chooseOpponent("Ania", null));
-    }
-    
+    } 
 }

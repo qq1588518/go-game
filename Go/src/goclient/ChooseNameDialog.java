@@ -4,7 +4,6 @@
 package goclient;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -22,6 +21,8 @@ import javax.swing.JTextField;
  * @author mk
  *
  */
+
+@SuppressWarnings("serial")
 public class ChooseNameDialog extends JDialog implements ActionListener
 {
     private GUIMediator parent;
@@ -90,7 +91,6 @@ public class ChooseNameDialog extends JDialog implements ActionListener
         panel.add(box);
         
         add(panel);
-        //this.setVisible(true);
     }
     
     public void setText(String s)
@@ -111,7 +111,5 @@ public class ChooseNameDialog extends JDialog implements ActionListener
         
         this.setVisible(false);
     }
-    
-    
-    
+     
 }
