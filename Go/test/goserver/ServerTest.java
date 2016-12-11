@@ -40,7 +40,7 @@ public class ServerTest
     public void testUpdate()
     {
         s = new Server();
-        ClientHandler c = new ClientHandler(new Socket(), s);
+        ClientHandler c = new ClientHandler(new Socket(), null);
         s.getClients().add(c);
         @SuppressWarnings("unchecked")
         Vector<ClientHandler> ch = ((Vector<ClientHandler>)s.getClients().clone());

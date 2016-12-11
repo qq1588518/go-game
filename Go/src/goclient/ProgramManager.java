@@ -36,9 +36,9 @@ public class ProgramManager
      */
     public void sendChosenName(String name)
     {
-       //System.out.println(this.toString());
+        translator.sendName(name);
         
-        translator.processOutcommingMessage("NAME" + name);
+       // translator.processOutcommingMessage("NAME" + name);
     }
     
    
@@ -53,7 +53,8 @@ public class ProgramManager
      */
     public void chooseOpponent(String oppname)
     {	
-    	translator.processOutcommingMessage("CHOOSEOPPONENT" + oppname);
+    	translator.sendOpponent(oppname);
+        //translator.processOutcommingMessage("CHOOSEOPPONENT" + oppname);
     }
 
     

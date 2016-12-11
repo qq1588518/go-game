@@ -37,7 +37,7 @@ public class PlayerList extends JDialog implements ActionListener {
 	/*
 	 * Create List of Players GUI
 	 */
-	public PlayerList(String playersList, GUIMediator parent){
+	public PlayerList(String playersList, GUIMediator parent, String title){
 		
 		this.setBounds(300, 300, 300, 400);
 		this.setLayout(null);

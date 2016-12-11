@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.util.Observer;
 import java.util.Vector;
 
-import gogame.Player;
 
 import java.util.Observable;
 import java.io.*;
@@ -20,10 +19,9 @@ public class Server implements Observer
 {
     private Socket socket;
     private Vector<ClientHandler> clients;
-    private Vector<Player> players;
     private ServerSocket ssocket;  
     private StartServerThread sst; 
-    private ClientHandler clientHandler;
+    private Game game;
 
     private int port;
     private boolean listening; 
@@ -31,38 +29,12 @@ public class Server implements Observer
     public Server() 
     {
         this.clients = new Vector<ClientHandler>();
-        this.players = new Vector<Player>();
+        this.game = new Game(this);
         this.port = 5556;
         this.listening = false;
         
     }
-    
-    public void addPlayerToList(Player player){
-    	
-    	players.addElement(player);
-    }
-    
-    public synchronized void deletePlayer(String playerName){
-    	Player player1 = null;
-    	for(Player player : players){
-    		if(player.getName().equals(playerName)){
-    			player1 = player;
-    		}
-    	}    
-    	
-    	if(player1!=null){
-    		players.removeElement(player1);
-    		players.remove(player1);	
-    	}
-    	
-    	System.out.println(players);
-    }
-    
-    
-    
-    public Vector<Player> getPlayers(){
-    	return players;
-    }
+
     public void startServer() 
     {
         if (!listening) 
@@ -92,7 +64,6 @@ public class Server implements Observer
     public void update(Observable observable, Object object) 
     {
         this.clients.removeElement(observable);
-        this.players.removeElement(object);
     }
 
     public int getPort() { return port; }
@@ -136,11 +107,11 @@ public class Server implements Observer
                 {
                      Server.this.socket = Server.this.ssocket.accept();
                      System.out.println("Client connected");
-                     Server.this.clientHandler = new ClientHandler(Server.this.socket, Server.this);
+                     ClientHandler clientHandler = new ClientHandler(Server.this.socket, game);
                     
-                     Thread t = new Thread(Server.this.clientHandler);
-                     Server.this.clientHandler.addObserver(Server.this);
-                     Server.this.clients.addElement(Server.this.clientHandler);
+                     Thread t = new Thread(clientHandler);
+                     clientHandler.addObserver(Server.this);
+                     Server.this.clients.addElement(clientHandler);
                      t.start();
                 }
             } catch (IOException ioe) 

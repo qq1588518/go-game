@@ -7,11 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
 
-import gogame.Game;
-import gogame.Player;
-import goserver.Server;
-
-
 
 public class ClientHandler extends Observable implements Runnable
 {
@@ -20,9 +15,8 @@ public class ClientHandler extends Observable implements Runnable
     
     private Socket socket;
     private boolean running;
-    private Server parent;
     private Game game;
-    private String clientName;
+    private Player player;
     private ClientMessagesTranslator clientMessagesTranslator;
     private BufferedReader stdIn;
     
@@ -31,16 +25,10 @@ public class ClientHandler extends Observable implements Runnable
      * @param socket Socket given by the server
      * @param parent 
      */
-    public ClientHandler(Socket socket, Server parent)
+    public ClientHandler(Socket socket, Game game)
     {
         this.socket = socket;
-        this.parent = parent;
-       game = new Game(parent);
-       
-    }
-    
-    public Game getGame(){
-    	return game;
+        this.game = game;       
     }
     
     public BufferedReader getReader(){
@@ -51,8 +39,16 @@ public class ClientHandler extends Observable implements Runnable
     	return writer;
     }
     
-    public void setName(String name){
-    	clientName = name;
+    public void setPlayer(Player player){
+    	this.player = player;
+    }
+    
+    public Player getPlayer(){
+        return player;
+    }
+    
+    public Game getGame(){
+        return game;
     }
     
     
@@ -71,9 +67,7 @@ public class ClientHandler extends Observable implements Runnable
         };
     }
     
-    public String getName(){
-    	return clientName;
-    }
+
     
     /**
      * Runs a thread and handles communication between server and client programs
@@ -90,25 +84,19 @@ public class ClientHandler extends Observable implements Runnable
             writer = new PrintWriter(socket.getOutputStream(), true);
            // stdIn = new BufferedReader(new InputStreamReader(System.in));
             clientMessagesTranslator = new ClientMessagesTranslator(this);
-            running = true; 	
+            running = true;
             writer.println("WELCOME");
-            reader.readLine();
+            message = reader.readLine();
+            System.out.println("Client sent: " + message);
             writer.println("SETNAME");
-            
-          
             while ((message = reader.readLine()) != null && running) 
             {
                 /**
                  * TODO: server logic
                  */
-            	System.out.println("Server:" + message);
-            	writer.println(message);
-            	clientMessagesTranslator.processIncommingMessage(reader.readLine());
-            	
-            	
-            	
-            	
-            	
+            	System.out.println("Client sent: " + message);
+            //	writer.println(message);
+            	clientMessagesTranslator.processIncommingMessage(message);
             	
             }
             running = false;
@@ -121,7 +109,7 @@ public class ClientHandler extends Observable implements Runnable
         try 
         {
             System.out.println("Closing connection");
-            parent.deletePlayer(clientName);
+            game.deletePlayer(player);
             
             this.socket.close();
         } catch (IOException ioe) { System.out.println(ioe); }

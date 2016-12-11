@@ -37,15 +37,15 @@ public class ProgramServerTranslator extends ServerTranslator
         {
         	playerList = getPlayerList(input);
         	
-        	parent.getGUIMediator().displayPlayersDialog(playerList, "Wybierz przeciwnika");        	
+        	parent.getGUI().displayPlayersDialog(playerList, "Wybierz przeciwnika");        	
         }
         else if(input.startsWith("ENEMYOK")){
-        	System.out.println("TE¯ S£YSZE!");
+        	System.out.println("TEï¿½ Sï¿½YSZE!");
         }
         else if(input.startsWith("ENEMYBAD")){
         	System.out.println("Slysze");
         	playerList = getPlayerList(input);
-           	parent.getGUIMediator().displayPlayersDialog(playerList, "Gracz juz nie istnieje");
+           	parent.getGUI().displayPlayersDialog(playerList, "Gracz juz nie istnieje");
         }
         else
         {
@@ -61,30 +61,45 @@ public class ProgramServerTranslator extends ServerTranslator
 	/* (non-Javadoc)
      * @see goclient.ServerTranslator#processOutcommingMessage(java.lang.String)
      */
-    @Override
-    public void processOutcommingMessage(String output)
+//    @Override
+//    public void processOutcommingMessage(String output)
+//    {
+//    	if(output.startsWith("NAME")){
+//    		//inaczej nie dziala :c
+//    		String nowyout = output.replaceFirst("NAME", "");
+//    		
+//    		parent.getSocket().send("USERNAME " + nowyout);
+//    	}
+//    	else if(output.startsWith("CHOOSEOPPONENT")){
+//    		
+//    		String nowyout = output.replaceFirst("CHOOSEOPPONENT", "");
+//    		parent.getSocket().send("ENEMY" + nowyout);
+//    	}
+//        
+//    }
+
+    /**
+     * @param name
+     */
+
+    public void setManager(ProgramManager manager)
     {
-    	if(output.startsWith("NAME")){
-    		//inaczej nie dziala :c
-    		String nowyout = output.replaceFirst("NAME", "");
-    		
-    		parent.getSocket().send("USERNAME " + nowyout);
-    	}
-    	else if(output.startsWith("CHOOSEOPPONENT")){
-    		
-    		String nowyout = output.replaceFirst("CHOOSEOPPONENT", "");
-    		parent.getSocket().send("ENEMY" + nowyout);
-    	}
-        
+        this.manager = manager;
     }
 
     /**
      * @param name
      */
-    
-    
-    public void setManager(ProgramManager manager)
+    public void sendName(String name)
     {
-        this.manager = manager;
+        parent.getSocket().send("USERNAME " + name);
+    }
+
+    /**
+     * @param oppname
+     */
+    public void sendOpponent(String oppname)
+    {
+        parent.getSocket().send("OPPONENT " + oppname);
     }
 }

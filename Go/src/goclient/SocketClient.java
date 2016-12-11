@@ -21,6 +21,7 @@ public class SocketClient extends Thread
     BufferedReader in = null;
     ServerTranslator translator = null;
     Program program = null;
+    String messageToSend = null;
     
     public SocketClient(Program program)
     {
@@ -42,21 +43,43 @@ public class SocketClient extends Thread
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-   
-            String userInput;
+            PrintWriter stdOut = new PrintWriter(System.out);
+           // std
+         //   
             System.out.println(in.readLine());
-           // sleep(100);
-            out.println("działa");
-            String serverLine = in.readLine();
-            translator.processIncommingMessage(serverLine);
-            System.out.println(serverLine);
-            while ((userInput = stdIn.readLine()) != null) 
+            out.println("CONNECTION OK");
+          //  String userInput = stdIn.readLine();
+            String serverLine;
+            //stdIn.
+            while((serverLine = in.readLine()) != null)
             {
-                out.println(userInput);
-                serverLine = in.readLine();
+                System.out.println("Serwer: " + serverLine);
                 translator.processIncommingMessage(serverLine);
-                
             }
+            
+            
+//            do{
+//                serverLine = in.readLine();
+//                System.out.println(serverLine);
+//                translator.processIncommingMessage(serverLine);
+//                
+//            }while(serverLine != null);
+
+//            while((serverLine = in.readLine()) != null);
+//            {
+//                System.out.println(serverLine);
+//                translator.processIncommingMessage(serverLine);
+//             //   System.out.println(serverLine);
+//            }
+//            do
+//            {
+//                String serverLine = in.readLine();
+//                
+//                out.println(userInput);
+//                
+//            }while((userInput = stdIn.readLine()) != null);
+            
+            System.out.println("koniec");
         }
         catch (UnknownHostException e) 
         {
@@ -92,9 +115,10 @@ public class SocketClient extends Thread
      * Gets the PrintWriter to write to the server.
      * @return PrintWriter.
      */
-    public  void send(String text) 
+    public void send(String text) 
     { 
-        out.println(text); }
+        out.println(text);
+    }
     
     /**
      * Listens to the socket.

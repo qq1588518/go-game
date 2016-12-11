@@ -2,6 +2,8 @@ package goserver;
 
 import java.util.Vector;
 
+import com.sun.media.jfxmedia.events.PlayerStateEvent.PlayerState;
+
 public class Game extends Thread
 {
     Vector<Player> players;
@@ -13,18 +15,19 @@ public class Game extends Thread
     public Game(Server server)
     {
         this.server = server;
+        players = new Vector<Player>();
     }
     
-    public synchronized Vector<Player> getNotBusyPlayers()
+    public synchronized Vector<String> getNotBusyPlayersNames()
     {
-        Vector<Player> notBusyPlayers = new Vector<Player>();
+        Vector<String> notBusyPlayersNames = new Vector<String>();
         
         for (Player player : players)
         {
-            if (!player.isBusy()) notBusyPlayers.add(player);
+            if (!player.isBusy()) notBusyPlayersNames.add(player.getName());
         }
         
-        return notBusyPlayers;
+        return notBusyPlayersNames;
     }
     
     public Vector<Player> getPlayers()
@@ -35,12 +38,13 @@ public class Game extends Thread
     /**
      * @param input
      */
-    public boolean addPlayer(String name)
+    public boolean addPlayer(String name, ClientHandler handler)
     {
        if (!isNameTaken(name))
        {
-           players.add(new Player(name));
-           
+           Player p = new Player(name, handler);
+           players.add(p);
+           handler.setPlayer(p);
            return true;
        }
        else return false;
@@ -56,7 +60,28 @@ public class Game extends Thread
         
         return false;
     }
+
+    /**
+     * @param message
+     * @return
+     */
+    synchronized public boolean chooseOpponent(String name, Player player)
+    {
+        if (getNotBusyPlayersNames().contains(name))
+        {
+            
+            //       GamePlay gp = new GamePlay(first, second);
+            return true;
+        }
+        
+        
+        
+        return false;
+    }
     
-    
+    public synchronized void deletePlayer(Player player)
+    {
+        players.remove(player);
+    }
     
 }

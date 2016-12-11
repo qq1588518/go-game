@@ -2,45 +2,39 @@ package goserver;
 
 import java.io.PrintWriter;
 
-import gogame.Game;
-
 public class ClientMessagesTranslator {
 	
 	ClientHandler clientHandler;
 	private PrintWriter writer;
 	private Game game;
 	
-	public ClientMessagesTranslator(ClientHandler clientHandler){
+	public ClientMessagesTranslator(ClientHandler clientHandler)
+	{
 		this.clientHandler = clientHandler;
 		writer = clientHandler.getWriter();
 		game = clientHandler.getGame();
 	}
 	
-	
-	
-	public void processIncommingMessage(String message){
-		if(message.startsWith("USERNAME")){
-    		
-			if(clientHandler.getGame().addPlayer(message.substring(9, message.length()))){
-				writer.println("NAMEOK" + game.getPlayers());     				
-				clientHandler.setName(message.substring(9, message.length()));
+	public void processIncommingMessage(String message)
+	{
+		String response = "";
+	    if(message.startsWith("USERNAME"))
+	    {
+			System.out.println("klient chce ustawic nazwe");
+	        if(game.addPlayer(message.substring(9, message.length()), clientHandler))
+			{
+				response = "NAMEOK" + game.getPlayers();     				
 			}
-			else{
-				writer.println("NAMETAKEN");
-			}
+			else response = "NAMETAKEN";
 	            		
 		}	
-
-		if (message.startsWith("ENEMY")){
-			message = message.replaceFirst("ENEMY", "");
-				
-			if(game.isNameInArray(message)){
-				writer.println("ENEMYOK");
-			} 
-			else{
-				writer.println("ENEMYBAD");	
-			}
+		else if (message.startsWith("OPPONENT"))
+		{
+			message = message.replaceFirst("OPPONENT", "");		
+			response = game.chooseOpponent(message, clientHandler.getPlayer()) ? "GAMESTART" : "CHOOSEOPPONENTAGAIN";
 		}
+		else response = "UNKNOWNCOMMAND";
+	    writer.println(response);
 	}
 	
 	public void processOutcommingMessage(String message){

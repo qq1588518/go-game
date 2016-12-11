@@ -2,12 +2,14 @@ package goserver;
 
 public class Player
 {
-   private String name;
-   private boolean busy = false;
+    private ClientHandler handler;
+    private String name;
+    private boolean busy = false;
     
-    Player(String name)
+    Player(String name, ClientHandler handler)
     {
         this.name = name;
+        this.handler = handler;
     }
     
     public String getName()  { return name;  }
