@@ -39,6 +39,7 @@ public class GUIMediator extends JFrame
         this.parent = program;
         
         this.chooseNameDialog = new ChooseNameDialog(this);
+        chooseNameDialog.setAlwaysOnTop(true);
  
         
         
@@ -97,7 +98,10 @@ public class GUIMediator extends JFrame
     {
         return gameManager;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public ProgramManager getProgramManager()
     {
         return parent.getProgramManager();
@@ -112,12 +116,19 @@ public class GUIMediator extends JFrame
     }
 
     /**
+     * shows list of players
      * @param list
+     * @param tytul 
      */
-    public void displayPlayersDialog(String list)
+    public void displayPlayersDialog(String list, String tytul)
     {
-        PlayerList playersDialog = new PlayerList(list, this);
+        new PlayerList(list, this, tytul);
     }
+    
+    /**
+     * call method building chooseNameDialog
+     * @param text
+     */
     
     public void displayChooseNameDialog(String text)
     {

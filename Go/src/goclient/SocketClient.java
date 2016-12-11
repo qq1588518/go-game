@@ -110,7 +110,7 @@ public class SocketClient extends Thread
         this.translator = translator;
         
     }
-    
+  //
 //    /**
 //     * Starts a new BSTclient.
 //     * @param args the command line arguments, not used.
