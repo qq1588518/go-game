@@ -7,6 +7,7 @@ import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -24,6 +25,8 @@ public class OptionsPanel extends JPanel
     
     private JTextArea messageArea;
     private JTextArea statisticsArea;
+    private JButton passButton;
+    private JButton surrenderButton;
     
     public OptionsPanel(GUIMediator parent)
     {
@@ -32,16 +35,20 @@ public class OptionsPanel extends JPanel
     }
 
     /**
-     * 
+     *  
      */
     private void initComponents()
     {
         Dimension panelSize = new Dimension(300, 300);
+        Dimension gap = new Dimension(300, 30);
+        Dimension textAreaSize = new Dimension(280, 150);
+        Dimension buttonSize = new Dimension(120, 30);
+        
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        
         setMaximumSize(panelSize);
         setPreferredSize(panelSize);
         setMinimumSize(panelSize);
-        
-        Dimension textAreaSize = new Dimension(250, 150);
         
         messageArea = new JTextArea();
         messageArea.setEditable(false);
@@ -62,12 +69,28 @@ public class OptionsPanel extends JPanel
         statisticsArea.setPreferredSize(textAreaSize);
         statisticsArea.setAlignmentX(CENTER_ALIGNMENT);
         
-        Dimension gap = new Dimension(300, 30);
+        passButton = new JButton("PASS");
+        passButton.setSize(buttonSize);
+        passButton.setMinimumSize(buttonSize);
+        passButton.setMaximumSize(buttonSize);
+        passButton.setPreferredSize(buttonSize);
         
-        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        surrenderButton = new JButton("SURRENDER");
+        surrenderButton.setSize(buttonSize);
+        surrenderButton.setMinimumSize(buttonSize);
+        surrenderButton.setMaximumSize(buttonSize);
+        surrenderButton.setPreferredSize(buttonSize);
+
+        Box buttonBox = new Box(BoxLayout.LINE_AXIS);
+        buttonBox.add(passButton);
+        buttonBox.add(Box.createRigidArea(new Dimension(30, 30)));
+        buttonBox.add(surrenderButton);
+
         //add(Box.createVerticalGlue());
         add(Box.createRigidArea(gap));
         add(messageArea);
+        add(Box.createRigidArea(gap));
+        add(buttonBox);
         add(Box.createRigidArea(gap));
         add(statisticsArea);
         add(Box.createRigidArea(gap));

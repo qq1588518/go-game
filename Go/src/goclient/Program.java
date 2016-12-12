@@ -5,6 +5,9 @@ package goclient;
 
 import java.awt.EventQueue;
 
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 /**
  * TODO: Jak rozwiązać zmianę translatorów i managerów?
  *
@@ -63,8 +66,21 @@ public class Program
         EventQueue.invokeLater(new Runnable() 
         {
             @Override
-            public void run() {
-                    new Program(); 
+            public void run() 
+            {
+                try 
+                {
+                    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) 
+                    {
+                        if ("Nimbus".equals(info.getName())) 
+                        {
+                            UIManager.setLookAndFeel(info.getClassName());
+                            break;
+                        }
+                    }
+                } catch (Exception e) {}
+                
+                new Program(); 
             }
         });     
     }
