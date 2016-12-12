@@ -37,7 +37,7 @@ public class ClientMessagesTranslator {
 		else if (message.startsWith("INVAGREE"))
 		{
 		    message = message.replaceFirst("INVAGREE ", "");
-		    if (game.chooseOpponent(message, clientHandler.getPlayer())) response = "GAMESTART";
+		    if (game.chooseOpponent(message, clientHandler.getPlayer())) return;
 		    else response = "CHOOSEOPPONENTAGAIN " + getList();
 		}
 		else response = "UNKNOWNCOMMAND";

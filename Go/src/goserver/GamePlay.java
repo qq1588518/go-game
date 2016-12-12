@@ -16,6 +16,7 @@ public class GamePlay extends Thread
     Field[][] board;
     int n = 19;
     GamePlayState state;
+    GamePlayTranslator translator; 
     
     /**
      * 
@@ -31,12 +32,15 @@ public class GamePlay extends Thread
         boolean firstBlack = r.nextBoolean();
         black = firstBlack ? first : second;
         white = firstBlack ? second : first;
+        
+        translator = new GamePlayTranslator(black, white);
     }
     
     
     @Override
     public void run()
     {
+        translator.notifyGameStart();
         state = new GamePlayStateBlackMoves(this);
     }
     

@@ -10,14 +10,13 @@ package goclient;
 public class GameStateNotStartedYet implements GameState
 {
     
-    /* (non-Javadoc)
-     * @see goclient.GameState#makeMove()
+
+
+    /* Do nothing - cannot click on board when game is not started.
+     * (non-Javadoc)
+     * @see goclient.GameState#makeMove(int, int)
      */
     @Override
-    public void makeMove()
-    {
-        // TODO Auto-generated method stub
-        
-    }
+    public void makeMove(int x, int y) {}
     
 }

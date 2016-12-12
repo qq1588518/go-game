@@ -10,19 +10,18 @@ package goclient;
 public class GameStateOpponentsMove implements GameState
 {
     
+    private GameManager manager;
+
     /**
      * 
      */
-    public GameStateOpponentsMove()
+    public GameStateOpponentsMove(GameManager manager)
     {
-        // TODO Auto-generated constructor stub
+        this.manager = manager;
     }
-    
-    /* (non-Javadoc)
-     * @see goclient.GameState#makeMove()
-     */
+
     @Override
-    public void makeMove()
+    public void makeMove(int x, int y)
     {
         System.out.println("Can't make move now. It's not your turn!");
     }

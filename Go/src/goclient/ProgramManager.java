@@ -51,9 +51,10 @@ public class ProgramManager
         translator.sendListRequest();
     }
     
-    public void startGame()
+    public void startGame(StoneType myColor)
     {
-        game = new GameManager(19, parent.getGUI());
+        game = new GameManager(19, parent.getGUI(), myColor);
+        parent.getGUI().setGameComponents(game);
         parent.getSocket().setTranslator(new GameServerTranslator(game));
     }
     

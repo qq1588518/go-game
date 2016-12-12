@@ -12,18 +12,22 @@ package goclient;
  */
 public class GameManager
 {
-    GameState state;
-    GUIMediator mediator;
-    int boardSize;
+    private GameState state;
+    private GUIMediator mediator;
+    private int boardSize;
+    final StoneType myColor;
     
     /**
      * 
      */
-    public GameManager(int boardSize, GUIMediator mediator)
+    public GameManager(int boardSize, GUIMediator mediator, StoneType myColor)
     {
         this.boardSize = boardSize;
         this.mediator = mediator;
         this.state = new GameStateNotStartedYet();
+        this.myColor = myColor;
+        
+        state = (myColor == StoneType.BLACK) ? new GameStateMyMove(this) : new GameStateOpponentsMove(this);
     }
     
 
@@ -36,10 +40,15 @@ public class GameManager
     {
         return state;
     }
-   
-    public void makeMove()
+
+    public GUIMediator getMediator()
     {
-       state.makeMove();
+        return mediator;
+    }
+    
+    public void makeMove(int x, int y)
+    {
+       state.makeMove(x, y);
     }
 
     /**
@@ -49,5 +58,6 @@ public class GameManager
     {
         mediator.displayMessage(input);
     }
+    
      
 }

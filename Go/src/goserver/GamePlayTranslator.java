@@ -17,11 +17,18 @@ public class GamePlayTranslator
      */
     public GamePlayTranslator(Player black, Player white)
     {
-        // TODO Auto-generated constructor stub
+       this.black = black;
+       this.white = white;
     }
     
     public void notifyBoth(String message)
     {
         
+    }
+    
+    public void notifyGameStart()
+    {
+        black.sendMessage("GAMESTART BLACK");
+        white.sendMessage("GAMESTART WHITE");
     }
 }

@@ -79,6 +79,7 @@ public class Game extends Thread
         {
             Player opponent = getPlayerNamed(name);            
             GamePlay gp = new GamePlay(player, opponent);
+            gp.start();
             return true;
         }
         

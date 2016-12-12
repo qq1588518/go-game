@@ -30,7 +30,15 @@ public class Mouse implements MouseListener
 
        if (e.getButton() == MouseEvent.BUTTON1) 
        {
-           parent.getGamePanel().getBoardPanel().addStone(StoneType.BLACK, coords);
+           coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
+           if (coords != null) try
+            {
+                parent.getGameManager().makeMove(coords.x, coords.y);
+            }
+            catch (ComponentException e1)
+            {
+               System.out.println(e1.getMessage());
+            }
        }
     }
     

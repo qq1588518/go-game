@@ -10,28 +10,32 @@ package goclient;
 public class GameStateMyMove implements GameState
 {
     
+    private GameManager manager;
+
+
     /**
      * 
      */
-    public GameStateMyMove()
+    public GameStateMyMove(GameManager manager)
     {
-        // TODO Auto-generated constructor stub
+       this.manager = manager;
     }
-    
+
+
     /* (non-Javadoc)
-     * @see goclient.GameState#makeMove()
+     * @see goclient.GameState#makeMove(int, int)
      */
     @Override
-    public void makeMove()
+    public void makeMove(int x, int y)
     {
-        /**
-         * Możliwe opcje:
-         * - normalny ruch
-         * - pas
-         * - poddanie się
-         * - propozycja zakończenia gry i ustalamy terytoria? 
-         */
-        
+        try
+        {
+            manager.getMediator().getGamePanel().getBoardPanel().addStone(manager.myColor, x, y);
+        }
+        catch (WrongCoordsException e)
+        {
+            manager.getMediator().displayError(e.getMessage());
+        }
     }
     
 }

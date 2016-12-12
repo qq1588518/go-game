@@ -9,5 +9,5 @@ package goclient;
  */
 public interface GameState
 {
-    void makeMove();
+    void makeMove(int x, int y);
 }

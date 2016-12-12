@@ -42,6 +42,7 @@ public class Server implements Observer
           this.sst = new StartServerThread();
           this.sst.start();
           this.listening = true;
+          game.start();
           
         }
     }

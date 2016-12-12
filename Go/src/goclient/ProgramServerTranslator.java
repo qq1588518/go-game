@@ -41,8 +41,11 @@ public class ProgramServerTranslator extends ServerTranslator
         {
             manager.invite(input.replaceFirst("INVITATIONFROM ", ""));
         }
-        else if(input.startsWith("GAMESTART")){
-            manager.startGame(); 
+        else if(input.startsWith("GAMESTART"))
+        {
+            input = input.replaceFirst("GAMESTART ", "").trim();
+            if (input.equals("BLACK")) manager.startGame(StoneType.BLACK);
+            else if (input.equals("WHITE")) manager.startGame(StoneType.WHITE);          
         }
         else if(input.startsWith("CHOOSEOPPONENTAGAIN")){
         	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");

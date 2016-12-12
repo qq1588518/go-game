@@ -29,7 +29,7 @@ public class Player
 
     public void sendMessage(String message)
     {
-        
+        handler.send(message);
     }
     /**
      * @param player

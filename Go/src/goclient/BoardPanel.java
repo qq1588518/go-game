@@ -59,7 +59,7 @@ public class BoardPanel extends JPanel
         setBackground(new Color(220, 179, 92));
         createBoard();
         
-        addMouseListener(new Mouse(parent)); 
+         
         
         try
         {
@@ -194,7 +194,7 @@ public class BoardPanel extends JPanel
      * @param Point to pull to grid
      * @return Point on grid closest to given point or null if given point doesn't match any.
      */
-    private Point pullToGrid(Point p)
+    public Point pullToGrid(Point p)
     {
         double x = p.getX();
         double y = p.getY();
@@ -233,10 +233,10 @@ public class BoardPanel extends JPanel
      * @param stoneType color of Stone
      * @param p Point with coords on grid
      */
-    public void addStone(StoneType stoneType, Point p)
+    public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
     {
-        Point field = pullToGrid(p);
-        if (field != null) stones.add(new Stone(field, stoneType));
+        if (x >= 0 && x < n && y >= 0 && y < n) stones.add(new Stone(x, y, stoneType));
+        else throw new WrongCoordsException("Chosen coordinates do not exist on board.");
         repaint();
     }
 

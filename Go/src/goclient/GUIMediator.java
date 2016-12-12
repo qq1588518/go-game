@@ -91,8 +91,9 @@ public class GUIMediator extends JFrame
      *  Returns GameManager for handling game activities
      *  @return GameManager 
      */
-    public GameManager getGameManager()
+    public GameManager getGameManager() throws ComponentException
     {
+        if (gameManager == null) throw new ComponentException("GameManager not set");
         return gameManager;
     }
     /**
@@ -143,5 +144,24 @@ public class GUIMediator extends JFrame
         if (choice == JOptionPane.YES_OPTION) getProgramManager().respondInvitation(name, true);
         else getProgramManager().respondInvitation(name, false);
     }
+
+    /**
+     * @param game
+     */
+    public void setGameComponents(GameManager game)
+    {
+        gameManager = game;
+        gamePanel.getBoardPanel().addMouseListener(new Mouse(this));
+    }
+
+    /**
+     * @param message
+     */
+    public void displayError(String message)
+    {
+        JOptionPane.showMessageDialog(this, message, "Error", ERROR);
+    }
+
+
 
 }
