@@ -40,6 +40,16 @@ public class ClientMessagesTranslator {
 		    if (game.chooseOpponent(message, clientHandler.getPlayer())) return;
 		    else response = "CHOOSEOPPONENTAGAIN " + getList();
 		}
+		else if (message.startsWith("MOVE"))
+		{
+		    String[] coords = message.replaceFirst("MOVE ", "").split(" ");
+		    if (coords.length >= 2)
+		    {
+		        clientHandler.getPlayer().makeMove(Integer.valueOf(coords[0]),Integer.valueOf(coords[1]));
+		        return;
+		    }                                                             
+		    
+		}
 		else response = "UNKNOWNCOMMAND";
 	    clientHandler.send(response);
 	}

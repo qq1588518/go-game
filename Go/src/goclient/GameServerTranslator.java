@@ -29,7 +29,13 @@ public class GameServerTranslator extends ServerTranslator
         }
         else if (input.startsWith("MOVEOK"))
         {
-            
+            manager.addMyMove();
+        }
+        else if (input.startsWith("WRONGMOVE")) manager.resetMyMove();
+        else if (input.startsWith("OPPOMOVE"))
+        {
+            String[] coords = input.replaceFirst("OPPOMOVE ", "").split(" ");
+            manager.addOpponentsMove(Integer.valueOf(coords[0]), Integer.valueOf(coords[1]));
         }
         else System.out.println("Unknown system command");
     }
@@ -40,6 +46,6 @@ public class GameServerTranslator extends ServerTranslator
      */
     public void sendMove(int x, int y)
     {
-        socket.send("MOVE " + manager.myColor + " " + String.valueOf(x) + " " + String.valueOf(y));
+        socket.send("MOVE " + String.valueOf(x) + " " + String.valueOf(y));
     }
 }

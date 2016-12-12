@@ -64,6 +64,7 @@ public class BoardPanel extends JPanel
         try
         {
             blackStone = ImageIO.read(this.getClass().getResource("black.png"));
+            whiteStone = ImageIO.read(this.getClass().getResource("white.png"));
         }
         catch (IOException e)
         {
@@ -177,7 +178,8 @@ public class BoardPanel extends JPanel
     {        
         for (Stone stone : stones)
         {
-            g.drawImage(blackStone, 
+            BufferedImage image = (stone.type == StoneType.BLACK) ? blackStone : whiteStone;
+            g.drawImage(image, 
                         fields[stone.getX()][stone.getY()].x - stoneRadius, 
                         fields[stone.getX()][stone.getY()].y - stoneRadius, 
                         stoneRadius * 2, stoneRadius * 2, null);

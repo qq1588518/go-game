@@ -4,6 +4,7 @@ public class Player
 {
     private ClientHandler handler;
     private ClientMessagesTranslator translator;
+    private GamePlay gamePlay = null;
     private String name;
     private boolean busy = false;
     
@@ -14,17 +15,24 @@ public class Player
         this.translator = handler.getTranslator();
     }
     
-    public String getName()  { return name;  }
-    public boolean isBusy()  { return busy;  }
-    public void setBusy()    { busy = true;  }
-    public void setNotBusy() { busy = false; }
+    public String getName()   { return name;  }
+    public boolean isBusy()   { return busy;  }
+    public void setBusy()     { busy = true;  }
+    public void setNotBusy()  { busy = false; }
+    
+    public void setGamePlay(GamePlay gamePlay)
+    {
+        this.gamePlay = gamePlay;
+    }
 
     /**
+     * @param y 
+     * @param x 
      * 
      */
-    public void makeMove()
+    public void makeMove(int x, int y)
     {
-//        handler.sendMoveRequest();
+        if (gamePlay != null) gamePlay.makeMove(this, x, y);
     }
 
     public void sendMessage(String message)

@@ -3,13 +3,7 @@
  */
 package goclient;
 
-/**
- * To chyba ma być coś, co komunikuje GUI z resztą klienta. Ale nie jestem pewna. 
- * Albo może klienta z serwerem też trochę? 
- * Wzorowane na tym, ale nie mam koncepcji: 
- * http://blue-walrus.com/2011/10/swing-and-design-patterns-%e2%80%93-part-3-command-pattern/
- *
- */
+
 public class GameManager
 {
     private GameState state;
@@ -19,6 +13,8 @@ public class GameManager
     private GameServerTranslator translator;
     private enum Field {BLACK, WHITE, EMPTY};
     private Field[][] board;
+    private int waitingX;
+    private int waitingY;
     /**
      * 
      */
@@ -59,9 +55,6 @@ public class GameManager
      */
     public boolean checkIfMovePossible(int x, int y)
     {
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println(board[x][y]);
         if (board[x][y] != Field.EMPTY) 
         {
             displayMessage("This field is already ocuppied. ");
@@ -97,6 +90,8 @@ public class GameManager
         translator.sendMove(x,y);
     }
     
+    
+    
     /**
      * @param gt
      */
@@ -118,5 +113,62 @@ public class GameManager
     public GUIMediator getMediator()
     {
         return mediator;
+    }
+
+    /**
+     * @param string
+     * @param string2
+     */
+    public void addMyMove()
+    {
+        try
+        {
+            mediator.getGamePanel().getBoardPanel().addStone(myColor, waitingX, waitingY);
+            state = new GameStateOpponentsMove(this);
+        }
+        catch (WrongCoordsException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param x
+     * @param y
+     */
+    public void saveWaitingMove(int x, int y)
+    {
+        waitingX = x;
+        waitingY = y;
+    }
+
+    /**
+     * 
+     */
+    public void resetMyMove()
+    {
+        displayMessage("Your move to [" + String.valueOf(waitingX) + ", " + String.valueOf(waitingY) + "] was incorrect. Please try again");
+        waitingX = -1;
+        waitingY = -1;
+        state.reset();
+    }
+
+    /**
+     * @param valueOf
+     * @param valueOf2
+     */
+    public void addOpponentsMove(Integer x, Integer y)
+    {
+        try
+        {
+            mediator.getGamePanel().getBoardPanel().addStone(myColor.other(), x, y);
+            state = new GameStateMyMove(this);
+        }
+        catch (WrongCoordsException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }    
 }

@@ -11,6 +11,7 @@ public class GameStateMyMove implements GameState
 {
     
     private GameManager manager;
+    private boolean moveSent = false;
 
 
     /**
@@ -21,15 +22,21 @@ public class GameStateMyMove implements GameState
        this.manager = manager;
     }
 
-
-    /* TODO: żeby nie wysyłał kilku różnych ruchów za jednym razem.
+    /* 
      * (non-Javadoc)
      * @see goclient.GameState#makeMove(int, int)
      */
     @Override
     public void makeMove(int x, int y)
     {
-        if (manager.checkIfMovePossible(x,y)) manager.sendMove(x, y);
+        if (!moveSent && manager.checkIfMovePossible(x,y)) 
+        {
+            manager.sendMove(x, y); 
+            moveSent = true;
+            manager.saveWaitingMove(x,y);
+        }
     }
+    
+    public void reset() { moveSent = false; }
     
 }

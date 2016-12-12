@@ -11,12 +11,12 @@ import java.util.Random;
  */
 public class GamePlay extends Thread
 {
-    Player black;
-    Player white;
-    Field[][] board;
-    int n = 19;
-    GamePlayState state;
-    GamePlayTranslator translator; 
+    private Player black;
+    private Player white;
+    private Field[][] board;
+    private int n = 19;
+    private GamePlayState state;
+    private GamePlayTranslator translator; 
     
     /**
      * 
@@ -24,15 +24,18 @@ public class GamePlay extends Thread
     public GamePlay(Player first, Player second)
     {
         board = new Field[n][n];
-        for (Field[] fields : board)
+        for (int i = 0; i < n; i++)
         {
-            for (Field field : fields) field = Field.EMPTY;
+            for (int j = 0; j < n; j++) board[i][j] = Field.EMPTY;
         }
         Random r = new Random(); 
         boolean firstBlack = r.nextBoolean();
         black = firstBlack ? first : second;
         white = firstBlack ? second : first;
         
+        black.setGamePlay(this);
+        white.setGamePlay(this);
+       
         translator = new GamePlayTranslator(black, white);
     }
     
@@ -57,6 +60,11 @@ public class GamePlay extends Thread
     public Player getWhite()
     {
         return white;
+    }
+    
+    public GamePlayTranslator getTranslator()
+    {
+        return translator;
     }
 
     /**
@@ -84,6 +92,15 @@ public class GamePlay extends Thread
     public void putStone(Color c, int x, int y)
     {
         board[x][y] = (c == Color.BLACK) ? Field.BLACK : Field.WHITE;
+    }
+
+
+    /**
+     * @param gamePlayStateWhiteMoves
+     */
+    public void setState(GamePlayState state)
+    {
+       this.state = state;
     }
     
 }

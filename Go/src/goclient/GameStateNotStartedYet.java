@@ -18,5 +18,15 @@ public class GameStateNotStartedYet implements GameState
      */
     @Override
     public void makeMove(int x, int y) {}
+
+    /* (non-Javadoc)
+     * @see goclient.GameState#reset()
+     */
+    @Override
+    public void reset()
+    {
+        // TODO Auto-generated method stub
+        
+    }
     
 }

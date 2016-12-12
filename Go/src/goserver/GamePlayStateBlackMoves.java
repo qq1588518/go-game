@@ -21,7 +21,8 @@ public class GamePlayStateBlackMoves implements GamePlayState
     }
    
     
-    /* (non-Javadoc)
+    /* 
+     * (non-Javadoc)
      * @see goserver.GamePlayState#makeMove(goserver.Player, int, int)
      */
     @Override
@@ -32,9 +33,13 @@ public class GamePlayStateBlackMoves implements GamePlayState
           if (gamePlay.checkIfMovePossible(Color.BLACK, x, y))
           {
               gamePlay.putStone(Color.BLACK, x, y);
-          };
+              gamePlay.getTranslator().confirmMove(p);
+              gamePlay.getTranslator().sendOpponentsMove(gamePlay.getWhite(), x, y);
+              gamePlay.setState(new GamePlayStateWhiteMoves(gamePlay));
+          }
+          else gamePlay.getTranslator().rejectMove(p);
        }
-       else p.sendMessage("NOTYOURTURN");
+       else gamePlay.getTranslator().rejectMoveAttempt(p);
     }
     
 }
