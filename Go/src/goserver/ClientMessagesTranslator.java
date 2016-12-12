@@ -57,15 +57,18 @@ public class ClientMessagesTranslator {
 	}
 
     /**
-     * @param player
+     * Sends invitation from given name, using players clientHandler method.
+     * @param player String with name of inviting player.
      */
     public void sendInvitation(String player)
     {
         clientHandler.send("INVITATIONFROM " + player);
-                        
-        //"You have been invited to play with " + player + ". Do you agree?");
     }
     
+    /**
+     * Sends given message using players clientHandler method.
+     * @param message String to send.
+     */
     public void sendMessage(String message)
     {
         clientHandler.send(message);

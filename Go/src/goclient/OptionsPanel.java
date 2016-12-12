@@ -16,7 +16,6 @@ import com.sun.xml.internal.ws.api.Component;
 /**
  * TODO: Pewnie jakieś przyciski typu: pas, poddaj się, statystki rozgrywki
  * Side panel of the frame, showing game info
- *
  */
 @SuppressWarnings("serial")
 public class OptionsPanel extends JPanel

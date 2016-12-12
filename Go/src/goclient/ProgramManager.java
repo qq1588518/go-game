@@ -65,7 +65,9 @@ public class ProgramManager
     {
         game = new GameManager(19, parent.getGUI(), myColor);
         parent.getGUI().setGameComponents(game);
-        parent.getSocket().setTranslator(new GameServerTranslator(game));
+        GameServerTranslator gt = new GameServerTranslator(game, parent.getSocket());
+        parent.getSocket().setTranslator(gt);
+        game.setTranslator(gt);
     }
     
     public void endGame()

@@ -22,20 +22,14 @@ public class GameStateMyMove implements GameState
     }
 
 
-    /* (non-Javadoc)
+    /* TODO: żeby nie wysyłał kilku różnych ruchów za jednym razem.
+     * (non-Javadoc)
      * @see goclient.GameState#makeMove(int, int)
      */
     @Override
     public void makeMove(int x, int y)
     {
-        try
-        {
-            manager.getMediator().getGamePanel().getBoardPanel().addStone(manager.myColor, x, y);
-        }
-        catch (WrongCoordsException e)
-        {
-            manager.getMediator().displayError(e.getMessage());
-        }
+        if (manager.checkIfMovePossible(x,y)) manager.sendMove(x, y);
     }
     
 }
