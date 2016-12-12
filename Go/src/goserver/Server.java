@@ -29,7 +29,7 @@ public class Server implements Observer
     public Server() 
     {
         this.clients = new Vector<ClientHandler>();
-        this.game = new Game(this);
+        this.game = new Game();
         this.port = 5556;
         this.listening = false;
         
