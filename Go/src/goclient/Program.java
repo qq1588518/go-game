@@ -19,21 +19,21 @@ public class Program
     Program()
     {
         programManager = new ProgramManager(this);
-        translator = new ProgramServerTranslator(this);
-        socket = new SocketClient();
-        frame = new GUIMediator(this);
+
+        translator = new ProgramServerTranslator(programManager);
+        socket = new SocketClient(translator);
+        frame = new GUIMediator(programManager);
 
         init();
     }
     
-    private void init()
+    private synchronized void init()
     {
-        socket.setTranslator(translator);
         programManager.setTranslator(translator);
-        translator.setManager(programManager);
+        translator.setSocket(socket);
+        frame.setVisible(true);
         socket.start();
     }
-    
     
     public ProgramManager getProgramManager()
     {

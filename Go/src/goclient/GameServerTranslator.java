@@ -13,7 +13,7 @@ public class GameServerTranslator extends ServerTranslator
     /**
      * 
      */
-    public GameServerTranslator(GameManager manager)
+    public GameServerTranslator(GameManager manager) 
     {
        this.manager = manager;
     }

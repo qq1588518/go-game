@@ -114,15 +114,22 @@ public class PlayerList extends JDialog implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getActionCommand()=="OK")
-		{	
-			 parent.getProgramManager().chooseOpponent(list.getSelectedValue());
-			 this.setVisible(false);
-		}
-		else if(arg0.getActionCommand()=="Refresh")
+		try
 		{
-		    parent.getProgramManager().askForList();
-		    this.setVisible(false);
+	        if(arg0.getActionCommand()=="OK")
+	        {   
+	             parent.getProgramManager().chooseOpponent(list.getSelectedValue());
+	             this.setVisible(false);
+	        }
+	        else if(arg0.getActionCommand()=="Refresh")
+	        {
+	            parent.getProgramManager().askForList();
+	            this.setVisible(false);
+	        }		    
+		}
+		catch(ComponentException e)
+		{
+		    System.out.println(e.getMessage());
 		}
 		
 	}

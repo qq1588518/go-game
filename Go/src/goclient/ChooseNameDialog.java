@@ -107,8 +107,15 @@ public class ChooseNameDialog extends JDialog implements ActionListener
     {
         String name = field.getText();
         name.trim();
-        parent.getProgramManager().sendChosenName(name);
         
+        try
+        {
+            parent.getProgramManager().sendChosenName(name);           
+        }
+        catch(ComponentException e1)
+        {
+            System.out.println(e1.getMessage());
+        }
         this.setVisible(false);
     }
      

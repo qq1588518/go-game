@@ -11,10 +11,8 @@ import java.io.*;
 
 /**
  * @author mk
- * Hold vector of Player names and Clients
  * 
  */
-
 public class Server implements Observer
 {
     private Socket socket;
@@ -32,7 +30,6 @@ public class Server implements Observer
         this.game = new Game();
         this.port = 5556;
         this.listening = false;
-        
     }
 
     public void startServer() 
@@ -43,7 +40,6 @@ public class Server implements Observer
           this.sst.start();
           this.listening = true;
           game.start();
-          
         }
     }
 
@@ -73,15 +69,10 @@ public class Server implements Observer
     
     boolean getState() { return listening; }
     
-    Vector<ClientHandler> getClients()
-    {
-        return clients;
-    }
-
+    Vector<ClientHandler> getClients() { return clients; }
   
   /** This inner class will keep listening to incoming connections,
-   *  and initiating a ClientThread object for each connection. */
-  
+   *  and initiating a ClientThread object for each connection. */  
     private class StartServerThread extends Thread 
     {
         private boolean listen;
@@ -92,13 +83,11 @@ public class Server implements Observer
         {
             try
             {
-                //this.listen = false;
                 Server.this.ssocket =  new ServerSocket(Server.this.port);
             }
             catch (IOException e)
             {
                 System.out.println("Could not listen on port 5556");
-                e.printStackTrace();
                 System.exit(-1);
             }
             try 
@@ -121,7 +110,7 @@ public class Server implements Observer
                 this.stopServerThread(); 
             }
         }
-
+        
         public void stopServerThread()
         {
             this.listen = false; 
@@ -142,7 +131,6 @@ public class Server implements Observer
             {
               socket.close();
               System.out.println("zamykam");
-              
             } 
             catch (IOException e) 
             {

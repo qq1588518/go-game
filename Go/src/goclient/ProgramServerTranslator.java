@@ -9,17 +9,17 @@ package goclient;
  */
 public class ProgramServerTranslator extends ServerTranslator
 {
-    private ProgramManager manager;
-    private Program parent;
+    private ProgramManager manager = null;
+    private SocketClient socket;
     
-    public ProgramServerTranslator(Program program)
+    public ProgramServerTranslator(ProgramManager manager)
     {
-        this.parent = program;
-        manager = program.getProgramManager();
+       this.manager = manager;
     }
     
-    public void processIncommingMessage(String input) 
-    {
+    public void processIncommingMessage(String input)
+    {       
+        System.out.println("translator ok");
         if(input.startsWith("SETNAME"))
         {
             manager.askForName("Please choose your nickname.");
@@ -35,7 +35,7 @@ public class ProgramServerTranslator extends ServerTranslator
         else if(input.startsWith("LIST"))
         {
             input = input.replaceFirst("LIST ", "");
-            parent.getGUI().displayPlayersDialog(input, "Please choose your opponent");   
+            manager.showPlayers(input, "Please choose your opponent");   
         }
         else if(input.startsWith("INVITATIONFROM"))
         {
@@ -47,14 +47,12 @@ public class ProgramServerTranslator extends ServerTranslator
             if (input.equals("BLACK")) manager.startGame(StoneType.BLACK);
             else if (input.equals("WHITE")) manager.startGame(StoneType.WHITE);          
         }
-        else if(input.startsWith("CHOOSEOPPONENTAGAIN")){
-        	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");
-           	parent.getGUI().displayPlayersDialog(input, "Chosen player is no longer avaliable. Please choose again.");
-        }
-        else
+        else if(input.startsWith("CHOOSEOPPONENTAGAIN"))
         {
-            System.out.println("Uknown server response");
+        	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");
+        	manager.showPlayers(input, "Chosen player is no longer avaliable. Please choose again.");
         }
+        else System.out.println("Uknown server response");
     }
     
     /**
@@ -70,7 +68,7 @@ public class ProgramServerTranslator extends ServerTranslator
      */
     public void sendName(String name)
     {
-        parent.getSocket().send("USERNAME " + name);
+        socket.send("USERNAME " + name);
     }
 
     /**
@@ -78,7 +76,7 @@ public class ProgramServerTranslator extends ServerTranslator
      */
     public void sendOpponent(String oppname)
     {
-        parent.getSocket().send("OPPONENT " + oppname);
+        socket.send("OPPONENT " + oppname);
     }
 
     /**
@@ -86,7 +84,7 @@ public class ProgramServerTranslator extends ServerTranslator
      */
     public void sendListRequest()
     {
-       parent.getSocket().send("LIST");
+       socket.send("LIST");
     }
 
     /**
@@ -94,7 +92,15 @@ public class ProgramServerTranslator extends ServerTranslator
      */
     public void sendAgreement(String name)
     {
-        parent.getSocket().send("INVAGREE " + name);
+        socket.send("INVAGREE " + name);
+    }
+
+    /**
+     * @param socket
+     */
+    public void setSocket(SocketClient socket)
+    {
+        this.socket = socket;
     }
 
 

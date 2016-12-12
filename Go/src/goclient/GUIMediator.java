@@ -19,7 +19,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 @SuppressWarnings("serial")
 public class GUIMediator extends JFrame
 {
-    private Program parent;
+    private ProgramManager programManager;
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
     private GameManager gameManager = null;
@@ -30,18 +30,18 @@ public class GUIMediator extends JFrame
     /**
      * Constructs a new GUIMediator frame.
      */
-    public GUIMediator(Program program) 
+    public GUIMediator(ProgramManager programManager) 
     {
         this.gamePanel = new GamePanel(this);
         this.optionsPanel = new OptionsPanel(this);
         
-        this.parent = program;
+        this.programManager = programManager;
         
         this.chooseNameDialog = new ChooseNameDialog(this);
 
         initComponents();
     }
-    
+
     /**
      * Initialises frame components and sets its properties.
      */
@@ -66,7 +66,7 @@ public class GUIMediator extends JFrame
         add(this.gamePanel, BorderLayout.CENTER);
         add(this.optionsPanel, BorderLayout.WEST);
         
-        this.setVisible(true); 
+   //     this.setVisible(true); 
     }
     
     /**
@@ -102,7 +102,7 @@ public class GUIMediator extends JFrame
      */
     public ProgramManager getProgramManager()
     {
-        return parent.getProgramManager();
+        return programManager;
     }
 
     /**
@@ -139,10 +139,18 @@ public class GUIMediator extends JFrame
      */
     public void displayInvitation(String name)
     {
-        String text = "<html>You have been invited to play with " + name + ". Do you agree?</html>";
-        int choice = JOptionPane.showConfirmDialog(this, text, "Invitation", JOptionPane.YES_NO_OPTION);
-        if (choice == JOptionPane.YES_OPTION) getProgramManager().respondInvitation(name, true);
-        else getProgramManager().respondInvitation(name, false);
+        try
+        {
+            String text = "<html>You have been invited to play with " + name + ". Do you agree?</html>";
+            int choice = JOptionPane.showConfirmDialog(this, text, "Invitation", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) programManager.respondInvitation(name, true);
+            else programManager.respondInvitation(name, false);            
+        }
+        catch (ComponentException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     /**

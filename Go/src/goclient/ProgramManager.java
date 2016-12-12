@@ -10,7 +10,7 @@ package goclient;
 public class ProgramManager
 {
     private Program parent = null;
-    private ProgramServerTranslator translator;
+    private ProgramServerTranslator translator = null;
     private GameManager game = null;
     /**
      * 
@@ -25,11 +25,19 @@ public class ProgramManager
         parent.getGUI().displayChooseNameDialog(text);
     }
     
+    public void showPlayers(String list, String text)
+    {
+        parent.getGUI().displayPlayersDialog(list, text);
+    }
+    
     /**
      * @param string
+     * 
      */
-    public void sendChosenName(String name)
+    public void sendChosenName(String name) throws ComponentException
     {
+       System.out.println("manager ok");
+        if (translator == null) throw new ComponentException("Translator not set in ProgramManager");
         translator.sendName(name);
     }
 
@@ -41,13 +49,15 @@ public class ProgramManager
     /**
      * @param replaceFirst
      */
-    public void chooseOpponent(String oppname)
+    public void chooseOpponent(String oppname) throws ComponentException
     {	
-    	translator.sendOpponent(oppname);
+    	if (translator == null) throw new ComponentException("Translator not set in ProgramManager");
+        translator.sendOpponent(oppname);
     }
     
-    public void askForList()
+    public void askForList() throws ComponentException
     {
+        if (translator == null) throw new ComponentException("Translator not set in ProgramManager");
         translator.sendListRequest();
     }
     
@@ -76,8 +86,9 @@ public class ProgramManager
      * @param name
      * @param b
      */
-    public void respondInvitation(String name, boolean accepted)
+    public void respondInvitation(String name, boolean accepted) throws ComponentException
     {
+        if (translator == null) throw new ComponentException("Translator not set in ProgramManager");
         if (accepted) translator.sendAgreement(name);
     }
 }

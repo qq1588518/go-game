@@ -21,9 +21,9 @@ public class SocketClient extends Thread
     BufferedReader in = null;
     ServerTranslator translator = null;
 
-    public SocketClient()
+    public SocketClient(ServerTranslator translator)
     {
-
+        this.translator = translator;
     }
     
     /**
@@ -73,11 +73,20 @@ public class SocketClient extends Thread
     @Override
     public void run() 
     { 
+        try
+        {
+            sleep(100);
+        }
+        catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         listenSocket(); 
     }
 
     /**
-     * @param translator2
+     * @param translator
      */
     public void setTranslator(ServerTranslator translator)
     {
