@@ -27,9 +27,9 @@ public class GamePlayStateWhiteMoves implements GamePlayState
     {
        if (p == gamePlay.getWhite())
        {
-          if (gamePlay.checkIfMovePossible(Color.WHITE, x, y))
+          if (gamePlay.getBoard().checkIfMovePossible(Color.WHITE, x, y))
           {
-              gamePlay.putStone(Color.WHITE, x, y);
+              gamePlay.getBoard().putStone(Color.WHITE, x, y);
               gamePlay.getTranslator().confirmMove(p);
               gamePlay.getTranslator().sendOpponentsMove(gamePlay.getBlack(), x, y);
               gamePlay.setState(new GamePlayStateBlackMoves(gamePlay));

@@ -13,7 +13,7 @@ public class GamePlay extends Thread
 {
     private Player black;
     private Player white;
-    private Field[][] board;
+    private Board board;
     private int n = 19;
     private GamePlayState state;
     private GamePlayTranslator translator; 
@@ -23,11 +23,7 @@ public class GamePlay extends Thread
      */
     public GamePlay(Player first, Player second)
     {
-        board = new Field[n][n];
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++) board[i][j] = Field.EMPTY;
-        }
+        board = new Board(19);
         Random r = new Random(); 
         boolean firstBlack = r.nextBoolean();
         black = firstBlack ? first : second;
@@ -76,31 +72,17 @@ public class GamePlay extends Thread
         white.sendMessage(message);
     }
 
-
-    /**
-     * TODO: sprawdzanie możliwości ruchu
-     * @param black2
-     * @param x
-     * @param y
-     */
-    public boolean checkIfMovePossible(Color c, int x, int y)
-    {
-        if (board[x][y] == Field.EMPTY) return true;
-        return false;
-    }
-    
-    public void putStone(Color c, int x, int y)
-    {
-        board[x][y] = (c == Color.BLACK) ? Field.BLACK : Field.WHITE;
-    }
-
-
     /**
      * @param gamePlayStateWhiteMoves
      */
     public void setState(GamePlayState state)
     {
        this.state = state;
+    }
+    
+    Board getBoard()
+    {
+        return board;
     }
     
 }
