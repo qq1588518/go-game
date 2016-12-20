@@ -99,8 +99,6 @@ public class Board
      */
     public HashSet<Field> update(Field lastMove)
     {
-        HashSet<Field> s = groups.updateGroupsAfterMove(lastMove);
-        System.out.println(s);
-        return s;
+      return groups.updateGroupsAfterMove(lastMove);
     }
 }

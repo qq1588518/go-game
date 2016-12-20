@@ -66,7 +66,7 @@ public class GamePlayTranslator
      */
     public void sendRemovedStones(HashSet<Field> removed)
     {
-        if(removed != null && removed.isEmpty())
+        if(removed != null && !removed.isEmpty())
         {
             StringBuilder message = new StringBuilder("REMOVED ");
             for (Field field : removed)

@@ -69,22 +69,16 @@ public class StoneGroupSet
             }
         }
         
-        System.out.println(ngroups);
         
         for (StoneGroup stoneGroup : ngroups)
         {
             if (stoneGroup.checkLiberties() == 0)
             {
-                System.out.println("brak oddechów");
-                System.out.println(stoneGroup);
                 removed.addAll(stoneGroup.getFields());
                 stoneGroup.setEmpty();
                 groups.remove(stoneGroup);
             }
         }
-      //  System.out.println(groups);
-      //  System.out.println(neigbours);
-        System.out.println(removed);
         
         return removed;
     }
@@ -133,11 +127,6 @@ public class StoneGroupSet
                 if (g != null) ngroups.add(g);              
             }
         }
-        System.out.println("wszystkie grupy");
-        System.out.println(groups);
-        
-        System.out.println("sąsiedzi są w grupach");
-        System.out.println(ngroups);
         
         if(ngroups.isEmpty()) createNewGroup(field);
         else

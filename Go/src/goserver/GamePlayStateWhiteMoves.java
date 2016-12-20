@@ -32,9 +32,10 @@ public class GamePlayStateWhiteMoves implements GamePlayState
           if (gamePlay.getBoard().checkIfMovePossible(Color.WHITE, x, y))
           {
               gamePlay.getBoard().putStone(Color.WHITE, x, y);
+                          
+              HashSet<Field> removed = gamePlay.getBoard().update(new Field(x, y, FieldType.WHITE, gamePlay.getBoard()));    
               gamePlay.getTranslator().confirmMove(p);
               gamePlay.getTranslator().sendOpponentsMove(gamePlay.getBlack(), x, y);
-              HashSet<Field> removed = gamePlay.getBoard().update(new Field(x, y, FieldType.WHITE, gamePlay.getBoard()));
               gamePlay.getTranslator().sendRemovedStones(removed);
               gamePlay.setState(new GamePlayStateBlackMoves(gamePlay));
           }
