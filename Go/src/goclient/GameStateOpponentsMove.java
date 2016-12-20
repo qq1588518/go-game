@@ -35,5 +35,6 @@ public class GameStateOpponentsMove implements GameState
         // TODO Auto-generated method stub
         
     }
+    public void nextTurn() { manager.setState(new GameStateMyMove(manager)); }
     
 }

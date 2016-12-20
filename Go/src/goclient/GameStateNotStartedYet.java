@@ -29,4 +29,6 @@ public class GameStateNotStartedYet implements GameState
         
     }
     
+    
+    public void nextTurn() { }
 }
