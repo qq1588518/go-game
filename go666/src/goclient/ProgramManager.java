@@ -32,9 +32,11 @@ public class ProgramManager
     
     /**
      * @param string
+     * @throws EmptyNameException 
+     * @throws NameContainsSpaceException 
      * 
      */
-    public void sendChosenName(String name) throws ComponentException
+    public void sendChosenName(String name) throws ComponentException, NameContainsSpaceException, EmptyNameException
     {
        System.out.println("manager ok");
         if (translator == null) throw new ComponentException("Translator not set in ProgramManager");

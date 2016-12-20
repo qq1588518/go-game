@@ -1,5 +1,8 @@
 package goserver;
 
+import goclient.EmptyNameException;
+import goclient.NameContainsSpaceException;
+
 public class ClientMessagesTranslator {
 	
 	ClientHandler clientHandler;
@@ -21,8 +24,13 @@ public class ClientMessagesTranslator {
 		}
 		else if(message.startsWith("USERNAME"))
 	    {
-	        if(game.addPlayer(message.replaceFirst("USERNAME ", ""), clientHandler)) response = "NAMEOK";  
-			else response = "NAMETAKEN";
+	        try {
+				if(game.addPlayer(message.replaceFirst("USERNAME ", ""), clientHandler)) response = "NAMEOK";  
+				else response = "NAMETAKEN";
+			} catch (NameContainsSpaceException | EmptyNameException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}	
 		else if(message.startsWith("LIST"))
 		{
@@ -49,6 +57,11 @@ public class ClientMessagesTranslator {
 		        return;
 		    }                                                             
 		    
+		}
+		else if (message.startsWith("SURRENDER ")){
+			message = message.replaceFirst("SURRENDER ", "");
+			clientHandler.getPlayer().surrendered(message);
+			return;
 		}
 		else response = "UNKNOWNCOMMAND";
 	    clientHandler.send(response);

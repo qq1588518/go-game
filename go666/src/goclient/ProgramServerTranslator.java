@@ -19,7 +19,7 @@ public class ProgramServerTranslator extends ServerTranslator
     
     public void processIncommingMessage(String input)
     {       
-        System.out.println("translator ok");
+        
         if(input.startsWith("SETNAME"))
         {
             manager.askForName("Please choose your nickname.");
@@ -65,9 +65,13 @@ public class ProgramServerTranslator extends ServerTranslator
 
     /**
      * @param name
+     * @throws NameContainsSpaceException 
+     * @throws EmptyNameException 
      */
-    public void sendName(String name)
+    public void sendName(String name) throws NameContainsSpaceException, EmptyNameException
     {
+    	if(name.contains(" ")) throw new NameContainsSpaceException(name);
+    	if(name.equals("")) throw new EmptyNameException();
         socket.send("USERNAME " + name);
     }
 

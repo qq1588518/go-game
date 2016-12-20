@@ -46,4 +46,15 @@ public class Player
     {
         translator.sendInvitation(player);
     }
+    
+ public void surrendered(String message){
+    	
+    	gamePlay.surrender(message);
+    	
+    }
+
+	public void passed(String message) {
+		gamePlay.giveTurn(message);
+		
+	}
 }

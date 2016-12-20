@@ -4,6 +4,8 @@
 package goclient;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,7 +18,7 @@ import javax.swing.JTextArea;
  * Side panel of the frame, showing game info
  */
 @SuppressWarnings("serial")
-public class OptionsPanel extends JPanel
+public class OptionsPanel extends JPanel implements ActionListener
 {
     private final GUIMediator parent;
     
@@ -71,13 +73,15 @@ public class OptionsPanel extends JPanel
         passButton.setMinimumSize(buttonSize);
         passButton.setMaximumSize(buttonSize);
         passButton.setPreferredSize(buttonSize);
+        passButton.addActionListener(this);
         
         surrenderButton = new JButton("SURRENDER");
         surrenderButton.setSize(buttonSize);
         surrenderButton.setMinimumSize(buttonSize);
         surrenderButton.setMaximumSize(buttonSize);
         surrenderButton.setPreferredSize(buttonSize);
-
+        surrenderButton.addActionListener(this);
+        
         Box buttonBox = new Box(BoxLayout.LINE_AXIS);
         buttonBox.add(passButton);
         buttonBox.add(Box.createRigidArea(new Dimension(30, 30)));
@@ -100,4 +104,28 @@ public class OptionsPanel extends JPanel
     {
         messageArea.append(input);
     }
+    
+    @Override
+	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getSource().equals(surrenderButton)){
+			try {
+				//parent.getGameManager().getMediator().displayLooseSurrender();
+				parent.getGameManager().sendWhiteFlag();
+				parent.displayLooseSurrender();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(arg0.getSource().equals(passButton)){
+			try {
+				
+				parent.getGameManager().missTurn();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
 }
