@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -235,12 +236,30 @@ public class BoardPanel extends JPanel
      * @param stoneType color of Stone
      * @param p Point with coords on grid
      */
-    public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
+    synchronized public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
     {
         if (x >= 0 && x < n && y >= 0 && y < n) stones.add(new Stone(x, y, stoneType));
         else throw new WrongCoordsException("Chosen coordinates do not exist on board.");
         repaint();
     }
 
+    
+    /**
+     * @param x
+     * @param y
+     * @param field
+     */
+    synchronized public void removeStone(int x, int y, StoneType type)
+    {
+    	Iterator<Stone> iter = stones.iterator();
+    	while (iter.hasNext()) 
+    	{
+    	    Stone s = iter.next();
+
+    	    if ((s.getX() == x) && (s.getY() == y))    iter.remove();
+    	}
+    	
+        repaint();
+    }
 
 }

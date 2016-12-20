@@ -3,6 +3,9 @@
  */
 package goclient;
 
+import java.awt.Point;
+import java.util.Vector;
+
 /**
  * @author mk
  *
@@ -39,6 +42,21 @@ public class GameServerTranslator extends ServerTranslator
         }
         else if (input.startsWith("YOULOOSE")){
         	manager.getMediator().displayWinSurrender();
+        }
+        else if(input.startsWith("REMOVED"))
+        {
+            input = input.replaceFirst("REMOVED ", "");
+
+            String[] pairs = input.split(" ");
+            Vector<Point> points = new Vector<Point>();
+            for (String string : pairs)
+            {
+                String[] pair = string.split(",");
+                Point p = new Point(Integer.valueOf(pair[0].trim()), Integer.valueOf(pair[1].trim()));
+                points.add(p);
+                
+            }
+            manager.removeStones(points);
         }
         else System.out.println("Unknown system command");
     }
