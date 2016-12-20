@@ -69,6 +69,8 @@ public class Server implements Observer
     
     boolean getState() { return listening; }
     
+    public Socket getSocket(){ return socket; }
+    
     Vector<ClientHandler> getClients() { return clients; }
   
   /** This inner class will keep listening to incoming connections,

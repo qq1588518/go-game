@@ -105,18 +105,40 @@ public class ChooseNameDialog extends JDialog implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        String name = field.getText();
-        name.trim();
-        
-        try
-        {
-            parent.getProgramManager().sendChosenName(name);           
-        }
-        catch(ComponentException e1)
-        {
-            System.out.println(e1.getMessage());
-        }
-        this.setVisible(false);
-    }
-     
+    	 {
+    	        String name = "";
+    	        try {
+    	        	name = field.getText();
+    				
+    				try {
+    					name.trim();
+    					
+    					parent.getProgramManager().sendChosenName(name);
+    					this.setVisible(false);
+    				} catch (ComponentException e1) {
+    					// TODO Auto-generated catch block
+    					System.out.println(e1.getMessage());
+    				}   
+    				
+    			} catch (NameContainsSpaceException e2) {
+    				this.setVisible(false);
+    				field.setText("");
+    				parent.displayChooseNameDialog("Wrong name: " + e2.getMessage() + " - name cannot contain space!");
+    			
+    				
+    			} catch (EmptyNameException e2) {
+    				this.setVisible(false);
+    				
+    				parent.displayChooseNameDialog("Name can't be empty!");
+    			}
+    	           
+    	        
+    	       
+    	        
+    	        
+    	                    
+    	        
+    	        
+    	    }
+    } 
 }

@@ -84,5 +84,25 @@ public class GamePlay extends Thread
     {
         return board;
     }
-    
+    public void surrender(String message){
+    	System.out.println("hhyyhyhy " + message);
+    	if(message.equals("BLACK")){
+    		
+    		white.sendMessage("YOULOOSE");
+    	}
+    	else if(message.equals("WHITE")){
+    		
+    		black.sendMessage("YOULOOSE");
+    	}
+    }
+
+
+	public void giveTurn(String message) {
+		if(message.equals("BLACK")){
+			white.sendMessage("ENEMYPASS");
+		}
+		else if(message.equals("WHITE")){
+			black.sendMessage("ENEMYPASS");
+		}
+	}
 }

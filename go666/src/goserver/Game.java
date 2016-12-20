@@ -2,6 +2,9 @@ package goserver;
 
 import java.util.Vector;
 
+import goclient.EmptyNameException;
+import goclient.NameContainsSpaceException;
+
 /**
  * Class handling Players connecting to the Server, pairing them and arranging new GamePlays.
  * @author mk
@@ -41,9 +44,14 @@ public class Game extends Thread
      * @param name String with Player's name
      * @param handler ClientHandler handling the Player
      * @return true if given name is not used and the Player was created, false otherwise.
+     * @throws EmptyNameException 
+     * @throws NameContainsSpaceException 
      */
-    public boolean addPlayer(String name, ClientHandler handler)
+    public boolean addPlayer(String name, ClientHandler handler) throws NameContainsSpaceException, EmptyNameException
     {
+    	
+    	checkIfNameIsGood(name);
+    	
        if (!isNameTaken(name))
        {
            Player p = new Player(name, handler);
@@ -132,5 +140,15 @@ public class Game extends Thread
     {
         players.remove(player);
     }
+    
+    private void checkIfNameIsGood(String name) throws NameContainsSpaceException, EmptyNameException {
+  		if(name.contains(" ")){
+  				throw new NameContainsSpaceException(name);
+  			}
+  		if(name.equals("")){
+  				throw new EmptyNameException();
+  		}
+      
+  	}
     
 }

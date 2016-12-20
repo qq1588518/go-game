@@ -23,7 +23,7 @@ public class GUIMediator extends JFrame
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
     private GameManager gameManager = null;
-    
+    private PlayerList playerList;
     private ChooseNameDialog chooseNameDialog;
     
     
@@ -120,7 +120,7 @@ public class GUIMediator extends JFrame
      */
     public void displayPlayersDialog(String list, String tytul)
     {
-        new PlayerList(list, this, tytul);
+        playerList = new PlayerList(list, this, tytul);
     }
     
     /**
@@ -143,8 +143,11 @@ public class GUIMediator extends JFrame
         {
             String text = "<html>You have been invited to play with " + name + ". Do you agree?</html>";
             int choice = JOptionPane.showConfirmDialog(this, text, "Invitation", JOptionPane.YES_NO_OPTION);
-            if (choice == JOptionPane.YES_OPTION) programManager.respondInvitation(name, true);
-            else programManager.respondInvitation(name, false);            
+            if (choice == JOptionPane.YES_OPTION){
+            	programManager.respondInvitation(name, true);
+            	playerList.setVisible(false);
+            }
+            else programManager.respondInvitation(name, false);       
         }
         catch (ComponentException e)
         {
@@ -170,6 +173,37 @@ public class GUIMediator extends JFrame
         JOptionPane.showMessageDialog(this, message, "Error", ERROR);
     }
 
+    public void displayLooseSurrender() {
+		String text = "<html> You surrendered! You lost :c\nWhat to do next?";
+    	String[] options = new String[2];
+    	options[0] = new String("Nowa gra");
+    	options[1] = new String("Zako�cz");
+    	int choice = JOptionPane.showOptionDialog(this, text, "Looser", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+    	System.out.println(choice);
+    	if (choice == 1){
+    		System.exit(1);
+    	}
+    	else if (choice == 0){
+    		//TODO
+    		//CREATE NEW GAME
+    	}
+		
+	}
+    public void displayWinSurrender(){
+    	String text = "<html> Enemy surrendered! You win!\nWhat to do next?";
+    	String[] options = new String[2];
+    	options[0] = new String("Nowa gra");
+    	options[1] = new String("Zako�cz");
+    	int choice = JOptionPane.showOptionDialog(this, text, "Winner", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+    	System.out.println(choice);
+    	if (choice == 1){
+    		System.exit(1);
+    	}
+    	else if (choice == 0){
+    		//TODO
+    		//CREATE NEW GAME
+    	}
+    }
 
 
 }
