@@ -3,8 +3,10 @@
  */
 package goserver;
 
+import java.util.HashSet;
+
 /**
- * Stores array for go board, handles move possibility and consequences 
+ * Stores an array for go board, handles move possibility and consequences 
  * i.e. updates the board after move.
  * @author mk
  *
@@ -16,7 +18,7 @@ public class Board
     private StoneGroupSet groups;
     
     /**
-     * Constructs a new Board of given size with all fields empty. 
+     * Constructs a new Board of the given size with all the fields empty. 
      * @param n size of the board.
      */
     public Board(int n)
@@ -27,6 +29,7 @@ public class Board
             for (int j = 0; j < n; j++) board[i][j] = new Field(i, j, FieldType.EMPTY, this);
         }
         this.size = n;
+        groups = new StoneGroupSet();
     }
     
     /**
@@ -94,8 +97,10 @@ public class Board
      * Updates Board state after adding a new stone.
      * @param lastMove Field changed after a move
      */
-    public void update(Field lastMove)
+    public HashSet<Field> update(Field lastMove)
     {
-        groups.updateGroupsAfterMove(lastMove);
+        HashSet<Field> s = groups.updateGroupsAfterMove(lastMove);
+        System.out.println(s);
+        return s;
     }
 }

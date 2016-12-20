@@ -3,6 +3,8 @@
  */
 package goserver;
 
+import java.util.HashSet;
+
 /**
  * @author mk
  *
@@ -23,7 +25,8 @@ public class GamePlayTranslator
     
     public void notifyBoth(String message)
     {
-        
+        black.sendMessage(message);
+        white.sendMessage(message);
     }
     
     public void notifyGameStart()
@@ -56,5 +59,23 @@ public class GamePlayTranslator
     public void sendOpponentsMove(Player p, int x, int y)
     {
         p.sendMessage("OPPOMOVE " + String.valueOf(x) + " " + String.valueOf(y));
+    }
+
+    /**
+     * @param removed
+     */
+    public void sendRemovedStones(HashSet<Field> removed)
+    {
+        if(removed != null && removed.isEmpty())
+        {
+            StringBuilder message = new StringBuilder("REMOVED ");
+            for (Field field : removed)
+            {
+                message.append("[" + String.valueOf(field.getX()) + ", " + String.valueOf(field.getY()) + "] ");
+            }
+            
+            notifyBoth(message.toString());          
+        }
+
     } 
 }

@@ -16,7 +16,7 @@ public class StoneGroupSet
     private HashSet<StoneGroup> groups;
     
     /**
-     * 
+     * Constructs a new empty StoneGroupSet.
      */
     public StoneGroupSet()
     {
@@ -24,6 +24,11 @@ public class StoneGroupSet
     }
     
     
+    /**
+     * Finds the StoneGroup to which given Field belongs.
+     * @param field Field to find the group.
+     * @return StoneGroup to which given Field belongs
+     */
     private StoneGroup find(Field field)
     {
         for (StoneGroup group : groups)
@@ -32,17 +37,59 @@ public class StoneGroupSet
         }
         return null;
     }
-
     
     /***
      * 
      * @param lastMove
+     * @return 
      */
-    public void updateGroupsAfterMove(Field lastMove)
+    public HashSet<Field> updateGroupsAfterMove(Field lastMove)
     {
-        
+        addFieldToGroup(lastMove);
+        return handleConsequences(lastMove);
     }
     
+    /**
+     * Handles consequences of a move, i.e. removes groups of stones with no liberties.
+     * @param lastMove Field, which was lastly changed.
+     * @return HashSet of Fields from which stones were removed.
+     */
+    private HashSet<Field> handleConsequences(Field lastMove)
+    {
+        HashSet<Field> neigbours = lastMove.getNeighbours();
+        HashSet<StoneGroup> ngroups = new HashSet<StoneGroup>();
+        HashSet<Field> removed = new HashSet<Field>();
+        
+        for (Field neighbour : neigbours)
+        {
+            if(!neighbour.getType().equals(lastMove.getType()) && !neighbour.getType().equals(FieldType.EMPTY))
+            {
+                StoneGroup g = find(neighbour);
+                if (g != null) ngroups.add(g);              
+            }
+        }
+        
+        System.out.println(ngroups);
+        
+        for (StoneGroup stoneGroup : ngroups)
+        {
+            if (stoneGroup.checkLiberties() == 0)
+            {
+                System.out.println("brak oddechów");
+                System.out.println(stoneGroup);
+                removed.addAll(stoneGroup.getFields());
+                stoneGroup.setEmpty();
+                groups.remove(stoneGroup);
+            }
+        }
+      //  System.out.println(groups);
+      //  System.out.println(neigbours);
+        System.out.println(removed);
+        
+        return removed;
+    }
+
+
     /***
      * Creates a new StoneGroup with given Field and updates set of groups.
      * @param field
@@ -80,12 +127,17 @@ public class StoneGroupSet
 
         for (Field neighbour : neigbours)
         {
-            if(neighbour.getType() == field.getType())
+            if(neighbour.getType().equals(field.getType()))
             {
                 StoneGroup g = find(neighbour);
                 if (g != null) ngroups.add(g);              
             }
         }
+        System.out.println("wszystkie grupy");
+        System.out.println(groups);
+        
+        System.out.println("sąsiedzi są w grupach");
+        System.out.println(ngroups);
         
         if(ngroups.isEmpty()) createNewGroup(field);
         else

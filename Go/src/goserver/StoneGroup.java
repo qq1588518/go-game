@@ -24,11 +24,12 @@ public class StoneGroup implements BoardUpdater
         this.board = field.getBoard();
     }
     
-    
-    
     boolean contains(Field field)
     {
-        if (group.contains(field)) return true;
+        for (Field f : group)
+        {
+           if (f.equals(field)) return true;
+        }
         return false;
     }
     
@@ -84,4 +85,6 @@ public class StoneGroup implements BoardUpdater
             field.setEmpty();
         }
     }
+    
+
 }

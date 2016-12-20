@@ -6,7 +6,7 @@ package goserver;
 import java.util.HashSet;
 
 /**
- * Represents a single field on the go board and handles it state.
+ * Represents a single field on the go board and handles its state.
  * @author mk
  *
  */
@@ -21,7 +21,7 @@ public class Field implements BoardUpdater
     static final int[] ydirections = {0, 1, 0, -1};
     
     /**
-     * Creates a new Field of given coordinates and FieldType on given Board
+     * Creates a new Field of given coordinates and FieldType on the given Board
      * @param x first coordinate of the field.
      * @param y second coordinate of the field.
      * @param type FieldType of the field.
@@ -108,5 +108,52 @@ public class Field implements BoardUpdater
             if (f != null) neigbours.add(f);
         }
         return neigbours;
+    }
+    
+    /**
+     * Return the x coordinate of the Field.
+     * @return x coordinate of the Field.
+     */
+    public int getX()
+    {
+        return x;
+    }
+    
+    /**
+     * Return the y coordinate of the Field.
+     * @return y coordinate of the Field.
+     */
+    public int getY()
+    {
+        return y;
+    }
+
+    @Override
+    public int hashCode() 
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + 20 * x;
+        result = prime * result + y;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) 
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Field other = (Field) obj;
+        if (x != other.x)
+            return false;
+        if (y != other.y)
+            return false;
+        if (!type.equals(other.type))
+            return false;
+        return true;
     }
 }

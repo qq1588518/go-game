@@ -3,6 +3,8 @@
  */
 package goserver;
 
+import java.util.HashSet;
+
 /**
  * @author mk
  *
@@ -32,6 +34,8 @@ public class GamePlayStateWhiteMoves implements GamePlayState
               gamePlay.getBoard().putStone(Color.WHITE, x, y);
               gamePlay.getTranslator().confirmMove(p);
               gamePlay.getTranslator().sendOpponentsMove(gamePlay.getBlack(), x, y);
+              HashSet<Field> removed = gamePlay.getBoard().update(new Field(x, y, FieldType.WHITE, gamePlay.getBoard()));
+              gamePlay.getTranslator().sendRemovedStones(removed);
               gamePlay.setState(new GamePlayStateBlackMoves(gamePlay));
           }
           else gamePlay.getTranslator().rejectMove(p);
