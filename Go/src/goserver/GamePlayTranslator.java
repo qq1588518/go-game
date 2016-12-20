@@ -56,7 +56,7 @@ public class GamePlayTranslator
      * @param x
      * @param y
      */
-    public void sendOpponentsMove(Player p, int x, int y)
+   public void sendOpponentsMove(Player p, int x, int y)
     {
         p.sendMessage("OPPOMOVE " + String.valueOf(x) + " " + String.valueOf(y));
     }
@@ -71,7 +71,7 @@ public class GamePlayTranslator
             StringBuilder message = new StringBuilder("REMOVED ");
             for (Field field : removed)
             {
-                message.append("[" + String.valueOf(field.getX()) + ", " + String.valueOf(field.getY()) + "] ");
+                message.append(String.valueOf(field.getX()) + "," + String.valueOf(field.getY()) + " ");
             }
             
             notifyBoth(message.toString());          
