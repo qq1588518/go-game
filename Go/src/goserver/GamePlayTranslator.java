@@ -55,27 +55,42 @@ public class GamePlayTranslator
      * @param white2
      * @param x
      * @param y
+     * @param removed 
      */
-   public void sendOpponentsMove(Player p, int x, int y)
+   public void sendOpponentsMove(Player p, int x, int y, HashSet<Field> removed)
     {
-        p.sendMessage("OPPOMOVE " + String.valueOf(x) + " " + String.valueOf(y));
+	   StringBuilder message = new StringBuilder("OPPOMOVE ");
+	   message.append(String.valueOf(x) + "," + String.valueOf(y));
+	   message.append(":");
+	   message.append(createRemovedStonesMessage(removed));
+	   p.sendMessage(message.toString());
     }
 
     /**
      * @param removed
      */
-    public void sendRemovedStones(HashSet<Field> removed)
+    private String createRemovedStonesMessage(HashSet<Field> removed)
     {
-        if(removed != null && !removed.isEmpty())
+    	StringBuilder message = new StringBuilder("REMOVED ");
+    	if(removed != null && !removed.isEmpty())
         {
-            StringBuilder message = new StringBuilder("REMOVED ");
+           
             for (Field field : removed)
             {
                 message.append(String.valueOf(field.getX()) + "," + String.valueOf(field.getY()) + " ");
-            }
-            
-            notifyBoth(message.toString());          
+            }       
         }
-
+    	else message.append("NONE");
+    	return message.toString();   
     } 
+    
+    /**
+     * @param removed
+     */
+    public void sendRemovedStones(Player p, HashSet<Field> removed)
+    {
+    	p.sendMessage(createRemovedStonesMessage(removed));
+    } 
+    
+    
 }

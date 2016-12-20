@@ -4,6 +4,7 @@
 package goserver;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Stores an array for go board, handles move possibility and consequences 
@@ -41,7 +42,8 @@ public class Board
      */
     public boolean checkIfMovePossible(Color c, int x, int y)
     {
-        if (board[x][y].getType() == FieldType.EMPTY) return true;
+    	System.out.println(board[x][y].getType());
+    	if (board[x][y].getType().equals(FieldType.EMPTY)) return true;
         return false;
     }
     
@@ -99,6 +101,16 @@ public class Board
      */
     public HashSet<Field> update(Field lastMove)
     {
-      return groups.updateGroupsAfterMove(lastMove);
+       return groups.updateGroupsAfterMove(lastMove);
+    }
+    
+    synchronized public void removeStones(HashSet<Field> fields)
+    {
+    	Iterator<Field> it = fields.iterator();
+    	while (it.hasNext())
+    	{
+    		Field f = it.next();
+    		board[f.getX()][f.getY()].setEmpty();
+    	}
     }
 }

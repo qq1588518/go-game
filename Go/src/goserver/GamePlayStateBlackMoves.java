@@ -27,7 +27,7 @@ public class GamePlayStateBlackMoves implements GamePlayState
      * @see goserver.GamePlayState#makeMove(goserver.Player, int, int)
      */
     @Override
-    public void makeMove(Player p, int x, int y)
+    synchronized public void makeMove(Player p, int x, int y)
     {
        if (p == gamePlay.getBlack())
        {
@@ -37,8 +37,9 @@ public class GamePlayStateBlackMoves implements GamePlayState
               
               HashSet<Field> removed = gamePlay.getBoard().update(new Field(x, y, FieldType.BLACK, gamePlay.getBoard()));    
               gamePlay.getTranslator().confirmMove(p);
-              gamePlay.getTranslator().sendOpponentsMove(gamePlay.getWhite(), x, y);
-              gamePlay.getTranslator().sendRemovedStones(removed);
+              gamePlay.getTranslator().sendOpponentsMove(gamePlay.getWhite(), x, y, removed);
+              gamePlay.getTranslator().sendRemovedStones(gamePlay.getBlack(), removed);
+              gamePlay.getBoard().removeStones(removed);
               gamePlay.setState(new GamePlayStateWhiteMoves(gamePlay));
           }
           else gamePlay.getTranslator().rejectMove(p);
