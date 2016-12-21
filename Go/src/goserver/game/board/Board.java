@@ -5,6 +5,7 @@ package goserver.game.board;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import goserver.game.Color;
 
@@ -19,6 +20,10 @@ public class Board
     private Field[][] board;
     private final int size;
     private StoneGroupSet groups;
+    private Field lastCaptured = null;
+    private Field lastMove = null;
+   // private LinkedList<Field> moves;
+   // private LinkedList<StoneGroup> removed;
     
     /**
      * Constructs a new Board of the given size with all the fields empty. 
@@ -33,31 +38,40 @@ public class Board
         }
         this.size = n;
         groups = new StoneGroupSet();
+     //   moves = new LinkedList<>();
+     //   removed = new LinkedList<>();
     }
     
     /**
-     * TODO: sprawdzanie samobójczych ruchów.
-     * głupi pomysł: skopiować planszę, zrobić ruch, sprawdzić konsekwencje, tj. dodany kamień zniknął.
      * @param c
      * @param x
      * @param y
      */
     public boolean checkIfMovePossible(Color c, int x, int y)
     {
-    	System.out.println(board[x][y].getType());
-    	if (board[x][y].getType().equals(FieldType.EMPTY)) return true;
-        return false;
+    	if (!board[x][y].getType().equals(FieldType.EMPTY)) return false;
+    	/**
+    	 * Ko rule:
+    	 * One may not capture just one stone, if that stone was played on the previous move, 
+    	 * and that move also captured just one stone.
+    	 */      
+    	if (lastCaptured == null) return true;
+    	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
+    	Field f = groups.checkForKo(move);
+    	if (f == null) return true;
+    	if (f.equals(lastMove)) return false;
+    	return true;
     }
     
     /**
-     * Puts a stone of given Colour to given coordinates.
+     * Puts a stone of given Color to given coordinates.
      * @param c Colour of the Stone to put on board.
      * @param x first coordinate of the stone.
      * @param y second coordinate of the stone.
      */
     public void putStone(Color c, int x, int y)
     {
-        board[x][y].setType((c == Color.BLACK) ? FieldType.BLACK : FieldType.WHITE);
+    	board[x][y].setType((c == Color.BLACK) ? FieldType.BLACK : FieldType.WHITE);
     }
     
     /**
@@ -103,16 +117,30 @@ public class Board
      */
     public HashSet<Field> update(Field lastMove)
     {
-       return groups.updateGroupsAfterMove(lastMove);
+    	this.lastMove = lastMove; 
+    	return groups.updateGroupsAfterMove(lastMove);
     }
     
     synchronized public void removeStones(HashSet<Field> fields)
     {
     	Iterator<Field> it = fields.iterator();
-    	while (it.hasNext())
+    	Field f;
+    	
+    	/**
+    	 * Saves last captured stone for ko rule.
+    	 */
+    	if (fields.size() == 1)
     	{
-    		Field f = it.next();
+    		f = it.next();
+    		lastCaptured = f;
     		board[f.getX()][f.getY()].setEmpty();
     	}
+    	else lastCaptured = null;
+    	
+    	while (it.hasNext())
+    	{
+    		f = it.next();
+    		board[f.getX()][f.getY()].setEmpty();
+    	}	
     }
 }

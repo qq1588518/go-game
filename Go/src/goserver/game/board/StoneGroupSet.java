@@ -68,8 +68,6 @@ public class StoneGroupSet
                 if (g != null) ngroups.add(g);              
             }
         }
-        
-        
         for (StoneGroup stoneGroup : ngroups)
         {
             if (stoneGroup.checkLiberties() == 0)
@@ -79,7 +77,6 @@ public class StoneGroupSet
                 groups.remove(stoneGroup);
             }
         }
-        
         return removed;
     }
 
@@ -141,4 +138,38 @@ public class StoneGroupSet
             }
         }
     }
+
+
+	public Field checkForKo(Field move) 
+	{
+        HashSet<Field> neighbours = move.getNeighbours();
+        HashSet<StoneGroup> suspected = new HashSet<StoneGroup>();
+        HashSet<Field> toRemove = new HashSet<Field>();
+       // System.out.println(neighbours);
+        for (Field neighbour : neighbours)
+        {
+            if(!neighbour.getType().equals(move.getType()) && !neighbour.getType().equals(FieldType.EMPTY))
+            {
+                StoneGroup g = find(neighbour);
+                if (g != null && g.getFields().size() == 1) suspected.add(g);              
+            }
+        }
+       //System.out.println(suspected);
+        for (StoneGroup stoneGroup : suspected)
+        {
+            System.out.println(stoneGroup.checkLiberties());
+        	if (stoneGroup.checkLiberties() == 1)
+            {
+                toRemove.addAll(stoneGroup.getFields());
+            }
+        }
+       // System.out.println(toRemove);
+        if(toRemove != null && toRemove.size() == 1)
+        {
+        	Iterator<Field> it = toRemove.iterator();
+        	Field f = it.next();
+        	return f;
+        }
+        return null;
+	}
 }
