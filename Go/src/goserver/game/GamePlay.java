@@ -22,6 +22,7 @@ public class GamePlay extends Thread
     private GamePlayState state;
     private GamePlayTranslator translator; 
     
+    
     /**
      * 
      */

@@ -45,9 +45,15 @@ public class Mouse implements MouseListener
     }
     
     @Override
-    public void mousePressed(MouseEvent e) { }
+    public void mousePressed(MouseEvent e) { 
+    	Point coords = e.getPoint(); 
+    	coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
+    	System.out.println(coords);}
     @Override
-    public void mouseReleased(MouseEvent e) { }
+    public void mouseReleased(MouseEvent e) { Point coords = e.getPoint();
+    	coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
+    	System.out.println(coords);
+    }
     @Override
     public void mouseEntered(MouseEvent e) { }
     @Override

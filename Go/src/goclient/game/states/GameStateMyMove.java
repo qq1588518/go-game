@@ -42,5 +42,11 @@ public class GameStateMyMove implements GameState
     public void reset() { moveSent = false; }
     
     public void nextTurn() { manager.setState(new GameStateOpponentsMove(manager)); }
+
+	@Override
+	public void setTeritory() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

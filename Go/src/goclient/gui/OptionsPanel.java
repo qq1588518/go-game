@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import goclient.game.states.GameStateIAmSettingTerritories;
 import goclient.program.ComponentException;
 
 /**
@@ -28,6 +29,7 @@ public class OptionsPanel extends JPanel implements ActionListener
     private JTextArea statisticsArea;
     private JButton passButton;
     private JButton surrenderButton;
+    private JButton teritoriesButton; //for debug only
     
     public OptionsPanel(GUIMediator parent)
     {
@@ -97,6 +99,17 @@ public class OptionsPanel extends JPanel implements ActionListener
         add(Box.createRigidArea(gap));
         add(statisticsArea);
         add(Box.createRigidArea(gap));
+        
+        /**
+         * TODO: usunąć, jak będzie gotowe
+         */
+        teritoriesButton = new JButton("teritories");
+        teritoriesButton.setSize(buttonSize);
+        teritoriesButton.setMinimumSize(buttonSize);
+        teritoriesButton.setMaximumSize(buttonSize);
+        teritoriesButton.setPreferredSize(buttonSize);
+        teritoriesButton.addActionListener(this);
+        add(teritoriesButton);
     }
 
     /**
@@ -123,6 +136,14 @@ public class OptionsPanel extends JPanel implements ActionListener
 			try {
 				
 				parent.getGameManager().missTurn();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(arg0.getSource().equals(teritoriesButton)){
+			try {
+				parent.getGameManager().setState(new GameStateIAmSettingTerritories(parent.getGameManager()));
 			} catch (ComponentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

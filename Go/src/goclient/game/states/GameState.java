@@ -16,4 +16,5 @@ public interface GameState
      */
     void reset();
     void nextTurn();
+    void setTeritory();
 }
