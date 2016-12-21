@@ -13,6 +13,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import goserver.game.Game;
+import goserver.game.Player;
+
 public class FakeClient 
 {
     
