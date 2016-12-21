@@ -105,4 +105,12 @@ public class GamePlay extends Thread
 			black.sendMessage("ENEMYPASS");
 		}
 	}
+
+
+	public void makeMove(Player player) {
+		// TODO Auto-generated method stub
+		state.makeMove(player);
+	}
+
+
 }

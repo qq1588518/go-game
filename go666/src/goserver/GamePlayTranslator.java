@@ -77,5 +77,12 @@ public class GamePlayTranslator
             notifyBoth(message.toString());          
         }
 
-    } 
+    }
+
+	public void sendOpponentsMove(Player p) {
+		p.sendMessage("OPPOPASS");
+		
+	}
+
+	
 }

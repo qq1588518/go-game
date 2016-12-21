@@ -52,6 +52,10 @@ public class ProgramServerTranslator extends ServerTranslator
         	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");
         	manager.showPlayers(input, "Chosen player is no longer avaliable. Please choose again.");
         }
+        else if(input.startsWith("CHOOSEANOTHEROPPONENT ")){
+        	input = input.replaceFirst("CHOOSEANOTHEROPPONENT " , "");
+        	manager.showPlayers(input, "Enemy don't want to play with you. Better use your holidays free time for your own or choose another player");
+        }
         else System.out.println("Uknown server response");
     }
     
@@ -99,6 +103,10 @@ public class ProgramServerTranslator extends ServerTranslator
         socket.send("INVAGREE " + name);
     }
 
+	public void sendDecline(String name) {
+		// TODO Auto-generated method stub
+		socket.send("INVDECLINE " + name);
+	}
     /**
      * @param socket
      */
@@ -106,6 +114,7 @@ public class ProgramServerTranslator extends ServerTranslator
     {
         this.socket = socket;
     }
+
 
 
 }

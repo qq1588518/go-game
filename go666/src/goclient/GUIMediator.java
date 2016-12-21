@@ -25,6 +25,7 @@ public class GUIMediator extends JFrame
     private GameManager gameManager = null;
     private PlayerList playerList;
     private ChooseNameDialog chooseNameDialog;
+	private int playerListCounter=0;
     
     
     /**
@@ -38,7 +39,7 @@ public class GUIMediator extends JFrame
         this.programManager = programManager;
         
         this.chooseNameDialog = new ChooseNameDialog(this);
-
+        
         initComponents();
     }
 
@@ -120,7 +121,11 @@ public class GUIMediator extends JFrame
      */
     public void displayPlayersDialog(String list, String tytul)
     {
-        playerList = new PlayerList(list, this, tytul);
+    	playerListCounter++;
+    	if(playerListCounter>2){
+    		playerList.setVisible(false);
+    	}
+    	playerList = new PlayerList(list, this, tytul);
     }
     
     /**
@@ -138,7 +143,7 @@ public class GUIMediator extends JFrame
      * @param name
      */
     public void displayInvitation(String name)
-    {
+    {  
         try
         {
             String text = "<html>You have been invited to play with " + name + ". Do you agree?</html>";
@@ -147,7 +152,18 @@ public class GUIMediator extends JFrame
             	programManager.respondInvitation(name, true);
             	playerList.setVisible(false);
             }
-            else programManager.respondInvitation(name, false);       
+            else if(choice == JOptionPane.CLOSED_OPTION){
+        		System.exit(0);
+        	}
+            else{
+            	programManager.respondInvitation(name, false);
+            	
+            	
+            	programManager.askForList();
+            	playerList.setVisible(false);     
+            }
+            
+           
         }
         catch (ComponentException e)
         {
@@ -163,6 +179,13 @@ public class GUIMediator extends JFrame
     {
         gameManager = game;
         gamePanel.getBoardPanel().addMouseListener(new Mouse(this));
+        
+    }
+    
+    public void setOptionPanelButtonsListeners(GameManager game){
+    	gameManager = game;
+    	this.getOptionsPanel().getSurrenderButton().addActionListener(this.getOptionsPanel());
+    	this.getOptionsPanel().getPassButton().addActionListener(this.getOptionsPanel());
     }
 
     /**
@@ -179,13 +202,31 @@ public class GUIMediator extends JFrame
     	options[0] = new String("Nowa gra");
     	options[1] = new String("Zako�cz");
     	int choice = JOptionPane.showOptionDialog(this, text, "Looser", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-    	System.out.println(choice);
+    	
     	if (choice == 1){
     		System.exit(1);
     	}
     	else if (choice == 0){
     		//TODO
     		//CREATE NEW GAME
+    		gamePanel.setVisible(false);
+    		this.remove(gamePanel);
+    		gamePanel = new GamePanel(this);
+    		this.add(gamePanel);
+    		gamePanel.setVisible(true);
+    		gamePanel.repaint();
+    		programManager.endGame();
+    	
+    		try {
+    			playerList.setVisible(true);
+				programManager.askForList();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+    	}
+    	else if(choice == JOptionPane.CLOSED_OPTION){
+    		System.exit(0);
     	}
 		
 	}
@@ -202,6 +243,23 @@ public class GUIMediator extends JFrame
     	else if (choice == 0){
     		//TODO
     		//CREATE NEW GAME
+    		gamePanel.setVisible(false);
+    		this.remove(gamePanel);
+    		gamePanel = new GamePanel(this);
+    		this.add(gamePanel);
+    		gamePanel.setVisible(true);
+    		gamePanel.repaint();
+    		try {
+    			playerList.setVisible(true);
+				programManager.askForList();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    	}
+    	else if(choice == JOptionPane.CLOSED_OPTION){
+    		System.exit(0);
     	}
     }
 

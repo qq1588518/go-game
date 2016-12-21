@@ -37,6 +37,9 @@ public class GameServerTranslator extends ServerTranslator
             String[] coords = input.replaceFirst("OPPOMOVE ", "").split(" ");
             manager.addOpponentsMove(Integer.valueOf(coords[0]), Integer.valueOf(coords[1]));
         }
+        else if (input.startsWith("OPPOPASS")){
+        	manager.addOpponentsMove("PASS");
+        }
         else if (input.startsWith("YOULOOSE")){
         	manager.getMediator().displayWinSurrender();
         }
@@ -59,8 +62,8 @@ public class GameServerTranslator extends ServerTranslator
 
 	public void sendPassMove() {
 		// TODO Auto-generated method stub
-		System.out.println("odebralem pass");
 		
-		socket.send("PASS " + manager.myColor);
+		
+		socket.send("MOVE PASS");
 	}
 }

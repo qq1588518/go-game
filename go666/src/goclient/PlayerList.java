@@ -40,6 +40,7 @@ public class PlayerList extends JDialog implements ActionListener {
 	 */
 	public PlayerList(String playersList, GUIMediator guiMediator, String title){
 		
+		
 		this.setTitle(title);
 		this.setBounds(300, 300, 300, 400);
 		

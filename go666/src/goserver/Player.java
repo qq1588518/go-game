@@ -57,4 +57,9 @@ public class Player
 		gamePlay.giveTurn(message);
 		
 	}
+
+	public void makeMove() {
+		if (gamePlay != null) gamePlay.makeMove(this);
+		
+	}
 }

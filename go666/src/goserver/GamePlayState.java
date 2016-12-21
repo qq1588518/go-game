@@ -16,4 +16,6 @@ public interface GamePlayState
      * @param y
      */
     void makeMove(Player p, int x, int y);
+
+	void makeMove(Player player);
 }

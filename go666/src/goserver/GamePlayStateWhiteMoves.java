@@ -44,4 +44,13 @@ public class GamePlayStateWhiteMoves implements GamePlayState
        else gamePlay.getTranslator().rejectMoveAttempt(p);
     }
     
+    public void makeMove(Player p) {
+		if (p==gamePlay.getWhite()){
+			//gamePlay.getTranslator().confirmMove(p);
+			gamePlay.getTranslator().sendOpponentsMove(gamePlay.getBlack());
+			gamePlay.setState(new GamePlayStateBlackMoves(gamePlay));
+		}
+		
+	}
+    
 }

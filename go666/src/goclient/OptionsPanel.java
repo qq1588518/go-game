@@ -73,14 +73,14 @@ public class OptionsPanel extends JPanel implements ActionListener
         passButton.setMinimumSize(buttonSize);
         passButton.setMaximumSize(buttonSize);
         passButton.setPreferredSize(buttonSize);
-        passButton.addActionListener(this);
+        
         
         surrenderButton = new JButton("SURRENDER");
         surrenderButton.setSize(buttonSize);
         surrenderButton.setMinimumSize(buttonSize);
         surrenderButton.setMaximumSize(buttonSize);
         surrenderButton.setPreferredSize(buttonSize);
-        surrenderButton.addActionListener(this);
+       
         
         Box buttonBox = new Box(BoxLayout.LINE_AXIS);
         buttonBox.add(passButton);
@@ -103,6 +103,14 @@ public class OptionsPanel extends JPanel implements ActionListener
     public void displayMessage(String input)
     {
         messageArea.append(input);
+    }
+    
+    public JButton getPassButton(){
+    	return passButton;
+    }
+    
+    public JButton getSurrenderButton(){
+    	return surrenderButton;
     }
     
     @Override

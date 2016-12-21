@@ -27,6 +27,7 @@ public class ProgramManager
     
     public void showPlayers(String list, String text)
     {
+    	
         parent.getGUI().displayPlayersDialog(list, text);
     }
     
@@ -67,6 +68,7 @@ public class ProgramManager
     {
         game = new GameManager(19, parent.getGUI(), myColor);
         parent.getGUI().setGameComponents(game);
+        parent.getGUI().setOptionPanelButtonsListeners(game);
         GameServerTranslator gt = new GameServerTranslator(game, parent.getSocket());
         parent.getSocket().setTranslator(gt);
         game.setTranslator(gt);
@@ -93,6 +95,13 @@ public class ProgramManager
     public void respondInvitation(String name, boolean accepted) throws ComponentException
     {
         if (translator == null) throw new ComponentException("Translator not set in ProgramManager");
-        if (accepted) translator.sendAgreement(name);
+        if (accepted){
+        	translator.sendAgreement(name);
+        }
+        else{
+        	translator.sendDecline(name);
+        }
     }
+
+	
 }

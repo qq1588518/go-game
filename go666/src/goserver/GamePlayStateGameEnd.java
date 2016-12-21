@@ -19,5 +19,11 @@ public class GamePlayStateGameEnd implements GamePlayState
         // TODO Auto-generated method stub
         
     }
+
+	@Override
+	public void makeMove(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
     
 }
