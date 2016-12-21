@@ -1,6 +1,3 @@
-/**
- * 
- */
 package goserver.game.board;
 
 import java.util.HashSet;
@@ -9,7 +6,6 @@ import java.util.Iterator;
 /**
  * Stores all StoneGroups and handles updating them.
  * @author mk
- *
  */
 public class StoneGroupSet
 {
@@ -22,7 +18,6 @@ public class StoneGroupSet
     {
         groups = new HashSet<StoneGroup>();
     }
-    
     
     /**
      * Finds the StoneGroup to which given Field belongs.
@@ -39,9 +34,10 @@ public class StoneGroupSet
     }
     
     /***
-     * 
-     * @param lastMove
-     * @return 
+     * Updates StoneGroups after a move.
+     * Adds a newly put stone to a group and handles consequences of a move, i.e. captured stones.
+     * @param lastMove Field where a stone was recently put.
+     * @return HashSet of Fields made empty after lastMove.
      */
     public HashSet<Field> updateGroupsAfterMove(Field lastMove)
     {
@@ -79,7 +75,6 @@ public class StoneGroupSet
         }
         return removed;
     }
-
 
     /***
      * Creates a new StoneGroup with given Field and updates set of groups.
@@ -139,13 +134,17 @@ public class StoneGroupSet
         }
     }
 
-
+/**
+ * Checks if the ko rule would be violated if a move to given Field was made.
+ * @param move Field where a player wants to put a stone.
+ * @return Field which would be captured after given move or null if none or more than one field would be captured.
+ */
 	public Field checkForKo(Field move) 
 	{
         HashSet<Field> neighbours = move.getNeighbours();
         HashSet<StoneGroup> suspected = new HashSet<StoneGroup>();
         HashSet<Field> toRemove = new HashSet<Field>();
-       // System.out.println(neighbours);
+        
         for (Field neighbour : neighbours)
         {
             if(!neighbour.getType().equals(move.getType()) && !neighbour.getType().equals(FieldType.EMPTY))
@@ -154,7 +153,6 @@ public class StoneGroupSet
                 if (g != null && g.getFields().size() == 1) suspected.add(g);              
             }
         }
-       //System.out.println(suspected);
         for (StoneGroup stoneGroup : suspected)
         {
             System.out.println(stoneGroup.checkLiberties());
@@ -163,7 +161,7 @@ public class StoneGroupSet
                 toRemove.addAll(stoneGroup.getFields());
             }
         }
-       // System.out.println(toRemove);
+
         if(toRemove != null && toRemove.size() == 1)
         {
         	Iterator<Field> it = toRemove.iterator();
