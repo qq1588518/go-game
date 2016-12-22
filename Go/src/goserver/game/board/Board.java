@@ -22,8 +22,6 @@ public class Board
     private StoneGroupSet groups;
     private Field lastCaptured = null;
     private Field lastMove = null;
-   // private LinkedList<Field> moves;
-   // private LinkedList<StoneGroup> removed;
     
     /**
      * Constructs a new Board of the given size with all the fields empty. 
@@ -38,25 +36,26 @@ public class Board
         }
         this.size = n;
         groups = new StoneGroupSet();
-     //   moves = new LinkedList<>();
-     //   removed = new LinkedList<>();
     }
     
     /**
-     * @param c
-     * @param x
-     * @param y
+     * Checks if move of given color to given coordinates is possible.
+     * Checks if given field is empty, if move wouldn't be suicidal and if ko rule wouldn't be violated.
+     * @param c Color of the Stone player wants to put
+     * @param x first coordinate of the stone.
+     * @param y second coordinate of the stone.
      */
     public boolean checkIfMovePossible(Color c, int x, int y)
     {
     	if (!board[x][y].getType().equals(FieldType.EMPTY)) return false;
+    	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
+    	if (groups.checkIfSuicidal(move)) return false;
     	/**
     	 * Ko rule:
     	 * One may not capture just one stone, if that stone was played on the previous move, 
     	 * and that move also captured just one stone.
     	 */      
     	if (lastCaptured == null) return true;
-    	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
     	Field f = groups.checkForKo(move);
     	if (f == null) return true;
     	if (f.equals(lastMove)) return false;
