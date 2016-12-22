@@ -70,8 +70,6 @@ public class GUIMediator extends JFrame
         setLayout(new BorderLayout());
         add(this.gamePanel, BorderLayout.CENTER);
         add(this.optionsPanel, BorderLayout.WEST);
-        
-   //     this.setVisible(true); 
     }
     
     /**
@@ -158,7 +156,6 @@ public class GUIMediator extends JFrame
         {
             System.out.println(e.getMessage());
         }
-
     }
 
     /**
@@ -169,8 +166,7 @@ public class GUIMediator extends JFrame
         gameManager = game;
         Mouse m = new Mouse(this);
         gamePanel.getBoardPanel().addMouseListener(m);
-        gamePanel.getBoardPanel().addMouseMotionListener(m);
-        gamePanel.getBoardPanel().addKeyListener(new Keyboard(game.getDrawingManager()));
+        //gamePanel.getBoardPanel().addKeyListener(new Keyboard(game.getDrawingManager()));
     }
 
     /**
