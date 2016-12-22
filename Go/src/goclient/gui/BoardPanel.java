@@ -3,7 +3,6 @@
  */
 package goclient.gui;
 
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -196,7 +195,7 @@ public class BoardPanel extends JPanel
     }
     
     /**
-     * Draws symbols of dead stones on board.
+     * Draws symbols of dead stones (red X) on board.
      * @param g Graphics object to handle drawing
      */
     private void drawDeadSigns(Graphics g) 
@@ -230,11 +229,16 @@ public class BoardPanel extends JPanel
 			 drawRectangles(g, new Color(0f,1f,0f,.5f), my);
 			 HashSet<Point> oppo = parent.getGameManager().getDrawingManager().getOpponentsTeritory();
 			 drawRectangles(g, new Color(0f,0f,1f,.5f), oppo);
-
 		} 
 		catch (ComponentException e) { return; }
     }
     
+    /**
+     * Draws field-sized rectangles on points from given HashSet.
+     * @param g Graphics object to handle drawing
+     * @param c Color of rectangles
+     * @param points HashSet of Points of centers of rectangles to draw.
+     */
     private void drawRectangles(Graphics g, Color c, HashSet<Point> points)
     {
 		 Graphics2D g2d = (Graphics2D) g;
@@ -247,7 +251,6 @@ public class BoardPanel extends JPanel
 		}
     }
     	 
-    
     /**
      * Calculates point on grid which is closest to given one. 
      * If given point is further than precision allows, returns null.
@@ -295,7 +298,6 @@ public class BoardPanel extends JPanel
         repaint();
     }
 
-    
     /**
      * @param x
      * @param y

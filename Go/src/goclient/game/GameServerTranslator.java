@@ -4,8 +4,10 @@
 package goclient.game;
 
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.Vector;
 
+import goclient.game.states.GameStateIAmChoosingDead;
 import goclient.program.ServerTranslator;
 import goclient.program.SocketClient;
 
@@ -58,6 +60,18 @@ public class GameServerTranslator extends ServerTranslator
         else if(input.trim().startsWith("REMOVED"))
         {
         	handleRemoved(input.trim());
+        }
+        else if(input.startsWith("CHOOSEDEAD"))
+        {
+        	manager.displayMessage("Use left mouse button to mark stones as dead and right to unmark them.");
+        	manager.getMediator().displayDialog("<HTML>You both passed. The game is stopped. <br> Now it is time to choose which stones are dead. Use left mouse button to mark stones as dead and right to unmark them. <b> When you are ready, press Send proposition button</HTML>");
+        	manager.setState(new GameStateIAmChoosingDead(manager));
+        }
+        else if(input.startsWith("GAMESTOPPED"))
+        {
+        	manager.getMediator().displayDialog("<HTML>You both passed. The game is stopped. <br> Now your opponent is choosing which stones are dead. <br>  When they is ready, it will be your turn. Use left mouse button to mark stones as dead and right to unmark them. <b> When you are ready, press Send proposition button</HTML>");
+        	HashSet<Point> dead = new HashSet<>();
+        	manager.addDeadStoneSuggestion(dead);
         }
         else System.out.println("Unknown system command");
     }

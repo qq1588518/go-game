@@ -10,6 +10,10 @@ public class GameStateIAmChoosingDead implements GameState {
 	private GameManager manager;
 	private Point last = null;
 
+	/**
+	 * Constructs a new State object.
+	 * @param manager GameManager managing the game play.
+	 */
 	public GameStateIAmChoosingDead(GameManager manager)
     {
        this.manager = manager;
@@ -44,6 +48,6 @@ public class GameStateIAmChoosingDead implements GameState {
 	public void reset() { }
 	
 	@Override
-	public void nextTurn() { }
+	public void nextTurn() { manager.setState(new GameStateOpponentsChoosingDead(manager)); }
 
 }

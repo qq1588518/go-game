@@ -1,0 +1,8 @@
+goclient.game
+goclient.game.states
+goclient.gui
+goclient.program
+goserver.game
+goserver.game.board
+goserver.game.states
+goserver.server
