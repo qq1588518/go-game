@@ -31,10 +31,5 @@ public class GameStateIAmSettingTerritories implements GameState
 
 	}
 
-	@Override
-	public void setTeritory() {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -19,6 +20,7 @@ import javax.swing.JPanel;
 import goclient.game.Stone;
 import goclient.game.StoneType;
 import goclient.game.WrongCoordsException;
+import goclient.program.ComponentException;
 
 /**
  * Panel representing game board. Handles drawing board and stones on screen
@@ -86,9 +88,30 @@ public class BoardPanel extends JPanel
         super.paintComponent(g);
         drawBoard(g);
         drawStone(g);
+        drawDeadSigns(g);
     }
     
-    /**
+    private void drawDeadSigns(Graphics g) 
+    {
+    	 Graphics2D g2d = (Graphics2D) g;
+         g2d.setPaint(Color.red);
+             	
+         try {
+			HashSet<Point> dead = parent.getGameManager().getDrawingManager().getDead();
+			
+			for (Point point : dead) 
+			{
+				int signSize = fieldSize/3;
+				 g.drawLine(fields[point.x][point.y].x - signSize, fields[point.x][point.y].y - signSize, 
+						 	fields[point.x][point.y].x + signSize, fields[point.x][point.y].y + signSize);
+				 g.drawLine(fields[point.x][point.y].x + signSize, fields[point.x][point.y].y - signSize, 
+						 	fields[point.x][point.y].x - signSize, fields[point.x][point.y].y + signSize);
+			}
+
+		} catch (ComponentException e) { return; }
+	}
+
+	/**
      * Calculates positions of fields and hoshi on the board.
      */
     private void createBoard()
@@ -190,6 +213,7 @@ public class BoardPanel extends JPanel
                         stoneRadius * 2, stoneRadius * 2, null);
         }  
     }
+        
     
     /**
      * TODO: to powinna chyba być publiczna funkcja, wołana z zewnątrz, 

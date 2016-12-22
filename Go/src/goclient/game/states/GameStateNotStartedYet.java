@@ -31,10 +31,4 @@ public class GameStateNotStartedYet implements GameState
     
     
     public void nextTurn() { }
-
-	@Override
-	public void setTeritory() {
-		// TODO Auto-generated method stub
-		
-	}
 }
