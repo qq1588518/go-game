@@ -45,21 +45,21 @@ public class Board
      * @param x first coordinate of the stone.
      * @param y second coordinate of the stone.
      */
-    public boolean checkIfMovePossible(Color c, int x, int y)
+    public MoveState checkIfMovePossible(Color c, int x, int y)
     {
-    	if (!board[x][y].getType().equals(FieldType.EMPTY)) return false;
+    	if (!board[x][y].getType().equals(FieldType.EMPTY)) return MoveState.REJECTEDNOTEMPTY;
     	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
-    	if (groups.checkIfSuicidal(move)) return false;
+    	if (groups.checkIfSuicidal(move)) return MoveState.REJECTEDSUICIDAL;
     	/**
     	 * Ko rule:
     	 * One may not capture just one stone, if that stone was played on the previous move, 
     	 * and that move also captured just one stone.
     	 */      
-    	if (lastCaptured == null) return true;
+    	if (lastCaptured == null) return MoveState.ACCEPTED;
     	Field f = groups.checkForKo(move);
-    	if (f == null) return true;
-    	if (f.equals(lastMove)) return false;
-    	return true;
+    	if (f == null) return MoveState.ACCEPTED;
+    	if (f.equals(lastMove)) return MoveState.REJECTEDKO;
+    	return MoveState.ACCEPTED;
     }
     
     /**

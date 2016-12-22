@@ -10,6 +10,7 @@ import goserver.game.GamePlay;
 import goserver.game.Player;
 import goserver.game.board.Field;
 import goserver.game.board.FieldType;
+import goserver.game.board.MoveState;
 
 /**
  * @author mk
@@ -37,7 +38,8 @@ public class GamePlayStateBlackMoves implements GamePlayState
     {
        if (p == gamePlay.getBlack())
        {
-          if (gamePlay.getBoard().checkIfMovePossible(Color.BLACK, x, y))
+          MoveState moveState = gamePlay.getBoard().checkIfMovePossible(Color.BLACK, x, y);
+    	   if (moveState.equals(MoveState.ACCEPTED))
           {
               gamePlay.getBoard().putStone(Color.BLACK, x, y);
               
@@ -48,7 +50,7 @@ public class GamePlayStateBlackMoves implements GamePlayState
               gamePlay.getBoard().removeStones(removed);
               gamePlay.setState(new GamePlayStateWhiteMoves(gamePlay));
           }
-          else gamePlay.getTranslator().rejectMove(p);
+    	   else gamePlay.getTranslator().rejectMove(p, moveState);
        }
        else gamePlay.getTranslator().rejectMoveAttempt(p);
     }
