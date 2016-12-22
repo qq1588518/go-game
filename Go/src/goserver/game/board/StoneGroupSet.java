@@ -171,6 +171,11 @@ public class StoneGroupSet
         return null;
 	}
 
+	/**
+	 * Checks if move to given Field would cause immediate capture of added stone.
+	 * @param move Field on which player wants to put a stone.
+	 * @return true if move is suicidal, false otherwise.
+	 */
 	public boolean checkIfSuicidal(Field move) 
 	{
 		if (move.checkLiberties() > 0) return false;
@@ -178,7 +183,6 @@ public class StoneGroupSet
 		HashSet<Field> neighbours = move.getNeighbours();
 		HashSet<StoneGroup> myGroups = new HashSet<>();
 		int myColorNeighbours = 0;
-		int otherColorNeighbours = 0;
         for (Field neighbour : neighbours)
         {
             if(neighbour.getType().equals(move.getType()))
@@ -187,17 +191,13 @@ public class StoneGroupSet
             	StoneGroup g = find(neighbour);
                 if (g != null) myGroups.add(g);              
             }
-            else otherColorNeighbours++;
         }
-        int allMyNeighbours = myColorNeighbours + otherColorNeighbours;
-        
         int myGroupsLiberties = 0;
         for (StoneGroup g : myGroups) 
         {
 			myGroupsLiberties += g.checkLiberties();
 		}
 		if (myGroupsLiberties == myColorNeighbours) return true;
-        
 		return false;
 	}
 }
