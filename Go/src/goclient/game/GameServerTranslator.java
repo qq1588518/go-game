@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Vector;
 
 import goclient.game.states.GameStateIAmChoosingDead;
+import goclient.game.states.GameStateOpponentsChoosingDead;
 import goclient.program.ServerTranslator;
 import goclient.program.SocketClient;
 
@@ -67,11 +68,61 @@ public class GameServerTranslator extends ServerTranslator
         	manager.getMediator().displayDialog("<HTML>You both passed. The game is stopped. <br> Now it is time to choose which stones are dead. Use left mouse button to mark stones as dead and right to unmark them. <b> When you are ready, press Send proposition button</HTML>");
         	manager.setState(new GameStateIAmChoosingDead(manager));
         }
-        else if(input.startsWith("GAMESTOPPED"))
+        else if (input.startsWith("GAMESTOPPED"))
         {
         	manager.getMediator().displayDialog("<HTML>You both passed. The game is stopped. <br> Now your opponent is choosing which stones are dead. <br>  When they is ready, it will be your turn. Use left mouse button to mark stones as dead and right to unmark them. <b> When you are ready, press Send proposition button</HTML>");
+        	manager.setState(new GameStateOpponentsChoosingDead(manager));
+        }
+        else if (input.startsWith("DEADSUGGESTION"))
+        {
+        	manager.displayMessage("Opponent suggested dead stones. Now it is your turn.");
         	HashSet<Point> dead = new HashSet<>();
+        	String[] pairs = input.replaceFirst("DEADSUGGESTION ", "").split(" ");
+        	
+        	for (String pair : pairs) 
+        	{
+                String[] coords = pair.split(",");
+                Point p = new Point(Integer.valueOf(coords[0].trim()), Integer.valueOf(coords[1].trim()));
+                dead.add(p);        
+			}
         	manager.addDeadStoneSuggestion(dead);
+        }
+        else if (input.startsWith("SETTERRITORY"))
+        {
+        	manager.displayMessage("You have reached an agreement on dead stones. Now please suggest territories.");
+        }
+        else if (input.startsWith("TERRITORYSUGGESTION"))
+        {
+        	String[] inputs = input.replaceFirst("TERRITORYSUGGESTION ", "").split(":");
+        	int my = inputs[0].startsWith("YOURS") ? 0 : 1;
+        	String[] myFields = inputs[my].replaceFirst("YOURS", "").trim().split(" ");
+        	String[] theirFields = inputs[my].replaceFirst("THEIR", "").trim().split(" ");
+        	
+        	HashSet<Point> myF = new HashSet<>();
+        	for (String pair : myFields) 
+        	{
+                String[] coords = pair.split(",");
+                Point p = new Point(Integer.valueOf(coords[0].trim()), Integer.valueOf(coords[1].trim()));
+                myF.add(p);     
+			}
+        	HashSet<Point> theirF = new HashSet<>();
+        	for (String pair : theirFields) 
+        	{
+                String[] coords = pair.split(",");
+                Point p = new Point(Integer.valueOf(coords[0].trim()), Integer.valueOf(coords[1].trim()));
+                theirF.add(p);     
+			}
+        	manager.addTerritorySuggestion(myF, theirF);
+        }
+        else if (input.startsWith("RESUMEGAME"))
+        {
+        	manager.displayMessage("Game resumed. Your move.");
+        	manager.getMediator().displayDialog("<HTML>Your opponent requested resumption of the game. Your move. </html>");
+        	manager.resumeGame(manager.myColor);
+        }
+        else if (input.startsWith("THE END"))
+        {
+        	// TODO: zastanowić się, co tutaj, jak już będą statystyki.
         }
         else System.out.println("Unknown system command");
     }

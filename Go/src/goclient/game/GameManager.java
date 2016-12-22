@@ -251,7 +251,22 @@ public class GameManager
 
 	public void addDeadStoneSuggestion(HashSet<Point> dead) 
 	{
-		
+		drawingManager.setDeadStones(dead);
 	}
+	
+	public void addTerritorySuggestion(HashSet<Point> my, HashSet<Point> oppo) 
+	{
+		drawingManager.setMyTeritory(my);
+		drawingManager.setOpponentsTeritory(oppo);
+		state.nextTurn();
+	}
+
+	public void resumeGame(StoneType color) 
+	{
+		drawingManager.removeAllSigns();
+		if (color.equals(myColor)) state = new GameStateMyMove(this);
+		else state = new GameStateOpponentsMove(this);
+	}
+	
 
 }
