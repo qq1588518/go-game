@@ -12,7 +12,10 @@ public class DrawingManager
 	private HashSet<Point> myTeritory;
 	private HashSet<Point> opponentsTeritory;
 	
-	
+	/**
+	 * Constructs a new DrawingManager object 
+	 * @param mediator GUIMediator which handles drawing objects on screen.
+	 */
 	public DrawingManager(GUIMediator mediator)
 	{
 		this.mediator = mediator;
@@ -21,6 +24,11 @@ public class DrawingManager
 		opponentsTeritory = new HashSet<>();
 	}
 	
+	/**
+	 * Chooses appropriate set of Points according to given DrawingMode
+	 * @param mode DrawingMode for choosing set.
+	 * @return chosen HashSet of Points
+	 */
 	private HashSet<Point> chooseSet(DrawingMode mode)
 	{
 		if(mode.equals(DrawingMode.MYTERITORY)) return myTeritory;
@@ -28,6 +36,12 @@ public class DrawingManager
 		else return deadStones;
 	}
 	
+	/**
+	 * Add given coordinates to a set depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
 	public void mark(int x, int y, DrawingMode mode)
 	{
 		HashSet<Point> set = chooseSet(mode);
@@ -40,6 +54,12 @@ public class DrawingManager
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
+	/**
+	 * Remove point of given coordinates from a set chosen depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
 	public void unmark(int x, int y, DrawingMode mode)
 	{
 		HashSet<Point> set = chooseSet(mode);
@@ -47,6 +67,12 @@ public class DrawingManager
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
+	/**
+	 * Add group of points to a set chosen depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
 	public void markGroup(Point first, Point last, DrawingMode mode) 
 	{
 		HashSet<Point> set = chooseSet(mode);
@@ -65,6 +91,12 @@ public class DrawingManager
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
+	/**
+	 * Remove set of given points from a set chosen depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
 	public void unmarkGroup(Point first, Point last, DrawingMode mode) 
 	{
 		HashSet<Point> set;
@@ -119,5 +151,21 @@ public class DrawingManager
 	{
 		return opponentsTeritory;
 	}
+	
+	public void setMyTeritory(HashSet<Point> points)
+	{
+		myTeritory = points;
+	}
+	
+	public void setOpponentsTeritory(HashSet<Point> points)
+	{
+		opponentsTeritory = points;
+	}
+	
+	public void setDeadStones(HashSet<Point> points)
+	{
+		deadStones = points;
+	}
+	
 
 }

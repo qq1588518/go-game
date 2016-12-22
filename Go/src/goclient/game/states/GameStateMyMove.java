@@ -17,10 +17,10 @@ public class GameStateMyMove implements GameState
     private GameManager manager;
     private boolean moveSent = false;
 
-
-    /**
-     * 
-     */
+	/**
+	 * Constructs a new State object.
+	 * @param manager GameManager managing the game play.
+	 */
     public GameStateMyMove(GameManager manager)
     {
        this.manager = manager;
@@ -45,16 +45,16 @@ public class GameStateMyMove implements GameState
     
     public void nextTurn() { manager.setState(new GameStateOpponentsMove(manager)); }
 
+	/**
+	 * Empty method, not used in this state.
+	 */
 	@Override
-	public void remove(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void remove(int x, int y) { }
 
+	/**
+	 * Empty method, not used in this state.
+	 */
 	@Override
-	public void endMove(Point coords, boolean isAdding) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void endMove(Point coords, boolean isAdding) { }
     
 }

@@ -14,7 +14,6 @@ import goclient.gui.DrawingManager;
 import goclient.gui.DrawingMode;
 import goclient.gui.GUIMediator;
 import goclient.program.ComponentException;
-import goserver.game.Color;
 
 public class GameManager
 {
@@ -77,7 +76,6 @@ public class GameManager
         return true;
     }
     
-
     /**
      * @param x
      * @param y
@@ -86,7 +84,6 @@ public class GameManager
     {
         translator.sendMove(x,y);
     }
-    
     
     /**
      * @param gt
@@ -131,7 +128,6 @@ public class GameManager
         {
             mediator.getGamePanel().getBoardPanel().addStone(myColor, waitingX, waitingY);
             board[waitingX][waitingY] = (myColor == StoneType.BLACK) ? Field.BLACK : Field.WHITE;
-           // state = new GameStateOpponentsMove(this);
         }
         catch (WrongCoordsException e)
         {
@@ -180,7 +176,6 @@ public class GameManager
         {
             mediator.getGamePanel().getBoardPanel().addStone(myColor.other(), x, y);
             board[x][y] = (myColor == StoneType.BLACK) ? Field.WHITE : Field.BLACK;
-         //   state = new GameStateMyMove(this);
         }
         catch (WrongCoordsException e)
         {
@@ -253,6 +248,10 @@ public class GameManager
 	{
 		state.remove(x, y);
 	}
-	
+
+	public void addDeadStoneSuggestion(HashSet<Point> dead) 
+	{
+		
+	}
 
 }

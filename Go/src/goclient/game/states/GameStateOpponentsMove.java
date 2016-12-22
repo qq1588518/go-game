@@ -16,9 +16,10 @@ public class GameStateOpponentsMove implements GameState
     
     private GameManager manager;
 
-    /**
-     * 
-     */
+	/**
+	 * Constructs a new State object.
+	 * @param manager GameManager managing the game play.
+	 */
     public GameStateOpponentsMove(GameManager manager)
     {
         this.manager = manager;

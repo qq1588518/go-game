@@ -209,5 +209,10 @@ public class GUIMediator extends JFrame
     	}
     }
 
+	public void displayDialog(String string) 
+	{
+		JOptionPane.showMessageDialog(this, string);
+	}
+
 
 }

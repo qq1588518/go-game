@@ -11,6 +11,10 @@ public class GameStateIAmSettingTerritories implements GameState
 	public DrawingMode  mode = DrawingMode.MYTERITORY;
 	private Point last = null;
 
+	/**
+	 * Constructs a new State object.
+	 * @param manager GameManager managing the game play.
+	 */
 	public GameStateIAmSettingTerritories(GameManager manager) 
 	{
 		this.manager = manager;
@@ -45,7 +49,7 @@ public class GameStateIAmSettingTerritories implements GameState
 	public void reset() { }
 	
 	@Override
-	public void nextTurn() { }
+	public void nextTurn() { manager.setState(new GameStateOpponentsSettingTerritories(manager)); }
 
 
 }
