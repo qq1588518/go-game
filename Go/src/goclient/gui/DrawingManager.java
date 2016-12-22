@@ -88,7 +88,7 @@ public class DrawingManager
 			if (fields != null) set.addAll(fields);
 		} 
 		catch (ComponentException e) { System.out.println(e.getMessage());}
-		mediator.getGamePanel().getBoardPanel().repaint();
+		repaint();
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class DrawingManager
 			if (fields != null) set.removeAll(fields);
 		} 
 		catch (ComponentException e) { System.out.println(e.getMessage());}
-		mediator.getGamePanel().getBoardPanel().repaint();
+		repaint();
 	}
 	
 	public HashSet<Point> getDead()
@@ -126,14 +126,14 @@ public class DrawingManager
 	public void removeAllDeadSigns()
 	{
 		deadStones.removeAll(deadStones);
-		mediator.getGamePanel().getBoardPanel().repaint();
+		repaint();
 	}
 	
 	public void removeAllTeritoriesSigns()
 	{
 		myTeritory.removeAll(myTeritory);
 		opponentsTeritory.removeAll(opponentsTeritory);
-		mediator.getGamePanel().getBoardPanel().repaint();
+		repaint();
 	}
 	
 	public void removeAllSigns()
@@ -155,16 +155,24 @@ public class DrawingManager
 	public void setMyTeritory(HashSet<Point> points)
 	{
 		myTeritory = points;
+		repaint();
 	}
 	
 	public void setOpponentsTeritory(HashSet<Point> points)
 	{
 		opponentsTeritory = points;
+		repaint();
 	}
 	
 	public void setDeadStones(HashSet<Point> points)
 	{
 		deadStones = points;
+		repaint();
+	}
+	
+	private void repaint()
+	{
+		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
 
