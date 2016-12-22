@@ -3,6 +3,8 @@
  */
 package goclient.game.states;
 
+import java.awt.Point;
+
 /**
  * @author mk
  *
@@ -31,4 +33,16 @@ public class GameStateNotStartedYet implements GameState
     
     
     public void nextTurn() { }
+
+	@Override
+	public void remove(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endMove(Point coords, boolean isAdding) {
+		// TODO Auto-generated method stub
+		
+	}
 }

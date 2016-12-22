@@ -29,27 +29,10 @@ public class DrawingManager
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//lastClick = null;
 		}
 		else
 		{
-			if (lastClick == null) lastClick = new Point(x, y);
-			else
-			{
-				int upperLeftX = (lastClick.x > x) ? x : lastClick.x;
-				int upperLeftY = (lastClick.y > y) ? y : lastClick.y;
-				int width = Math.abs(lastClick.x - x);
-				int height = Math.abs(lastClick.y - y);
-				HashSet<Point> fields;
-				try {
-					fields = mediator.getGameManager().getSameColorFieldsInArea(upperLeftX, upperLeftY, width, height);
-					if (fields != null)
-					{
-						deadStones.addAll(fields);
-					}
-				} catch (ComponentException e) { return; }
-				lastClick = null;				
-			}
+			
 		}
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
@@ -57,11 +40,45 @@ public class DrawingManager
 	public void unmarkDead(int x, int y)
 	{
 		deadStones.remove(new Point(x, y));
+		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
 	public HashSet<Point> getDead()
 	{
 		return deadStones;
+	}
+	public void markGroupAsDead(Point first, Point last) 
+	{
+		int upperLeftX = (last.x > first.x) ? first.x : last.x;
+		int upperLeftY = (last.y > first.y) ? first.y : last.y;
+		int width = Math.abs(last.x - first.x);
+		int height = Math.abs(last.y - first.y);
+		HashSet<Point> fields;
+		try {
+			fields = mediator.getGameManager().getSameColorFieldsInArea(upperLeftX, upperLeftY, width, height);
+			if (fields != null)
+			{
+				deadStones.addAll(fields);
+			}
+		} catch (ComponentException e) { return; }
+		mediator.getGamePanel().getBoardPanel().repaint();
+	}
+	
+	public void unmarkDeadGroup(Point first, Point last) 
+	{
+		int upperLeftX = (last.x > first.x) ? first.x : last.x;
+		int upperLeftY = (last.y > first.y) ? first.y : last.y;
+		int width = Math.abs(last.x - first.x);
+		int height = Math.abs(last.y - first.y);
+		HashSet<Point> fields;
+		try {
+			fields = mediator.getGameManager().getSameColorFieldsInArea(upperLeftX, upperLeftY, width, height);
+			if (fields != null)
+			{
+				deadStones.removeAll(fields);
+			}
+		} catch (ComponentException e) { return; }
+		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
 	

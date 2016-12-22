@@ -242,6 +242,11 @@ public class GameManager
 	{
 		return board[x][y].equals(Field.EMPTY) ? true : false;	
 	}
+
+	public void remove(int x, int y) 
+	{
+		state.remove(x, y);
+	}
 	
 
 }

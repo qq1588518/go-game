@@ -167,7 +167,9 @@ public class GUIMediator extends JFrame
     public void setGameComponents(GameManager game)
     {
         gameManager = game;
-        gamePanel.getBoardPanel().addMouseListener(new Mouse(this));
+        Mouse m = new Mouse(this);
+        gamePanel.getBoardPanel().addMouseListener(m);
+        gamePanel.getBoardPanel().addMouseMotionListener(m);
         gamePanel.getBoardPanel().addKeyListener(new Keyboard(game.getDrawingManager()));
     }
 

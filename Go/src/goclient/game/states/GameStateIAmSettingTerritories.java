@@ -1,5 +1,7 @@
 package goclient.game.states;
 
+import java.awt.Point;
+
 import goclient.game.GameManager;
 
 public class GameStateIAmSettingTerritories implements GameState 
@@ -29,6 +31,18 @@ public class GameStateIAmSettingTerritories implements GameState
 	public void nextTurn() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void remove(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endMove(Point coords, boolean isAdding) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
