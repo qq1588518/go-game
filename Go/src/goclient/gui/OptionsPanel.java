@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
+import goclient.game.states.GameStateIAmChoosingDead;
 import goclient.game.states.GameStateIAmSettingTerritories;
 import goclient.program.ComponentException;
 
@@ -208,7 +209,7 @@ public class OptionsPanel extends JPanel implements ActionListener
 		}
 		if(arg0.getSource().equals(teritoriesButton)){
 			try {
-				parent.getGameManager().setState(new GameStateIAmSettingTerritories(parent.getGameManager()));
+				parent.getGameManager().setState(new GameStateIAmChoosingDead(parent.getGameManager()));
 				activateTeritoriesBox();
 			} catch (ComponentException e) {
 				// TODO Auto-generated catch block

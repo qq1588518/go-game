@@ -3,24 +3,27 @@
  */
 package goclient.game;
 
-import java.awt.List;
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.Vector;
 
 import goclient.game.states.GameState;
 import goclient.game.states.GameStateMyMove;
 import goclient.game.states.GameStateOpponentsMove;
+import goclient.gui.DrawingManager;
 import goclient.gui.GUIMediator;
 import goclient.program.ComponentException;
+import goserver.game.Color;
 
 public class GameManager
 {
     private GameState state;
     private GUIMediator mediator;
+    private DrawingManager drawingManager;
     private int boardSize;
-    final StoneType myColor;
+    public final StoneType myColor;
     private GameServerTranslator translator;
-    enum Field {BLACK, WHITE, EMPTY};
+    public enum Field {BLACK, WHITE, EMPTY};
     private Field[][] board;
     private int waitingX;
     private int waitingY;
@@ -33,6 +36,7 @@ public class GameManager
         System.out.println(boardSize);
         this.mediator = mediator;
         this.myColor = myColor;
+        this.drawingManager = new DrawingManager(mediator);
         board = new Field[boardSize][boardSize];
         
         for (int i = 0; i < boardSize; i++)
@@ -83,7 +87,6 @@ public class GameManager
     }
     
     
-    
     /**
      * @param gt
      */
@@ -106,6 +109,16 @@ public class GameManager
     {
         return mediator;
     }
+    
+    public DrawingManager getDrawingManager()
+    {
+    	return drawingManager;
+    }
+    
+    public int getBoardSize()
+    {
+    	return boardSize;
+    }
 
     /**
      * @param string
@@ -116,6 +129,7 @@ public class GameManager
         try
         {
             mediator.getGamePanel().getBoardPanel().addStone(myColor, waitingX, waitingY);
+            board[waitingX][waitingY] = (myColor == StoneType.BLACK) ? Field.BLACK : Field.WHITE;
            // state = new GameStateOpponentsMove(this);
         }
         catch (WrongCoordsException e)
@@ -164,6 +178,7 @@ public class GameManager
         try
         {
             mediator.getGamePanel().getBoardPanel().addStone(myColor.other(), x, y);
+            board[x][y] = (myColor == StoneType.BLACK) ? Field.WHITE : Field.BLACK;
          //   state = new GameStateMyMove(this);
         }
         catch (WrongCoordsException e)
@@ -204,5 +219,29 @@ public class GameManager
         }
         state.nextTurn();
     }
+
+
+	public HashSet<Point> getSameColorFieldsInArea(int upperLeftX, int upperLeftY, int width, int height) 
+	{
+		HashSet<Point> fields = new HashSet<Point>(); 
+		
+		for (int i = 0; i < boardSize; i++)
+        {
+            for (int j = 0; j < boardSize; j++) 
+            {
+            	if (!board[i][j].equals(Field.EMPTY) && 
+            		i >= upperLeftX && i <= upperLeftX + width &&
+            		j >= upperLeftY && j <= upperLeftY + height) fields.add(new Point(i, j));
+            }
+        }
+		
+		return fields;
+	}
+	
+	public boolean isFieldEmpty(int x, int y)
+	{
+		return board[x][y].equals(Field.EMPTY) ? true : false;	
+	}
+	
 
 }

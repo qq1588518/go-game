@@ -48,7 +48,7 @@ public class GUIMediator extends JFrame
     }
 
     /**
-     * Initialises frame components and sets its properties.
+     * Initializes frame components and sets its properties.
      */
     private void initComponents()
     {
@@ -168,6 +168,7 @@ public class GUIMediator extends JFrame
     {
         gameManager = game;
         gamePanel.getBoardPanel().addMouseListener(new Mouse(this));
+        gamePanel.getBoardPanel().addKeyListener(new Keyboard(game.getDrawingManager()));
     }
 
     /**
