@@ -6,6 +6,7 @@ package goserver.game;
 import java.util.HashSet;
 
 import goserver.game.board.Field;
+import goserver.game.board.MoveState;
 
 /**
  * @author mk
@@ -43,9 +44,13 @@ public class GamePlayTranslator
         p.sendMessage("MOVEOK");
     }
 
-    public void rejectMove(Player p)
+    public void rejectMove(Player p, MoveState ms)
     {
-        p.sendMessage("WRONGMOVE");
+        String reason = "";
+        if(ms.equals(MoveState.REJECTEDKO)) reason = "KO";
+        else if(ms.equals(MoveState.REJECTEDSUICIDAL)) reason = "SUICIDAL";
+        else if(ms.equals(MoveState.REJECTEDNOTEMPTY)) reason = "NOTEMPTY";
+    	p.sendMessage("WRONGMOVE " + reason);
     }
 
     public void rejectMoveAttempt(Player p)

@@ -37,7 +37,12 @@ public class GameServerTranslator extends ServerTranslator
         {
             manager.addMyMove();
         }
-        else if (input.startsWith("WRONGMOVE")) manager.resetMyMove();
+        else if (input.startsWith("WRONGMOVE"))
+        {
+        	String[] inputs = input.split(" ");
+        	if (inputs.length > 1) manager.resetMyMove(inputs[1]);
+        	else manager.resetMyMove(null);
+        }
         else if (input.startsWith("OPPOMOVE"))
         {
         	String[] inputs = input.split(":");

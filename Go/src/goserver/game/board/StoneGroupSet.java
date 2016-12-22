@@ -1,5 +1,6 @@
 package goserver.game.board;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -155,7 +156,6 @@ public class StoneGroupSet
         }
         for (StoneGroup stoneGroup : suspected)
         {
-            System.out.println(stoneGroup.checkLiberties());
         	if (stoneGroup.checkLiberties() == 1)
             {
                 toRemove.addAll(stoneGroup.getFields());
@@ -182,7 +182,10 @@ public class StoneGroupSet
 		
 		HashSet<Field> neighbours = move.getNeighbours();
 		HashSet<StoneGroup> myGroups = new HashSet<>();
+		HashMap<StoneGroup, Integer> opponentsGroups = new HashMap<>();
 		int myColorNeighbours = 0;
+		int otherColorNeighbours = 0;
+		
         for (Field neighbour : neighbours)
         {
             if(neighbour.getType().equals(move.getType()))
@@ -191,13 +194,24 @@ public class StoneGroupSet
             	StoneGroup g = find(neighbour);
                 if (g != null) myGroups.add(g);              
             }
+            else if (!neighbour.getType().equals(FieldType.EMPTY))
+            {
+            	StoneGroup g = find(neighbour);
+            	if (opponentsGroups.containsKey(g)) opponentsGroups.put(g, opponentsGroups.get(g) + 1);
+                if (g != null) opponentsGroups.put(g, 1); 
+            }
         }
         int myGroupsLiberties = 0;
-        for (StoneGroup g : myGroups) 
-        {
-			myGroupsLiberties += g.checkLiberties();
+        for (StoneGroup g : myGroups) myGroupsLiberties += g.checkLiberties();
+		if (myGroupsLiberties == myColorNeighbours)
+		{
+			//int oppoGroupsLiberties = 0;
+			for (StoneGroup oppoGroup : opponentsGroups.keySet()) 
+			{
+				if (oppoGroup.checkLiberties() <= opponentsGroups.get(oppoGroup)) return false;
+			}
+			return true;
 		}
-		if (myGroupsLiberties == myColorNeighbours) return true;
 		return false;
 	}
 }

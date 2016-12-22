@@ -138,9 +138,18 @@ public class GameManager
     /**
      * 
      */
-    public void resetMyMove()
+    public void resetMyMove(String reason)
     {
-        displayMessage("Your move to [" + String.valueOf(waitingX) + ", " + String.valueOf(waitingY) + "] was incorrect. Please try again");
+    	String explanation = "";
+    	StringBuilder message = new StringBuilder();
+    	
+    	message.append("Your move to [" + String.valueOf(waitingX) + ", " + String.valueOf(waitingY) + "] was incorrect because ");
+    	if(reason.contains("SUICIDAL")) explanation = "it was suicidal. ";
+    	else if(reason.contains("KO")) explanation = "of the KO rule. ";
+    	else if(reason.contains("NOT EMPTY")) explanation = "the field was already occupied. ";
+    	message.append(explanation);
+    	message.append("Please try again.\n");
+    	displayMessage(message.toString());
         waitingX = -1;
         waitingY = -1;
         state.reset();
