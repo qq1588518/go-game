@@ -3,11 +3,13 @@
  */
 package goclient.gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashSet;
@@ -95,7 +97,8 @@ public class BoardPanel extends JPanel
     {
     	 Graphics2D g2d = (Graphics2D) g;
          g2d.setPaint(Color.red);
-             	
+         Stroke s = g2d.getStroke();
+         g2d.setStroke(new BasicStroke(3));
          try {
 			HashSet<Point> dead = parent.getGameManager().getDrawingManager().getDead();
 			
@@ -109,6 +112,8 @@ public class BoardPanel extends JPanel
 			}
 
 		} catch (ComponentException e) { return; }
+         
+         g2d.setStroke(s);
 	}
 
 	/**
