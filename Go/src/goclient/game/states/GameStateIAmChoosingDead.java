@@ -3,6 +3,7 @@ package goclient.game.states;
 import java.awt.Point;
 
 import goclient.game.GameManager;
+import goclient.gui.DrawingMode;
 
 public class GameStateIAmChoosingDead implements GameState {
 
@@ -17,36 +18,32 @@ public class GameStateIAmChoosingDead implements GameState {
 	@Override
 	public void makeMove(int x, int y) 
 	{
-		manager.getDrawingManager().markAsDead(x, y);
+		manager.getDrawingManager().mark(x, y, DrawingMode.DEAD);
 		last = new Point(x,y);
 	}
 	
 	@Override
 	public void remove(int x, int y) 
 	{
-		manager.getDrawingManager().unmarkDead(x, y);
+		manager.getDrawingManager().unmark(x, y, DrawingMode.DEAD);
 		last = new Point(x,y);
 	}
-
-	
-	@Override
-	public void reset() { }
-	
-	@Override
-	public void nextTurn() { }
 
 	@Override
 	public void endMove(Point coords, boolean isAdding)
 	{
 		if (last != null) 
 		{
-			if (isAdding) manager.getDrawingManager().markGroupAsDead(last, coords);
-			else  manager.getDrawingManager().unmarkDeadGroup(last, coords);
+			if (isAdding) manager.getDrawingManager().markGroup(last, coords, DrawingMode.DEAD);
+			else  manager.getDrawingManager().unmarkGroup(last, coords, DrawingMode.DEAD);
 		}
 		last = null;
 	}
 
-
-
+	@Override
+	public void reset() { }
+	
+	@Override
+	public void nextTurn() { }
 
 }

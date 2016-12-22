@@ -144,6 +144,7 @@ public class OptionsPanel extends JPanel implements ActionListener
         teritoriesBox.setAlignmentX(CENTER_ALIGNMENT);
         add(teritoriesBox);
         
+      
         
         /**
          * TODO: usunąć, jak będzie gotowe
@@ -209,7 +210,7 @@ public class OptionsPanel extends JPanel implements ActionListener
 		}
 		if(arg0.getSource().equals(teritoriesButton)){
 			try {
-				parent.getGameManager().setState(new GameStateIAmChoosingDead(parent.getGameManager()));
+				parent.getGameManager().setState(new GameStateIAmSettingTerritories(parent.getGameManager()));
 				activateTeritoriesBox();
 			} catch (ComponentException e) {
 				// TODO Auto-generated catch block

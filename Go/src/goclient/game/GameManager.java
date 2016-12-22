@@ -11,6 +11,7 @@ import goclient.game.states.GameState;
 import goclient.game.states.GameStateMyMove;
 import goclient.game.states.GameStateOpponentsMove;
 import goclient.gui.DrawingManager;
+import goclient.gui.DrawingMode;
 import goclient.gui.GUIMediator;
 import goclient.program.ComponentException;
 import goserver.game.Color;
@@ -220,8 +221,13 @@ public class GameManager
         state.nextTurn();
     }
 
-
-	public HashSet<Point> getSameColorFieldsInArea(int upperLeftX, int upperLeftY, int width, int height) 
+    private boolean isAppropriate(int x, int y, DrawingMode mode)
+    {
+    	if (mode.equals(DrawingMode.DEAD))  return !board[x][y].equals(Field.EMPTY);
+    	else  return board[x][y].equals(Field.EMPTY);
+    }
+    
+	public HashSet<Point> getAppropriateFieldsInArea(int upperLeftX, int upperLeftY, int width, int height, DrawingMode mode) 
 	{
 		HashSet<Point> fields = new HashSet<Point>(); 
 		
@@ -229,7 +235,7 @@ public class GameManager
         {
             for (int j = 0; j < boardSize; j++) 
             {
-            	if (!board[i][j].equals(Field.EMPTY) && 
+            	if (isAppropriate(i, j, mode) && 
             		i >= upperLeftX && i <= upperLeftX + width &&
             		j >= upperLeftY && j <= upperLeftY + height) fields.add(new Point(i, j));
             }
@@ -238,9 +244,9 @@ public class GameManager
 		return fields;
 	}
 	
-	public boolean isFieldEmpty(int x, int y)
+	public boolean isFieldTypeAppropriate(int x, int y, DrawingMode mode)
 	{
-		return board[x][y].equals(Field.EMPTY) ? true : false;	
+		return isAppropriate(x, y, mode);
 	}
 
 	public void remove(int x, int y) 

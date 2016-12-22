@@ -1,3 +1,3 @@
 package goclient.gui;
 
-public enum DrawingMode {GROUPMODE, SINGLEMODE};
+public enum DrawingMode {DEAD, MYTERITORY, OPPONENTSTERITORY};

@@ -14,7 +14,7 @@ import goclient.program.ComponentException;
  * @author mk
  *
  */
-public class Mouse implements MouseListener, MouseMotionListener
+public class Mouse implements MouseListener
 {
     private GUIMediator parent;
     
@@ -36,7 +36,6 @@ public class Mouse implements MouseListener, MouseMotionListener
            coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
            if (coords != null) try
            {
-        	   System.out.println(coords); 
         	   parent.getGameManager().makeMove(coords.x, coords.y);
            }
            catch (ComponentException e1)
@@ -58,12 +57,6 @@ public class Mouse implements MouseListener, MouseMotionListener
        }
     }
     
-    @Override
-	public void mouseDragged(MouseEvent e) 
-    { 
-    	
-    	
-    }
     
     @Override
     public void mousePressed(MouseEvent e) { 
@@ -73,7 +66,6 @@ public class Mouse implements MouseListener, MouseMotionListener
              coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
              if (coords != null) try
              {
-          	   System.out.println(coords); 
           	   parent.getGameManager().makeMove(coords.x, coords.y);
              }
              catch (ComponentException e1)
@@ -115,11 +107,4 @@ public class Mouse implements MouseListener, MouseMotionListener
     @Override
     public void mouseExited(MouseEvent e) { }
 
-	
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	} 
 }

@@ -7,39 +7,82 @@ import goclient.program.ComponentException;
 
 public class DrawingManager 
 {
-	DrawingMode mode = DrawingMode.SINGLEMODE;
 	private GUIMediator mediator;
 	private HashSet<Point> deadStones;
-	private Point lastClick;
+	private HashSet<Point> myTeritory;
+	private HashSet<Point> opponentsTeritory;
+	
 	
 	public DrawingManager(GUIMediator mediator)
 	{
 		this.mediator = mediator;
 		deadStones = new HashSet<>();
+		myTeritory = new HashSet<>();
+		opponentsTeritory = new HashSet<>();
 	}
-	public void changeMode(DrawingMode mode) { this.mode = mode; }
 	
-	public void markAsDead(int x, int y)
+	private HashSet<Point> chooseSet(DrawingMode mode)
 	{
-		if (mode.equals(DrawingMode.SINGLEMODE)) 
+		if(mode.equals(DrawingMode.MYTERITORY)) return myTeritory;
+		else if (mode.equals(DrawingMode.OPPONENTSTERITORY)) return opponentsTeritory;
+		else return deadStones;
+	}
+	
+	public void mark(int x, int y, DrawingMode mode)
+	{
+		HashSet<Point> set = chooseSet(mode);
+		try 
 		{
-			try {
-				if(!mediator.getGameManager().isFieldEmpty(x, y)) deadStones.add(new Point(x, y));
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else
-		{
-			
-		}
+			if(mediator.getGameManager().isFieldTypeAppropriate(x, y, mode)) set.add(new Point(x, y));
+		} 
+		catch (ComponentException e) { System.out.println(e.getMessage());}
+
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
-	public void unmarkDead(int x, int y)
+	public void unmark(int x, int y, DrawingMode mode)
 	{
-		deadStones.remove(new Point(x, y));
+		HashSet<Point> set = chooseSet(mode);
+		set.remove(new Point(x, y));
+		mediator.getGamePanel().getBoardPanel().repaint();
+	}
+	
+	public void markGroup(Point first, Point last, DrawingMode mode) 
+	{
+		HashSet<Point> set = chooseSet(mode);
+		
+		int upperLeftX = (last.x > first.x) ? first.x : last.x;
+		int upperLeftY = (last.y > first.y) ? first.y : last.y;
+		int width = Math.abs(last.x - first.x);
+		int height = Math.abs(last.y - first.y);
+		HashSet<Point> fields;
+		try 
+		{
+			fields = mediator.getGameManager().getAppropriateFieldsInArea(upperLeftX, upperLeftY, width, height, mode);
+			if (fields != null) set.addAll(fields);
+		} 
+		catch (ComponentException e) { System.out.println(e.getMessage());}
+		mediator.getGamePanel().getBoardPanel().repaint();
+	}
+	
+	public void unmarkGroup(Point first, Point last, DrawingMode mode) 
+	{
+		HashSet<Point> set;
+		if(mode.equals(DrawingMode.MYTERITORY)) set = myTeritory;
+		else if (mode.equals(DrawingMode.OPPONENTSTERITORY)) set = opponentsTeritory;
+		else set = deadStones;
+		
+		int upperLeftX = (last.x > first.x) ? first.x : last.x;
+		int upperLeftY = (last.y > first.y) ? first.y : last.y;
+		int width = Math.abs(last.x - first.x);
+		int height = Math.abs(last.y - first.y);
+		HashSet<Point> fields;
+		try 
+		{
+			fields = mediator.getGameManager().getAppropriateFieldsInArea(upperLeftX, upperLeftY, width, height, mode);
+			if (fields != null) set.removeAll(fields);
+		} 
+		catch (ComponentException e) { System.out.println(e.getMessage());}
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
@@ -47,40 +90,34 @@ public class DrawingManager
 	{
 		return deadStones;
 	}
-	public void markGroupAsDead(Point first, Point last) 
+	
+	public void removeAllDeadSigns()
 	{
-		int upperLeftX = (last.x > first.x) ? first.x : last.x;
-		int upperLeftY = (last.y > first.y) ? first.y : last.y;
-		int width = Math.abs(last.x - first.x);
-		int height = Math.abs(last.y - first.y);
-		HashSet<Point> fields;
-		try {
-			fields = mediator.getGameManager().getSameColorFieldsInArea(upperLeftX, upperLeftY, width, height);
-			if (fields != null)
-			{
-				deadStones.addAll(fields);
-			}
-		} catch (ComponentException e) { return; }
+		deadStones.removeAll(deadStones);
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
-	public void unmarkDeadGroup(Point first, Point last) 
+	public void removeAllTeritoriesSigns()
 	{
-		int upperLeftX = (last.x > first.x) ? first.x : last.x;
-		int upperLeftY = (last.y > first.y) ? first.y : last.y;
-		int width = Math.abs(last.x - first.x);
-		int height = Math.abs(last.y - first.y);
-		HashSet<Point> fields;
-		try {
-			fields = mediator.getGameManager().getSameColorFieldsInArea(upperLeftX, upperLeftY, width, height);
-			if (fields != null)
-			{
-				deadStones.removeAll(fields);
-			}
-		} catch (ComponentException e) { return; }
+		myTeritory.removeAll(myTeritory);
+		opponentsTeritory.removeAll(opponentsTeritory);
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
-	
+	public void removeAllSigns()
+	{
+		removeAllTeritoriesSigns();
+		removeAllDeadSigns();
+	}
+
+	public HashSet<Point> getMyTeritory() 
+	{
+		return myTeritory;
+	}
+
+	public HashSet<Point> getOpponentsTeritory() 
+	{
+		return opponentsTeritory;
+	}
 
 }

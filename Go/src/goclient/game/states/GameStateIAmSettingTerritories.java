@@ -3,11 +3,13 @@ package goclient.game.states;
 import java.awt.Point;
 
 import goclient.game.GameManager;
+import goclient.gui.DrawingMode;
 
 public class GameStateIAmSettingTerritories implements GameState 
 {
-
 	private GameManager manager;
+	public DrawingMode  mode = DrawingMode.MYTERITORY;
+	private Point last = null;
 
 	public GameStateIAmSettingTerritories(GameManager manager) 
 	{
@@ -17,33 +19,33 @@ public class GameStateIAmSettingTerritories implements GameState
 	@Override
 	public void makeMove(int x, int y) 
 	{
-		// TODO Auto-generated method stub
-
+		manager.getDrawingManager().mark(x, y, DrawingMode.MYTERITORY);
+		last = new Point(x,y);
+	}
+	
+	@Override
+	public void remove(int x, int y) 
+	{
+		manager.getDrawingManager().unmark(x, y, DrawingMode.MYTERITORY);
+		last = new Point(x,y);
 	}
 
 	@Override
-	public void reset() {
-		// TODO Auto-generated method stub
-
+	public void endMove(Point coords, boolean isAdding)
+	{
+		if (last != null) 
+		{
+			if (isAdding) manager.getDrawingManager().markGroup(last, coords, DrawingMode.MYTERITORY);
+			else  manager.getDrawingManager().unmarkGroup(last, coords, DrawingMode.MYTERITORY);
+		}
+		last = null;
 	}
 
 	@Override
-	public void nextTurn() {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void reset() { }
+	
 	@Override
-	public void remove(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void endMove(Point coords, boolean isAdding) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void nextTurn() { }
 
 
 }
