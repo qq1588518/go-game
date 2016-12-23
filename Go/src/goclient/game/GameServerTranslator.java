@@ -66,6 +66,13 @@ public class GameServerTranslator extends ServerTranslator
         	manager.setState(new GameStateMyMove(manager));
         	manager.getMediator().getOptionsPanel().activateButtons();
         }
+        else if (input.startsWith("CAPTURED"))
+        {
+        	String[] inputs = input.replaceFirst("CAPTURED ", "").split(":");
+        	int black = Integer.valueOf(inputs[0].replaceFirst("BLACK ", "").trim());
+        	int white = Integer.valueOf(inputs[1].replaceFirst("WHITE ", "").trim());
+        	manager.getMediator().getOptionsPanel().displayStatistics(black, white);
+        }
         else if (input.startsWith("YOULOOSE")){
         	manager.getMediator().manageGameEnd(0, 0, true, true);
         }

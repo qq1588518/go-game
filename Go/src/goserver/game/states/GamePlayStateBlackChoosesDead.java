@@ -49,6 +49,7 @@ public class GamePlayStateBlackChoosesDead implements GamePlayState {
 				gamePlay.setState(new GamePlayStateWhiteSetsTeritory(gamePlay));
 				gamePlay.getTranslator().sendChooseTerritory(gamePlay.getWhite());
 				gamePlay.getTranslator().sendDeadOK(player);
+				gamePlay.getTranslator().sendStats(gamePlay.getBoard().getBlackCaptured(), gamePlay.getBoard().getWhiteCaptured());
 			}
 		}
 	}

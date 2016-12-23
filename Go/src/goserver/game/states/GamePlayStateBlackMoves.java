@@ -48,6 +48,7 @@ public class GamePlayStateBlackMoves implements GamePlayState
               gamePlay.getTranslator().sendOpponentsMove(gamePlay.getWhite(), x, y, removed);
               gamePlay.getTranslator().sendRemovedStones(gamePlay.getBlack(), removed);
               gamePlay.getBoard().removeStones(removed);
+              gamePlay.getTranslator().sendStats(gamePlay.getBoard().getBlackCaptured(), gamePlay.getBoard().getWhiteCaptured());
               gamePlay.setState(new GamePlayStateWhiteMoves(gamePlay));
           }
     	   else gamePlay.getTranslator().rejectMove(p, moveState);

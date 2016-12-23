@@ -210,6 +210,11 @@ public class GamePlayTranslator
 		notifyBoth("THEEND BLACK " + String.valueOf(black) + " : " + "WHITE " + String.valueOf(white));
 	}
 
+	public void sendStats(int black, int white) 
+	{
+		notifyBoth("CAPTURED BLACK " + String.valueOf(black) + " : " + "WHITE " + String.valueOf(white));
+	}
+
     
     
 }
