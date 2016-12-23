@@ -37,6 +37,13 @@ public class DrawingManager
 		else return deadStones;
 	}
 	
+	private HashSet<Point> chooseExcludingSet(DrawingMode mode)
+	{
+		if(mode.equals(DrawingMode.OPPONENTSTERITORY)) return myTeritory;
+		else if (mode.equals(DrawingMode.MYTERITORY)) return opponentsTeritory;
+		else return new HashSet<Point>();
+	}
+	
 	/**
 	 * Add given coordinates to a set depending on current DrawingMode 
 	 * @param x first coordinate of the point.
@@ -46,9 +53,10 @@ public class DrawingManager
 	public void mark(int x, int y, DrawingMode mode)
 	{
 		HashSet<Point> set = chooseSet(mode);
+		HashSet<Point> excludingSet = chooseExcludingSet(mode);
 		try 
 		{
-			if(mediator.getGameManager().isFieldTypeAppropriate(x, y, mode)) set.add(new Point(x, y));
+			if(mediator.getGameManager().isFieldTypeAppropriate(x, y, mode) && !excludingSet.contains(new Point(x, y))) set.add(new Point(x, y));
 		} 
 		catch (ComponentException e) { System.out.println(e.getMessage());}
 
@@ -77,7 +85,7 @@ public class DrawingManager
 	public void markGroup(Point first, Point last, DrawingMode mode) 
 	{
 		HashSet<Point> set = chooseSet(mode);
-		
+		HashSet<Point> excludingSet = chooseExcludingSet(mode);
 		int upperLeftX = (last.x > first.x) ? first.x : last.x;
 		int upperLeftY = (last.y > first.y) ? first.y : last.y;
 		int width = Math.abs(last.x - first.x);
@@ -86,7 +94,13 @@ public class DrawingManager
 		try 
 		{
 			fields = mediator.getGameManager().getAppropriateFieldsInArea(upperLeftX, upperLeftY, width, height, mode);
-			if (fields != null) set.addAll(fields);
+			if (fields != null) 
+			{
+				for (Point point : fields) 
+				{
+					if(!excludingSet.contains(point)) set.add(point);
+				}
+			}
 		} 
 		catch (ComponentException e) { System.out.println(e.getMessage());}
 		repaint();
