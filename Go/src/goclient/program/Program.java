@@ -11,7 +11,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import goclient.gui.GUIMediator;
 
 /**
- * TODO: Jak rozwiązać zmianę translatorów i managerów?
+ * TODO: Jak rozwiązać zmianę translatorów i managerów?
  *
  */
 public class Program
@@ -21,7 +21,7 @@ public class Program
     private GUIMediator frame;
     private SocketClient socket;
     
-    Program()
+    public Program()
     {
         programManager = new ProgramManager(this);
 

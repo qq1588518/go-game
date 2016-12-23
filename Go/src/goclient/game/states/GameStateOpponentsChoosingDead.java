@@ -15,6 +15,16 @@ public class GameStateOpponentsChoosingDead implements GameState
 	{
 		this.manager = manager;
 	}
+	
+	/**
+	 * Changes state to GameStateIAmChoosingDead.
+	 */
+	@Override
+	public void nextTurn() 
+	{
+		manager.getMediator().getOptionsPanel().activateTeritoriesBox();
+		manager.setState(new GameStateIAmChoosingDead(manager)); 
+	}
 
 	/**
 	 * Empty method, not used in this state.
@@ -27,12 +37,6 @@ public class GameStateOpponentsChoosingDead implements GameState
 	 */
 	@Override
 	public void reset() { }
-
-	/**
-	 * Changes state to GameStateIAmChoosingDead.
-	 */
-	@Override
-	public void nextTurn() { manager.setState(new GameStateIAmChoosingDead(manager)); }
 
 	/**
 	 * Empty method, not used in this state.

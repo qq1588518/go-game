@@ -22,4 +22,10 @@ public class GamePlayStateWhiteSetsTeritory implements GamePlayState
         
     }
     
+    public void makeMove(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+    
+    
 }

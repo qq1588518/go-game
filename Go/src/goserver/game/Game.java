@@ -151,5 +151,17 @@ public class Game extends Thread
   		}
       
   	}
+
+	public boolean declineOpponent(String message) {
+		// TODO Auto-generated method stub
+		if (getNotBusyPlayersNames().contains(message))
+        {
+            Player opponent = getPlayerNamed(message);
+            if (opponent == null) return false;
+            opponent.beDeclined();
+            return true;
+        }
+        return false;
+	}
     
 }

@@ -8,7 +8,6 @@ import goclient.gui.DrawingMode;
 public class GameStateIAmSettingTerritories implements GameState 
 {
 	private GameManager manager;
-	public DrawingMode  mode = DrawingMode.MYTERITORY;
 	private Point last = null;
 
 	/**
@@ -23,14 +22,14 @@ public class GameStateIAmSettingTerritories implements GameState
 	@Override
 	public void makeMove(int x, int y) 
 	{
-		manager.getDrawingManager().mark(x, y, DrawingMode.MYTERITORY);
+		manager.getDrawingManager().mark(x, y, manager.getDrawingManager().drawingMode);
 		last = new Point(x,y);
 	}
 	
 	@Override
 	public void remove(int x, int y) 
 	{
-		manager.getDrawingManager().unmark(x, y, DrawingMode.MYTERITORY);
+		manager.getDrawingManager().unmark(x, y, manager.getDrawingManager().drawingMode);
 		last = new Point(x,y);
 	}
 
@@ -39,8 +38,8 @@ public class GameStateIAmSettingTerritories implements GameState
 	{
 		if (last != null) 
 		{
-			if (isAdding) manager.getDrawingManager().markGroup(last, coords, DrawingMode.MYTERITORY);
-			else  manager.getDrawingManager().unmarkGroup(last, coords, DrawingMode.MYTERITORY);
+			if (isAdding) manager.getDrawingManager().markGroup(last, coords, manager.getDrawingManager().drawingMode);
+			else  manager.getDrawingManager().unmarkGroup(last, coords, manager.getDrawingManager().drawingMode);
 		}
 		last = null;
 	}
@@ -49,7 +48,11 @@ public class GameStateIAmSettingTerritories implements GameState
 	public void reset() { }
 	
 	@Override
-	public void nextTurn() { manager.setState(new GameStateOpponentsSettingTerritories(manager)); }
+	public void nextTurn() 
+	{ 
+		manager.getMediator().getOptionsPanel().disactivateTeritoriesBox(false);
+		manager.setState(new GameStateOpponentsSettingTerritories(manager)); 
+	}
 
 
 }

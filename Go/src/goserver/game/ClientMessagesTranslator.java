@@ -49,14 +49,23 @@ public class ClientMessagesTranslator {
 		    if (game.chooseOpponent(message, clientHandler.getPlayer())) return;
 		    else response = "CHOOSEOPPONENTAGAIN " + getList();
 		}
+		else if (message.startsWith("INVDECLINE")){
+			message = message.replaceFirst("INVDECLINE ", "");
+			if(game.declineOpponent(message)) return;
+			else response = "CHOOSEOPPONENTAGAIN " + getList();
+			
+		}
 		else if (message.startsWith("MOVE"))
 		{
 		    String[] coords = message.replaceFirst("MOVE ", "").split(" ");
-		    if (coords.length >= 2)
+		    if (coords.length == 2)
 		    {
 		        clientHandler.getPlayer().makeMove(Integer.valueOf(coords[0]),Integer.valueOf(coords[1]));
 		        return;
-		    }                                                             
+		    } 
+		    else if (coords[0].equals("PASS")){
+		    	clientHandler.getPlayer().makeMove();
+		    }
 		    
 		}
 		else if (message.startsWith("SURRENDER ")){
@@ -79,6 +88,8 @@ public class ClientMessagesTranslator {
 	    
 	    return b.toString();
 	}
+	
+	
 
     /**
      * Sends invitation from given name, using players clientHandler method.
@@ -97,5 +108,10 @@ public class ClientMessagesTranslator {
     {
         clientHandler.send(message);
     }
+
+	public void sendDeclination() {
+		// TODO Auto-generated method stub
+		clientHandler.send("DECLINED");
+	}
 
 }

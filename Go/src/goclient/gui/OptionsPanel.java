@@ -9,8 +9,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
@@ -35,6 +37,9 @@ public class OptionsPanel extends JPanel implements ActionListener
     private JButton sendProposisionButton;
     private JButton requestResumingButton;
     private JButton acceptProposisionButton;
+    private JRadioButton myTerritoryRB;
+    private JRadioButton theirTerritoryRB;
+    private ButtonGroup radioButtons;
     
     
     private JButton teritoriesButton; //for debug only
@@ -53,6 +58,7 @@ public class OptionsPanel extends JPanel implements ActionListener
         Dimension panelSize = new Dimension(300, 300);
         Dimension gap = new Dimension(300, 15);
         Dimension textAreaSize = new Dimension(280, 150);
+        Dimension statisticsAreaSize = new Dimension(280, 100);
         Dimension buttonSize = new Dimension(120, 30);
         
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -66,21 +72,20 @@ public class OptionsPanel extends JPanel implements ActionListener
         messageArea.setVisible(true);
         
         messageArea.setSize(textAreaSize);
-        messageArea.setMinimumSize(textAreaSize);
-        //messageArea.setMaximumSize(textAreaSize);
-        //messageArea.setPreferredSize(textAreaSize);
+       // messageArea.setMinimumSize(textAreaSize);
         messageArea.setAlignmentX(CENTER_ALIGNMENT);
         messageArea.setLineWrap(true);
         scroll = new JScrollPane(messageArea);
+        scroll.setMaximumSize(textAreaSize);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         statisticsArea = new JTextArea();
         statisticsArea.setEditable(false);
         statisticsArea.setVisible(true);
-        statisticsArea.setSize(textAreaSize);
-        statisticsArea.setMinimumSize(textAreaSize);
-        statisticsArea.setMaximumSize(textAreaSize);
-        statisticsArea.setPreferredSize(textAreaSize);
+        statisticsArea.setSize(statisticsAreaSize);
+        statisticsArea.setMinimumSize(statisticsAreaSize);
+        statisticsArea.setMaximumSize(statisticsAreaSize);
+        statisticsArea.setPreferredSize(statisticsAreaSize);
         statisticsArea.setAlignmentX(CENTER_ALIGNMENT);
         
         passButton = new JButton("PASS");
@@ -102,13 +107,13 @@ public class OptionsPanel extends JPanel implements ActionListener
         buttonBox.add(Box.createRigidArea(new Dimension(20, 15)));
         buttonBox.add(surrenderButton);
 
-        //add(Box.createVerticalGlue());
         add(Box.createRigidArea(gap));
         add(scroll);
         add(Box.createRigidArea(gap));
         add(buttonBox);
         add(Box.createRigidArea(gap));
         add(statisticsArea);
+        add(Box.createRigidArea(gap));
         
         sendProposisionButton = new JButton("Send proposition");
         acceptProposisionButton = new JButton("Accept proposition");
@@ -136,26 +141,39 @@ public class OptionsPanel extends JPanel implements ActionListener
         requestResumingButton.addActionListener(this);
         requestResumingButton.setEnabled(false);
         
+        radioButtons = new ButtonGroup();
+        myTerritoryRB = new JRadioButton("my territory", true);
+        myTerritoryRB.setEnabled(false);
+        myTerritoryRB.setMinimumSize(buttonSize);
+        theirTerritoryRB = new JRadioButton("opponent's territory", false);
+        theirTerritoryRB.setMinimumSize(buttonSize);
+        radioButtons.add(myTerritoryRB);
+        radioButtons.add(theirTerritoryRB);
+    	
+    	theirTerritoryRB.setEnabled(false);
+        
+        myTerritoryRB.addActionListener(this);
         
         Box teritoriesBox = new Box(BoxLayout.PAGE_AXIS);
         teritoriesBox.add(sendProposisionButton);
         teritoriesBox.add(acceptProposisionButton);
         teritoriesBox.add(requestResumingButton);
+        teritoriesBox.add(Box.createRigidArea(new Dimension(10, 10)));
+        teritoriesBox.add(myTerritoryRB);
+        teritoriesBox.add(theirTerritoryRB);
         teritoriesBox.setAlignmentX(CENTER_ALIGNMENT);
         add(teritoriesBox);
-        
-      
-        
-        /**
-         * TODO: usunąć, jak będzie gotowe
-         */
-        teritoriesButton = new JButton("teritories");
-        teritoriesButton.setSize(buttonSize);
-        teritoriesButton.setMinimumSize(buttonSize);
-        teritoriesButton.setMaximumSize(buttonSize);
-        teritoriesButton.setPreferredSize(buttonSize);
-        teritoriesButton.addActionListener(this);
-        add(teritoriesButton);
+
+//        /**
+//         * TODO: usunąć, jak będzie gotowe
+//         */
+//        teritoriesButton = new JButton("teritories");
+//        teritoriesButton.setSize(buttonSize);
+//        teritoriesButton.setMinimumSize(buttonSize);
+//        teritoriesButton.setMaximumSize(buttonSize);
+//        teritoriesButton.setPreferredSize(buttonSize);
+//        teritoriesButton.addActionListener(this);
+//        add(teritoriesButton);
     }
 
     /**
@@ -176,12 +194,33 @@ public class OptionsPanel extends JPanel implements ActionListener
     	sendProposisionButton.setEnabled(true);
     	acceptProposisionButton.setEnabled(true);
     	requestResumingButton.setEnabled(true);
+    	myTerritoryRB.setEnabled(true);
+    	theirTerritoryRB.setEnabled(true);
+    }
+    
+    /**
+     * Disactivates box
+     * @param withResume true if "Resume game" button should also get disactivated.
+     */
+    public void disactivateTeritoriesBox(boolean withResume)
+    {
+    	sendProposisionButton.setEnabled(false);
+    	acceptProposisionButton.setEnabled(false);
+    	myTerritoryRB.setEnabled(false);
+    	theirTerritoryRB.setEnabled(false);
+    	if(withResume) requestResumingButton.setEnabled(false);
     }
     
     public void activateButtons()
     {
     	surrenderButton.setEnabled(true);
     	passButton.setEnabled(true);
+    }
+    
+    public void disactivateButtons()
+    {
+    	surrenderButton.setEnabled(false);
+    	passButton.setEnabled(false);
     }
     
     /**
@@ -208,14 +247,40 @@ public class OptionsPanel extends JPanel implements ActionListener
 				e.printStackTrace();
 			}
 		}
-		if(arg0.getSource().equals(teritoriesButton)){
-			try {
+		if(arg0.getSource().equals(teritoriesButton))
+		{
+			try 
+			{
 				parent.getGameManager().setState(new GameStateIAmSettingTerritories(parent.getGameManager()));
 				activateTeritoriesBox();
+			} catch (ComponentException e) { e.printStackTrace(); }
+		}
+		if(arg0.getSource().equals(sendProposisionButton))
+		{
+			try {
+				parent.getGameManager().sendProposition();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(arg0.getSource().equals(myTerritoryRB))
+		{
+			try {
+				if (myTerritoryRB.isSelected()) parent.getGameManager().getDrawingManager().drawingMode = DrawingMode.MYTERITORY;
+				else parent.getGameManager().getDrawingManager().drawingMode = DrawingMode.OPPONENTSTERITORY;
 			} catch (ComponentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
+    
+    public JButton getPassButton(){
+    	return passButton;
+    }
+    
+    public JButton getSurrenderButton(){
+    	return surrenderButton;
+}
 }

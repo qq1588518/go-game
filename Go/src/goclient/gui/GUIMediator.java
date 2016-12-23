@@ -169,6 +169,12 @@ public class GUIMediator extends JFrame
         //gamePanel.getBoardPanel().addKeyListener(new Keyboard(game.getDrawingManager()));
     }
 
+    public void setOptionPanelButtonsListeners(GameManager game){
+    	gameManager = game;
+    	this.getOptionsPanel().getSurrenderButton().addActionListener(this.getOptionsPanel());
+    	this.getOptionsPanel().getPassButton().addActionListener(this.getOptionsPanel());
+    }
+    
     /**
      * @param message
      */
@@ -180,34 +186,66 @@ public class GUIMediator extends JFrame
     public void displayLooseSurrender() {
 		String text = "<html> You surrendered! You lost :c\nWhat to do next?";
     	String[] options = new String[2];
-    	options[0] = new String("Nowa gra");
-    	options[1] = new String("Zako�cz");
+    	options[0] = new String("New game");
+    	options[1] = new String("End game");
     	int choice = JOptionPane.showOptionDialog(this, text, "Looser", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
     	System.out.println(choice);
     	if (choice == 1){
     		System.exit(1);
     	}
     	else if (choice == 0){
-    		//TODO
-    		//CREATE NEW GAME
+    		gamePanel.setVisible(false);
+    		this.remove(gamePanel);
+    		gamePanel = new GamePanel(this);
+    		this.add(gamePanel);
+    		gamePanel.setVisible(true);
+    		gamePanel.repaint();
+    		programManager.endGame();
+    	
+    		try {
+    			playerList.setVisible(true);
+				programManager.askForList();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+    	}
+    	else if(choice == JOptionPane.CLOSED_OPTION){
+    		System.exit(0);
     	}
 		
 	}
     public void displayWinSurrender(){
     	String text = "<html> Enemy surrendered! You win!\nWhat to do next?";
     	String[] options = new String[2];
-    	options[0] = new String("Nowa gra");
-    	options[1] = new String("Zako�cz");
+    	options[0] = new String("New game");
+    	options[1] = new String("End game");
     	int choice = JOptionPane.showOptionDialog(this, text, "Winner", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
     	System.out.println(choice);
     	if (choice == 1){
     		System.exit(1);
     	}
     	else if (choice == 0){
-    		//TODO
-    		//CREATE NEW GAME
+    		gamePanel.setVisible(false);
+    		this.remove(gamePanel);
+    		gamePanel = new GamePanel(this);
+    		this.add(gamePanel);
+    		gamePanel.setVisible(true);
+    		gamePanel.repaint();
+    		try {
+    			playerList.setVisible(true);
+				programManager.askForList();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    	}
+    	else if(choice == JOptionPane.CLOSED_OPTION){
+    		System.exit(0);
     	}
     }
+
 
 	public void displayDialog(String string) 
 	{

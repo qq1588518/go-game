@@ -39,7 +39,7 @@ public class BoardPanel extends JPanel
     private Vector<Stone> stones;
     
     private BufferedImage blackStone;
-    private BufferedImage whiteStone;
+	private BufferedImage whiteStone;
     
     
     /**
@@ -114,7 +114,7 @@ public class BoardPanel extends JPanel
         hoshi[8] = new Point((int)fields[n/2][n/2].getX(), (int)fields[n/2][n/2].getY());
         
         stoneRadius = fieldSize / 2;
-    }
+}
    
     /**
      * Paints board and stones
@@ -176,7 +176,7 @@ public class BoardPanel extends JPanel
         {
             g.fillOval(point.x - radius, point.y - radius, 2 * radius, 2 * radius);
         } 
-    }
+}
 
     /**
      * Draw images representing Stones on board
@@ -284,19 +284,19 @@ public class BoardPanel extends JPanel
         if (deltaX > precision || deltaY > precision) return null;
     
         return new Point(gridXrounded, gridYrounded);
-    }
-        
-    /**
-     * Adds a new Stone to Vector of Stones to draw on board.
-     * @param stoneType color of Stone
-     * @param p Point with coords on grid
-     */
-    synchronized public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
-    {
-        if (x >= 0 && x < n && y >= 0 && y < n) stones.add(new Stone(x, y, stoneType));
-        else throw new WrongCoordsException("Chosen coordinates do not exist on board.");
-        repaint();
-    }
+}
+    
+    /**    
+    * Adds a new Stone to Vector of Stones to draw on board.
+    * @param stoneType color of Stone
+    * @param p Point with coords on grid
+    */
+   synchronized public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
+   {
+       if (x >= 0 && x < n && y >= 0 && y < n) stones.add(new Stone(x, y, stoneType));
+       else throw new WrongCoordsException("Chosen coordinates do not exist on board.");
+       repaint();
+}
 
     /**
      * @param x
@@ -314,6 +314,6 @@ public class BoardPanel extends JPanel
     	}
     	
         repaint();
-    }
+}
 
 }

@@ -22,4 +22,9 @@ public class GamePlayStateBlackSetsTeritory implements GamePlayState
         
     }
     
+    public void makeMove(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
+    
 }

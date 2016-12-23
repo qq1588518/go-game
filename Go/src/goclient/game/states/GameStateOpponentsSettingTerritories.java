@@ -28,7 +28,11 @@ public class GameStateOpponentsSettingTerritories implements GameState
 	 * Changes state to GameStateIAmSettingTerritories.
 	 */
 	@Override
-	public void nextTurn() { manager.setState(new GameStateIAmSettingTerritories(manager)); }
+	public void nextTurn() 
+	{ 
+		manager.getMediator().getOptionsPanel().activateTeritoriesBox();
+		manager.setState(new GameStateIAmSettingTerritories(manager)); 
+	}
 
 	/**
 	 * Empty method, not used in this state.
