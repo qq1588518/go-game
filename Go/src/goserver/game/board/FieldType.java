@@ -4,9 +4,7 @@
 package goserver.game.board;
 
 /**
- * 
- * @author mk
- *
+ * Enum for types of the field on the board.
  */
 public enum FieldType
 {

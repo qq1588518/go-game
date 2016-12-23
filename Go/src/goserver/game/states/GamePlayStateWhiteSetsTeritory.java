@@ -3,15 +3,12 @@
  */
 package goserver.game.states;
 
-import java.awt.Paint;
 import java.awt.Point;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import goserver.game.Color;
 import goserver.game.GamePlay;
 import goserver.game.Player;
-import goserver.game.board.Field;
 
 /**
  * @author mk

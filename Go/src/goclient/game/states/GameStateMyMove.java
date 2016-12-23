@@ -9,7 +9,7 @@ import goclient.game.GameManager;
 
 /**
  * @author mk
- *
+ * State when you can make move. Part of the State design pattern.
  */
 public class GameStateMyMove implements GameState
 {
@@ -69,10 +69,12 @@ public class GameStateMyMove implements GameState
 	 */
 	@Override
 	public void endMove(Point coords, boolean isAdding) { }
-
+	/**
+	 * Empty method, not used in this state.
+	 */
 	@Override
 	public void sendProposal() {
-		// TODO Auto-generated method stub
+		
 		
 	}
     

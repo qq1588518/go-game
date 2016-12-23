@@ -9,7 +9,7 @@ import goclient.game.GameManager;
 
 /**
  * @author mk
- *
+ * Game state when your opponent makes move. Part of the State design pattern.
  */
 public class GameStateOpponentsMove implements GameState
 {

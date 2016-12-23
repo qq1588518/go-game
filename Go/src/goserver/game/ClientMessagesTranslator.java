@@ -4,19 +4,29 @@ import goclient.program.EmptyNameException;
 import goclient.program.NameContainsSpaceException;
 import goserver.server.ClientHandler;
 
-public class ClientMessagesTranslator {
-	
+/**
+ * Handles incoming messages from client and prepares and sends outgoing messages.
+ */	
+public class ClientMessagesTranslator 
+{
 	ClientHandler clientHandler;
 	private Game game;
 
-	
+	/**
+	 * Constructs a new ClientMessagesTranslator for given ClientHandler.
+	 * @param clientHandler ClientHandler for which the messages are translated.
+	 */
 	public ClientMessagesTranslator(ClientHandler clientHandler)
 	{
 		this.clientHandler = clientHandler;
 		game = clientHandler.getGame();
 	}
 	
-	public void processIncommingMessage(String message)
+	/**
+	 * Received String message and calls appropriate methods depending on its contents.
+	 * @param message String to translate to methods.
+	 */
+	public void processIncomingMessage(String message)
 	{
 		String response = "";
 		if(message.startsWith("CONNECTION OK"))
@@ -26,13 +36,11 @@ public class ClientMessagesTranslator {
 		}
 		else if(message.startsWith("USERNAME"))
 	    {
-	        try {
+			try 
+			{
 				if(game.addPlayer(message.replaceFirst("USERNAME ", ""), clientHandler)) response = "NAMEOK";  
 				else response = "NAMETAKEN";
-			} catch (NameContainsSpaceException | EmptyNameException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (NameContainsSpaceException | EmptyNameException e) { return; }
 		}	
 		else if(message.startsWith("LIST"))
 		{
@@ -50,11 +58,11 @@ public class ClientMessagesTranslator {
 		    if (game.chooseOpponent(message, clientHandler.getPlayer())) return;
 		    else response = "CHOOSEOPPONENTAGAIN " + getList();
 		}
-		else if (message.startsWith("INVDECLINE")){
+		else if (message.startsWith("INVDECLINE"))
+		{
 			message = message.replaceFirst("INVDECLINE ", "");
-			if(game.declineOpponent(message)) return;
+			if(game.refuseInvitation(message)) return;
 			else response = "CHOOSEOPPONENTAGAIN " + getList();
-			
 		}
 		else if (message.startsWith("MOVE"))
 		{
@@ -64,7 +72,8 @@ public class ClientMessagesTranslator {
 		        clientHandler.getPlayer().makeMove(Integer.valueOf(coords[0]),Integer.valueOf(coords[1]));
 		        return;
 		    } 
-		    else if (coords[0].equals("PASS")){
+		    else if (coords[0].equals("PASS"))
+		    {
 		    	clientHandler.getPlayer().makeMove();
 		    	return;
 		    }
@@ -77,12 +86,12 @@ public class ClientMessagesTranslator {
 		}
 		else if(message.startsWith("DEADSUGGESTION"))
 		{
-			clientHandler.getPlayer().sendSuggestion(message);
+			clientHandler.getPlayer().sendProposal(message);
 			return;
 		}
 		else if(message.startsWith("TERRITORYSUGGESTION"))
 		{
-			clientHandler.getPlayer().sendSuggestion(message);
+			clientHandler.getPlayer().sendProposal(message);
 			return;
 		}
 		else if(message.startsWith("ACCEPT"))
@@ -96,10 +105,18 @@ public class ClientMessagesTranslator {
 			game.deletePlayer(game.getPlayerNamed(message));
 			return;
 		}
+		else if(message.startsWith("RESUME"))
+		{
+			clientHandler.getPlayer().getGamePlay().resumeGame(clientHandler.getPlayer());
+		}
 		else response = "UNKNOWNCOMMAND";
 	    clientHandler.send(response);
 	}
 	
+	/**
+	 * Builds a String from list of non-busy Players on server.
+	 * @return String with Players list.
+	 */
 	private String getList()
 	{
 	    StringBuilder b = new StringBuilder();
@@ -112,8 +129,6 @@ public class ClientMessagesTranslator {
 	    return b.toString();
 	}
 	
-	
-
     /**
      * Sends invitation from given name, using players clientHandler method.
      * @param player String with name of inviting player.
@@ -132,11 +147,17 @@ public class ClientMessagesTranslator {
         clientHandler.send(message);
     }
 
-	public void sendDeclination() 
+    /**
+     * Sends a message which refusal of invitation.
+     */
+	public void sendRefusal() 
 	{
 		clientHandler.send("DECLINED");
 	}
 
+	/**
+	 * Sends a message with agreement to play together.
+	 */
 	public void sendAgreement() 
 	{
 		clientHandler.send("AGREE");

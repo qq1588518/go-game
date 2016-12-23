@@ -27,13 +27,18 @@ public class GameManager
     private Field[][] board;
     private int waitingX;
     private int waitingY;
+   
     /**
-     * 
+     * Creates board, sets fields EMPTY and gives player color.
+     * Checks if move is possible from Client side.
+     * Manages which stones should be painted or removed.
+     * @param boardSize
+     * @param mediator
+     * @param myColor
      */
     public GameManager(int boardSize, GUIMediator mediator, StoneType myColor)
     {
         this.boardSize = boardSize;
-        System.out.println(boardSize);
         this.mediator = mediator;
         this.myColor = myColor;
         this.drawingManager = new DrawingManager(mediator);
@@ -54,6 +59,7 @@ public class GameManager
     }
 
     /**
+     * Allows to show message in GUI window
      * @param input
      */
     public void displayMessage(String input)
@@ -62,9 +68,11 @@ public class GameManager
     }
 
     /**
-     * @param x
-     * @param y
-     * @return
+     * 
+     * Checks if move is possible from client side
+     * @param x - coordx
+     * @param y - coordy
+     * @return true if move is possible, false if not
      */
     public boolean checkIfMovePossible(int x, int y)
     {
@@ -82,6 +90,7 @@ public class GameManager
 }
     
     /**
+     * If coords equals -1, tell translator to send pass move to server
      * @param x
      * @param y
      */
@@ -99,39 +108,57 @@ public class GameManager
         this.translator = gt;
     }
     
+    /**
+     * 
+     * @param state
+     */
     public void setState(GameState state)
     {
         this.state = state;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public GameState getState()
     {
         return state;
     }
-
+    /**
+     * 
+     * @return
+     */
     public GUIMediator getMediator()
     {
         return mediator;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public DrawingManager getDrawingManager()
     {
     	return drawingManager;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public int getBoardSize()
     {
     	return boardSize;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public GameServerTranslator getTranslator()
     {
     	return translator;
     }
 
     /**
-     * @param string
-     * @param string2
+     * Adds move to board panel
      */
     public void addMyMove()
     {
@@ -148,6 +175,7 @@ public class GameManager
     }
 
     /**
+     * Saves move waiting for response from server
      * @param x
      * @param y
      */
@@ -158,7 +186,8 @@ public class GameManager
     }
 
     /**
-     * 
+     * Displayes message of reason, why user could not put stone
+     * @param reason
      */
     public void resetMyMove(String reason)
     {
@@ -178,6 +207,7 @@ public class GameManager
     }
 
     /**
+     * Adds opponent move to user board
      * @param valueOf
      * @param valueOf2
      */
@@ -195,16 +225,27 @@ public class GameManager
         }
     }    
     
+    /**
+     * Tells translator to send information about user surrender
+     * @throws ComponentException
+     */
     public void sendWhiteFlag() throws ComponentException{
     	if (translator == null) throw new ComponentException("Translator not set in ProgramManager");
     	translator.sendSurrender();
     }
 
+    /**
+     * Makes pass move
+     */
 	public void missTurn() 
 	{
 		state.makeMove(-1, -1);
 	}
     
+	/**
+	 * Removes stones with indicated hashset
+	 * @param fields
+	 */
     synchronized public void removeStones(HashSet<Point> fields)
     {
     	for (Point point : fields)
@@ -242,7 +283,11 @@ public class GameManager
 	{
 		return isAppropriate(x, y, mode);
 	}
-
+	/**
+	 * Removes pointed stones
+	 * @param x
+	 * @param y
+	 */
 	public void remove(int x, int y) 
 	{
 		state.remove(x, y);
@@ -266,19 +311,31 @@ public class GameManager
 		drawingManager.removeAllSigns();
 		mediator.getOptionsPanel().disactivateTeritoriesBox(true);
 		if (color.equals(myColor)) state = new GameStateMyMove(this);
-		else state = new GameStateOpponentsMove(this);
+		else
+		{
+			state = new GameStateOpponentsMove(this);
+			translator.sendResume();
+		}
 	}
-
+	/**
+	 * When player is content, he can send proposition to enemy player
+	 */
 	public void sendProposition() 
 	{
 		state.sendProposal();
 	}
-	
+	/**
+	 * Accept proposition
+	 */
 	public void acceptProposition()
 	{
 		translator.sendAcceptance();
 	}
-
+	/**
+	 * Counts which player won game; send it to mediator
+	 * @param black
+	 * @param white
+	 */
 	public void manageResults(double black, double white) 
 	{
 		boolean blackWon = (black > white) ? true : false;

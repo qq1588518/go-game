@@ -133,12 +133,20 @@ public class Board
     	return groups.updateGroupsAfterMove(lastMove);
     }
     
+    /**
+     * Adds points to corresponding Player, when a Stone is removed from given Field
+     * @param f Field from which a Stone is removed
+     */
     private void updateStatistics(Field f)
     {
     	if (f.getType().equals(FieldType.BLACK)) blackCaptured++;
     	else if (f.getType().equals(FieldType.WHITE)) whiteCaptured++;
     }
     
+    /**
+     * Removes stones from Board.
+     * @param fields
+     */
     synchronized public void removeStones(HashSet<Field> fields)
     {
     	Iterator<Field> it = fields.iterator();
@@ -164,6 +172,10 @@ public class Board
     	}	
     }
     
+    /**
+     * Adds points for territories.
+     * @param territories
+     */
     public void setTerritories(HashMap<Point, Color> territories)
     {
     	Set<Point> points = territories.keySet();
@@ -174,21 +186,37 @@ public class Board
 		}
     }
     
+    /**
+     * Returns size of White Territory
+     * @return size of White Territory
+     */
     public int getWhiteTerritory()
     {
     	return whiteTerritory;
     }
     
+    /**
+     * Returns size of Black Territory
+     * @return size of Black Territory
+     */
     public int getBlackTerritory()
     {
     	return blackTerritory;
     }
     
+    /**
+     * Returns number of White Stones captured
+     * @return number of White Stones captured
+     */
     public int getWhiteCaptured()
     {
     	return whiteCaptured;
     }
     
+    /**
+     * Returns number of Black Stones captured
+     * @return number of Black Stones captured
+     */
     public int getBlackCaptured()
     {
     	return blackCaptured;

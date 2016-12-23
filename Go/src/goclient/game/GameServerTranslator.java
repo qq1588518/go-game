@@ -24,13 +24,21 @@ public class GameServerTranslator extends ServerTranslator
     private SocketClient socket;
 
     /**
-     * 
+     * Translate all messages from server connected with gameplay, after game start.
+     * Sends messages to server.
+     * @param manager
+     * @param socket
      */
     public GameServerTranslator(GameManager manager, SocketClient socket) 
     {
        this.manager = manager;
        this.socket = socket;
     }
+    /**
+     * React on messages from server, calls GameManager
+     * @param input
+     *  
+     */
     
     public void processIncommingMessage(String input)
     {
@@ -213,11 +221,16 @@ public class GameServerTranslator extends ServerTranslator
     	socket.send("SURRENDER " + manager.myColor);
     }
 
-
+    
     public void sendPassMove() 
     {
 		socket.send("MOVE PASS");
     }
+    
+    public void sendResume() 
+	{
+		socket.send("RESUME");
+	}
 	
 	private void handleRemoved(String input)
 	{

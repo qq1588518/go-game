@@ -151,6 +151,9 @@ public class DrawingManager
 		repaint();
 	}
 	
+	/**
+	 * removes all signs, made in setting territories and choosing dead stones states
+	 */
 	public void removeAllSigns()
 	{
 		removeAllTeritoriesSigns();

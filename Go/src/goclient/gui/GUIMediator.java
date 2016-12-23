@@ -17,7 +17,8 @@ import goclient.program.ComponentException;
 import goclient.program.ProgramManager;
 
 /**
- * Main frame of the program and also the Mediator between GUI components
+ * Main frame of the program and also the Mediator between GUI components.
+ * Holds all methods to show our GUI components.
  *
  */
 @SuppressWarnings("serial")
@@ -33,6 +34,7 @@ public class GUIMediator extends JFrame
     
     /**
      * Constructs a new GUIMediator frame.
+     * @param programManager parent of GUI Mediator
      */
     public GUIMediator(ProgramManager programManager) 
     {
@@ -100,7 +102,7 @@ public class GUIMediator extends JFrame
     }
     /**
      * 
-     * @return
+     * @return ProgramManager
      */
     public ProgramManager getProgramManager()
     {
@@ -116,9 +118,9 @@ public class GUIMediator extends JFrame
     }
 
     /**
-     * shows list of players
-     * @param list
-     * @param tytul 
+     * Show list of players
+     * @param list - names of players
+     * @param tytul - title of frame, information to user
      */
     public void displayPlayersDialog(String list, String tytul)
     {
@@ -137,7 +139,8 @@ public class GUIMediator extends JFrame
     }
 
     /**
-     * @param name
+     * Displayes invitation from opponent to user, with possibility to agree or decline
+     * @param name of enemy who invited you
      */
     public void displayInvitation(String name)
     {
@@ -167,6 +170,10 @@ public class GUIMediator extends JFrame
         gamePanel.getBoardPanel().addMouseListener(m);
     }
 
+    /**
+     * adds ActionListeners to buttons after game start
+     * @param game
+     */
     public void setOptionPanelButtonsListeners(GameManager game)
     {
     	gameManager = game;
@@ -176,17 +183,29 @@ public class GUIMediator extends JFrame
     
     /**
      * @param message
+     * Shows error dialog
      */
     public void displayError(String message)
     {
         JOptionPane.showMessageDialog(this, message, "Something went wrong...", ERROR);
     }
 
+    /**
+     * Shows message dialog
+     * @param string
+     */
     public void displayDialog(String string) 
 	{
 		JOptionPane.showMessageDialog(this, string);
 	}
-
+    
+    /**
+     * Shows dialog ending the game
+     * @param black - colour of player1
+     * @param white - colour of player2
+     * @param iAmTheWinner - bool holds information who wins
+     * @param wasSurrender - if game was surrendered
+     */
 	public void manageGameEnd(double black, double white, boolean iAmTheWinner, boolean wasSurrender) 
 	{
 		StringBuilder message = new StringBuilder();
@@ -223,13 +242,19 @@ public class GUIMediator extends JFrame
     	else if(choice == JOptionPane.CLOSED_OPTION) System.exit(0);
 	}
 
+	/**
+	 * creates new GamePanel and OptionsPanel if player choose "New Game" option
+	 */
 	public void reset()
 	{
 		gamePanel = new GamePanel(this);
 		optionsPanel = new OptionsPanel(this);
 		repaint();
 	}
-	
+	/**
+	 * 
+	 * @return list of players
+	 */
 	public PlayerList getPlayerList(){
     	return playerList;
     }

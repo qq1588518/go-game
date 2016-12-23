@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2.0">
+  <zoom_level>5</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>505</y>
+      <w>105</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Program.class
+--
+-programManager: ProgramManager
+-translator: ProgramServerTranslator
+-frame: GUIMediator
+-socket: SocketClient
+--
+-init(): void
++getProgramManager(): ProgramManager
++getTranslator():ProgramServerTranslator
++getSocket(): SocketClient()
++getGUI(): GUIMediator
++main(String[] args]: void
+--
+Responsibilities
+Main class initialize Client</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>585</x>
+      <y>185</y>
+      <w>170</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Server Translator&gt;&gt;
+ProgramServerTranslator.class
+--
+-manager: ProgramManager
+-socket: SocketClient
+--
++processIncommingMessage(String input): void
++setManager(ProgramManager manager): void
++sendName(String name): void
++sendOpponent(String oppname): void
++sendListRequest(): void
++sendAgreement(String name): void
++sendDecline(String name): void
++setSocket(SocketClient socket): void
+--
+Translate users reactions and send them to server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>810</x>
+      <y>400</y>
+      <w>105</w>
+      <h>145</h>
+    </coordinates>
+    <panel_attributes>ProgramManager.class
+--
+-parent: Program
+-translator: ProgramServerTranslator
+-game: GameManager
+--
++askForName(String text): void
++showPlayers(String list, String text): void
++sendChosenName(String name): void
++setTranslator(ProgramServerTranslator t): void
++chooseOpponent(String oppname): void
++askForList(): void
++startGame(StoneType myColor): void
++endGame(): void
++invite(String name): void
++respondInvitation(String name, boolean accepted): void
+--
+Manages Client reactions;
+send them to server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>535</x>
+      <y>65</y>
+      <w>105</w>
+      <h>95</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Thread&gt;&gt;
+SocketClient
+--
+-socket: Socket
+-out: PrintWriter
+-in: BufferedReader
+-translator: ServerTranslator
+--
++send(String text)
+--
+Responsibilities
+Creates socket</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>630</x>
+      <y>635</y>
+      <w>105</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;JFrame&gt;&gt;
+GUIMediator
+--
+-programManager: ProgramManager
+-gamePanel: GamePanel
+-optionsPanel: OptionsPanel
+-gameManager: GameManager
+-playerList: PlayerList
+-chooseNameDialog: ChooseNameDialog
+--
+-initComponents(): void
++getGamePanel(): GamePanel
++getOptionsPanel(): OptionsPanel
++getPlayerList(): PlayerList
++getChooseNameDialog: ChooseNameDialog
++getGameManager(): GameManager
++getProgramManager(): ProgramManager
++displayMessage(String input): void
++displayPlayersDialog(String list, String tytul): void
++displayInvitation(String name): void
++setGameComponents(GameManager game): vod
++etOptionPanelButtonsListers(GameManager game): void
++displayError(String message): void
++displayLooseSurrender(): void
++displayWinSurrender(): void
+--
+Responsibilities
+Hold functions displaying 
+parts of GUI</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>840</y>
+      <w>105</w>
+      <h>185</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;JPanel&gt;&gt;
+BoardPanel
+--
+-parent: GUIMediator
+-n: int
+-fieldSize: int
+-stoneRadius: int
+-fields: Point[][]
+-hoshi: Point[]
+-stones: Vector&lt;Stone&gt;
+-blackStone: BufferedImage
+-whiteStone: BufferedImage
+--
++getStones(): Vector&lt;Stone&gt;
+-initComponents()
++paintComponent(Graphics g): void
+-drawDeadSigns(Graphics g): void
+-createBoard(): void
+-drawBoard(Graphics g): void
+-drawStone(Graphics g): void
++pullToGrid(Point p): Point
++addStone(StroneType stoneType, int x, int y): void
++removeStone(int x, int y, StoneType type): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>290</x>
+      <y>605</y>
+      <w>105</w>
+      <h>205</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;JPanel&gt;&gt;
+OptionsPanel
+--
+-parent: GUIMediator
+-scroll: JScrollPane
+-messageArea: JTextArea
+-statisticsArea: JTextArea
+-passButton: JButton
+-surrenderButton: JButton
+-sendProposisionButton: JButton;
+-requestResumingButton: JButton;
+-acceptProposisionButton: JButton;
+-teritoriesButton: JButton
+--
+-initComponents():void
++displayMessage(String input): void
++displayStatistics(String input): void
++activateTeritoriesBox(): void
++activateButtons(): void
++getPassButton(): JButton
++getSurrenderButton(): JButton
++actionPerformed(ActionEvent arg0): void
+--
+Panel contains buttons
+message window
+choose teritories buttons</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>835</y>
+      <w>105</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;JPanel&gt;&gt;
+GamePanel
+--
+-parent: GUIMediator
+-board: BoardPanel
+--
+-initComponents()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>605</x>
+      <y>785</y>
+      <w>35</w>
+      <h>215</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;410.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>555</x>
+      <y>990</y>
+      <w>105</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Mouse
+implements:
+MouseListener
+MouseMotionListener
+--
+-parent: GUIMediator
+--
++mouseClicked(MouseEvent e): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>695</x>
+      <y>1095</y>
+      <w>105</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Keyboard
+implements:
+KeyListener
+--
+-manager: DrawingManager
+--
++keyPressed(KeyEvent e): void
++keyReleased(KeyEvent e): void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>695</x>
+      <y>990</y>
+      <w>105</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>DrawingManager
+--
+-mode: DrawingMode
+-mediator: GUIMediator
+-deadStones: HashSet&lt;Point&gt;
+-lastClick: Point
+--
++changeMode(DrawingMode mode): void
++markAsDead(int x, int y): void
++unmarkDead(int x, int y): void
++getDead(): HashSet&lt;Point&gt;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>845</x>
+      <y>990</y>
+      <w>105</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>ENUM DrawingMode
+--
+GROUPMODE, SINGLEMODE</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>590</y>
+      <w>140</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;JDialog&gt;&gt;
+ChooseNameDialog
+--
+-parent: GUIMediator
+-text: JLabel
+-field: JTextField
+-panel: JPanel
+-button: JButton
+--
++ChooseNameDialog(GUIMediator parent)
+
+-initComponents(): void
++setText(String s): void
++actionPerformed(ActionEvent e): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>990</x>
+      <y>720</y>
+      <w>140</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;JDialog&gt;&gt;
+PlayerList
+implements
+ActionListener
+--
+socket: Socket
+out: PrintWriter
+in: BufferedReader
+-refresh: JButton
+-ok: JButton
+list: JList&lt;String&gt;
+-listScrollPane: JScrollPane
+-parent: GUIMediator
+--
++PlayerList(String playersList, GUIMediator guiMediator, String title): void
++getGuiMediator(): GUIMediator
++actionPerformed(ActionEvent arg0): void
+
+-initComponents(): void
++setText(String s): void
++actionPerformed(ActionEvent e): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>410</x>
+      <y>185</y>
+      <w>170</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Server Translator&gt;&gt;
+GameServerTranslator.class
+--
+-manager: GameManager
+-socket: SocketClient
+--
++sendMove(int x, int y): void
++sendSurrender(): void
++sendPassMove(): void
+-handleRemoved(String input): void
+
+
+--
+Translate users game moves
+and send them to server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>430</x>
+      <y>310</y>
+      <w>130</w>
+      <h>265</h>
+    </coordinates>
+    <panel_attributes>GameManager.class
+--
+-state: GameState
+-mediator: GUIMediator
+-drawingManager: DrawingManager
+-bordSize: int
+-myColor: StoneType
+-translator: GameServerTranslator
+-Field{BLACK, WHITE, EMPTY} enum
+-board: Field[][]
+-waitingX, waitingY: int
+--
++GameManager(int boardsSize, GUIMediator mediator, StoneType myColor)
++makeMove(int x, int y): void
++displayMessage(String input): void
++checkIfMovePossible(int x, int y):void
++sendMove(int x, int y): void
++setTranslator(GameServerTranslator gt): void
++setState(GameState state): void
++getState(): GameState
++getMediator(): GUIMediator
++getDrawingManager(): DrawingManager
++getBoardSize(): int
++addMyMove(): void
++saveWaitingMove(int x, int y): void
++resetMyMove(String reason): void
++addOpponentsMove(Integer x, Integer y): void
++sendWhiteFlag(): void
++addOpponentsMove(String string): void
++removeStones(Vector&lt;Point&gt; fields): void
++getSameColorFieldsInArea(int upperLeftX, int upperLeftY, int width, int height): HashSet&lt;Point&gt;
++isFieldEmpty(int x, int y): boolean
+--
+Hold functions managing gameplay;
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>760</x>
+      <y>400</y>
+      <w>60</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>100.0;10.0;30.0;10.0;30.0;250.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>535</y>
+      <w>60</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;100.0;10.0;100.0;220.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>555</x>
+      <y>315</y>
+      <w>265</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>510.0;240.0;260.0;240.0;260.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>555</x>
+      <y>330</y>
+      <w>110</w>
+      <h>365</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>150.0;710.0;90.0;710.0;90.0;510.0;200.0;510.0;200.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>785</y>
+      <w>45</w>
+      <h>215</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>70.0;410.0;70.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>765</x>
+      <y>1070</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>795</x>
+      <y>1000</y>
+      <w>60</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>685</y>
+      <w>270</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>520.0;80.0;80.0;80.0;80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>730</x>
+      <y>595</y>
+      <w>270</w>
+      <h>115</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>520.0;10.0;110.0;10.0;110.0;210.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>690</x>
+      <y>300</y>
+      <w>130</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>240.0;250.0;10.0;250.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>485</x>
+      <y>60</y>
+      <w>60</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;250.0;10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>635</x>
+      <y>70</y>
+      <w>130</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>100.0;230.0;100.0;200.0;240.0;200.0;240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>370</x>
+      <y>205</y>
+      <w>70</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>120.0;330.0;10.0;330.0;10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>620</y>
+      <w>250</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;280.0;10.0;280.0;110.0;480.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>535</x>
+      <y>660</y>
+      <w>105</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>80.0;400.0;120.0;400.0;120.0;200.0;10.0;200.0;10.0;10.0;190.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>865</y>
+      <w>60</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>290</x>
+      <y>320</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;80.0;280.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>245</x>
+      <y>350</y>
+      <w>90</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>GameState
+--
+makeMove(int x, int y): void
+reset(): void
+nextTurn(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>295</y>
+      <w>75</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>AmChoosingDead</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>275</y>
+      <w>75</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>AmSettingTerritories</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>315</y>
+      <w>75</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>MyMove</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>335</y>
+      <w>75</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>NotStartedYet</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>355</y>
+      <w>100</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>OpponentsChoosingDead</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>375</y>
+      <w>100</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>OpponentsMove</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>115</x>
+      <y>395</y>
+      <w>85</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>OpponetsSettingTeritories</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>280</y>
+      <w>105</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;160.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>295</y>
+      <w>105</w>
+      <h>75</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>320</y>
+      <w>105</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>190</x>
+      <y>340</y>
+      <w>105</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>355</y>
+      <w>85</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;20.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>195</x>
+      <y>355</y>
+      <w>100</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;100.0;180.0;10.0</additional_attributes>
+  </element>
+</diagram>

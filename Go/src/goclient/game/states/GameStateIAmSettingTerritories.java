@@ -3,7 +3,13 @@ package goclient.game.states;
 import java.awt.Point;
 
 import goclient.game.GameManager;
-
+/**
+ * 
+ * @author mk
+ * 
+ * State of game, when you set your teritory. Part of the State design pattern.
+ *
+ */
 public class GameStateIAmSettingTerritories implements GameState 
 {
 	private GameManager manager;

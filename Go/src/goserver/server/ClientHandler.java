@@ -84,7 +84,7 @@ public class ClientHandler extends Observable implements Runnable
             while ((message = reader.readLine()) != null) 
             {
             	System.out.println("Client sent: " + message);
-            	clientMessagesTranslator.processIncommingMessage(message);
+            	clientMessagesTranslator.processIncomingMessage(message);
             }          
         }
         catch (IOException ioe) 

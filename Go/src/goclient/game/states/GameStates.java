@@ -5,7 +5,7 @@ package goclient.game.states;
 
 /**
  * @author mk
- *
+ * enum holding GameStates
  */
 public enum GameStates
 {

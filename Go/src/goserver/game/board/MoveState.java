@@ -4,9 +4,9 @@
 package goserver.game.board;
 
 /**
- * @author mk
- *
+ * Possible states of the move
  */
-public enum MoveState {
+public enum MoveState 
+{
 	ACCEPTED, REJECTEDNOTEMPTY, REJECTEDSUICIDAL, REJECTEDKO
 }

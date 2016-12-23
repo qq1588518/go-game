@@ -11,7 +11,7 @@ import goclient.program.ComponentException;
 
 /**
  * @author mk
- *
+ * Manages mouse buttons. Allows mouse to put stones, mark teritories and uncheck stones.
  */
 public class Mouse implements MouseListener
 {
@@ -97,7 +97,7 @@ public class Mouse implements MouseListener
     		{
     			if (e.getButton() == MouseEvent.BUTTON1) parent.getGameManager().getState().endMove(coords, true);
     			else if (e.getButton() == MouseEvent.BUTTON3) parent.getGameManager().getState().endMove(coords, false);
-			} catch (ComponentException e1) { e1.printStackTrace();	}
+			} catch (ComponentException e1) { System.out.println(e1.getMessage());	}
     	}
 	}
     

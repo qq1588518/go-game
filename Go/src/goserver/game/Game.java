@@ -8,8 +8,6 @@ import goserver.server.ClientHandler;
 
 /**
  * Class handling Players connecting to the Server, pairing them and arranging new GamePlays.
- * @author mk
- *
  */
 public class Game extends Thread
 {
@@ -51,7 +49,7 @@ public class Game extends Thread
     public boolean addPlayer(String name, ClientHandler handler) throws NameContainsSpaceException, EmptyNameException
     {
     	
-    	checkIfNameIsGood(name);
+    	checkNameCorrectness(name);
     	
        if (!isNameTaken(name))
        {
@@ -78,9 +76,9 @@ public class Game extends Thread
     }
    
     /**
-     * 
-     * @param name
-     * @return
+     * Returns the Player with given name.
+     * @param name String with name of wanted Player.
+     * @return Player with given name or null when such Player not found.
      */
     public Player getPlayerNamed(String name)
     {
@@ -95,7 +93,7 @@ public class Game extends Thread
     /**
      * Starts new GamePlay.
      * Checks if opponent with given name exists and is not busy, creates new GamePlay thread with
-     * two given players and sets their states to busy.      * 
+     * two given players and sets their states to busy. 
      * @param name Opponent's name
      * @param player Player requesting new GamePlay
      * @return true if opponent is not busy and new GamePlay is created, false otherwise.
@@ -132,7 +130,6 @@ public class Game extends Thread
         return false;
     }
     
-    
     /**
      * Removes given Player from vector of Players
      * @param player Player to remove
@@ -142,23 +139,31 @@ public class Game extends Thread
         players.remove(player);
     }
     
-    private void checkIfNameIsGood(String name) throws NameContainsSpaceException, EmptyNameException {
-  		if(name.contains(" ")){
-  				throw new NameContainsSpaceException(name);
-  			}
-  		if(name.equals("")){
-  				throw new EmptyNameException();
-  		}
-      
+    /**
+     * Check if given name is in required format. If it is not, throws corresponding exception. 
+     * Otherwise, does nothing.
+     * @param name String for format check.
+     * @throws NameContainsSpaceException if given name contains space characters.
+     * @throws EmptyNameException if given name is empty.
+     */
+    private void checkNameCorrectness(String name) throws NameContainsSpaceException, EmptyNameException 
+    {
+  		if(name.contains(" ")) throw new NameContainsSpaceException(name);
+  		if(name.equals("")) throw new EmptyNameException();
   	}
 
-	public boolean declineOpponent(String message) {
-		// TODO Auto-generated method stub
-		if (getNotBusyPlayersNames().contains(message))
+    /**
+     * Refuses invitation from Player with given name.
+     * @param name String containing name of inviting Player
+     * @return true if inviting Player is still present and can be refused, false if there is no Player with given name on the server.
+     */
+	public boolean refuseInvitation(String name) 
+	{
+		if (getNotBusyPlayersNames().contains(name))
         {
-            Player opponent = getPlayerNamed(message);
+            Player opponent = getPlayerNamed(name);
             if (opponent == null) return false;
-            opponent.beDeclined();
+            opponent.beRefused();
             return true;
         }
         return false;

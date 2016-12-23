@@ -23,7 +23,9 @@ import goclient.program.NameContainsSpaceException;
 
 /**
  * @author mk
- *
+ *	Dialog which is showing at the start of program
+ *	Ask user for his nickname.
+ * 	Displays warnings about wrong name - if contains space or is empty
  */
 
 @SuppressWarnings("serial")
@@ -120,7 +122,6 @@ public class ChooseNameDialog extends JDialog implements ActionListener
     					parent.getProgramManager().sendChosenName(name);
     					this.setVisible(false);
     				} catch (ComponentException e1) {
-    					// TODO Auto-generated catch block
     					System.out.println(e1.getMessage());
     				}   
     				
@@ -135,13 +136,6 @@ public class ChooseNameDialog extends JDialog implements ActionListener
     				
     				parent.displayChooseNameDialog("Name can't be empty!");
     			}
-    	           
-    	        
-    	       
-    	        
-    	        
-    	                    
-    	        
     	        
     	    }
     } 
