@@ -217,7 +217,7 @@ public class OptionsPanel extends JPanel implements ActionListener
 		if(arg0.getSource().equals(surrenderButton)){
 			try {
 				parent.getGameManager().sendWhiteFlag();
-				parent.displayLooseSurrender();
+				parent.manageGameEnd(0, 0, false, true);
 			} catch (ComponentException e) { e.printStackTrace(); }
 		}
 		if(arg0.getSource().equals(passButton)){

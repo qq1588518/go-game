@@ -3,8 +3,12 @@
  */
 package goserver.game.board;
 
+import java.awt.Point;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
+
 import goserver.game.Color;
 
 /**
@@ -22,6 +26,8 @@ public class Board
     private Field lastMove = null;
     private int whiteCaptured = 0;
     private int blackCaptured = 0;
+    private int whiteTerritory = 0;
+    private int blackTerritory = 0;
     
     /**
      * Constructs a new Board of the given size with all the fields empty. 
@@ -74,9 +80,7 @@ public class Board
     		board[x][y].setType((c == Color.BLACK) ? FieldType.BLACK : FieldType.WHITE);
     		return true;
     	}
-    	else{
-    		return false;
-    	}
+    	else return false;
     }
     
     /**
@@ -156,4 +160,36 @@ public class Board
     		board[f.getX()][f.getY()].setEmpty();
     	}	
     }
+    
+    public void setTerritories(HashMap<Point, Color> territories)
+    {
+    	Set<Point> points = territories.keySet();
+    	for (Point point : points) 
+    	{
+			if(territories.get(point).equals(Color.BLACK)) blackTerritory++;
+			else whiteTerritory++;
+		}
+    }
+    
+    public int getWhiteTerritory()
+    {
+    	return whiteTerritory;
+    }
+    
+    public int getBlackTerritory()
+    {
+    	return blackTerritory;
+    }
+    
+    public int getWhiteCaptured()
+    {
+    	return whiteCaptured;
+    }
+    
+    public int getBlackCaptured()
+    {
+    	return blackCaptured;
+    }
+    
+    
 }

@@ -71,14 +71,19 @@ public class ClientMessagesTranslator {
 		    	clientHandler.getPlayer().makeMove();
 		    	return;
 		    }
-		    
 		}
-		else if (message.startsWith("SURRENDER ")){
+		else if (message.startsWith("SURRENDER "))
+		{
 			message = message.replaceFirst("SURRENDER ", "");
 			clientHandler.getPlayer().surrendered(message);
 			return;
 		}
 		else if(message.startsWith("DEADSUGGESTION"))
+		{
+			clientHandler.getPlayer().sendSuggestion(message);
+			return;
+		}
+		else if(message.startsWith("TERRITORYSUGGESTION"))
 		{
 			clientHandler.getPlayer().sendSuggestion(message);
 			return;

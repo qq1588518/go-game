@@ -56,7 +56,7 @@ public class GameStateIAmSettingTerritories implements GameState
 	}
 
 	@Override
-	public void sendProposition() 
+	public void sendProposal() 
 	{
 		if (!alreadySent ) manager.getTranslator().sendTerritories(manager.getDrawingManager().getMyTeritory(), 
 												manager.getDrawingManager().getOpponentsTeritory());

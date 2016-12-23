@@ -56,7 +56,7 @@ public class GameStateIAmChoosingDead implements GameState {
 	}
 
 	@Override
-	public void sendProposition() 
+	public void sendProposal() 
 	{
 		if (!alreadySent) manager.getTranslator().sendDead(manager.getDrawingManager().getDead());
 		alreadySent = true;

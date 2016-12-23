@@ -30,7 +30,7 @@ public class GamePlayStateGameEnd implements GamePlayState
 		return false;
 	}
 	@Override
-	public void sendSuggestion(Player player, String message) {
+	public void sendProposal(Player player, String message) {
 		// TODO Auto-generated method stub
 		
 	}

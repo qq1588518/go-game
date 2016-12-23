@@ -19,7 +19,7 @@ public class GamePlayStateWhiteChoosesDead implements GamePlayState
 	public boolean makeMove(Player player, boolean wasPassed) { return false; }
 
 	@Override
-	public void sendSuggestion(Player player, String message) 
+	public void sendProposal(Player player, String message) 
 	{
 		if (player == gamePlay.getWhite() && message.startsWith("DEADSUGGESTION"))
 		{

@@ -200,6 +200,16 @@ public class GamePlayTranslator
 		
 	}
 
+	public void setLastTerritorySuggestion(String message) 
+	{
+		lastTerritorySuggestion = message;
+	}
+
+	public void sendResults(double black, double white) 
+	{
+		notifyBoth("THEEND BLACK " + String.valueOf(black) + " : " + "WHITE " + String.valueOf(white));
+	}
+
     
     
 }
