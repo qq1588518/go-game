@@ -314,6 +314,10 @@ public class BoardPanel extends JPanel
     	}
     	
         repaint();
-}
+    }
+    
+    public Vector<Stone> getStones(){
+    	return stones;
+    }
 
 }
