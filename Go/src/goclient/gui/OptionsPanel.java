@@ -253,6 +253,12 @@ public class OptionsPanel extends JPanel implements ActionListener
 
 			} catch (ComponentException e) { e.printStackTrace(); }
 		}
+		if(arg0.getSource().equals(requestResumingButton))
+		{
+			try {
+				parent.getGameManager().resumeGame(parent.getGameManager().myColor.other());
+			} catch (ComponentException e) { e.printStackTrace(); }
+		}
 	}
     
     public JButton getPassButton(){	return passButton; }

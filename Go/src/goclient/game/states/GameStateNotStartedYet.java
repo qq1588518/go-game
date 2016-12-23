@@ -7,16 +7,17 @@ import java.awt.Point;
 
 /**
  * @author mk
- *
+ * GameState before game, you can not do anything in this state. Part of the State design pattern.
  */
 public class GameStateNotStartedYet implements GameState
 {
     
 
 
-    /* Do nothing - cannot click on board when game is not started.
-     * (non-Javadoc)
-     * @see goclient.GameState#makeMove(int, int)
+    /* 
+     * Do nothing - cannot click on board when game is not started.
+     *
+     * 
      */
     @Override
     public void makeMove(int x, int y) {}

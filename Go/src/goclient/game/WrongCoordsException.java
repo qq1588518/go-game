@@ -16,6 +16,5 @@ public class WrongCoordsException extends Exception
     public WrongCoordsException(String message)
     {
         super(message);
-        // TODO Auto-generated constructor stub
     }
 }

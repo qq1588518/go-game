@@ -52,11 +52,7 @@ public class BoardPanel extends JPanel
         initComponents();
     }
 
-    /**
-     * TODO: coś zrobić z wyjątkiem wyrzucanym jak brak obrazka 
-     * 
-     * Initialises components of the BoardPanel.
-     */
+    
     private void initComponents()
     {
         Dimension panelSize = new Dimension(500, 500);
@@ -75,7 +71,7 @@ public class BoardPanel extends JPanel
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -221,6 +217,10 @@ public class BoardPanel extends JPanel
          g2d.setStroke(s);
 	}
 
+    /**
+     * Allows us draw teritories with given colors
+     * @param g
+     */
     private void drawTeritories(Graphics g)
     {         
 		 try 
@@ -316,6 +316,10 @@ public class BoardPanel extends JPanel
         repaint();
     }
     
+    /**
+     * Returns vector of stones
+     * @return
+     */
     public Vector<Stone> getStones(){
     	return stones;
     }

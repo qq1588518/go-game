@@ -12,7 +12,7 @@ import goserver.game.board.FieldType;
 import goserver.game.board.MoveState;
 
 /**
- * @author mk
+ * Translates message from GamePlay to text messages sent to Players.
  *
  */
 public class GamePlayTranslator
@@ -219,6 +219,11 @@ public class GamePlayTranslator
 	{
 		if (p == black) white.sendMessage("YOULOOSE");
 		else black.sendMessage("YOULOOSE");
+	}
+
+	public void sendResume(Player p) 
+	{
+		p.sendMessage("RESUMEGAME");
 	}
 
 
