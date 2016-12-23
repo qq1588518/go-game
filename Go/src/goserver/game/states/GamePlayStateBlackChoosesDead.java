@@ -27,7 +27,7 @@ public class GamePlayStateBlackChoosesDead implements GamePlayState {
 	}
 
 	@Override
-	public void sendSuggestion(Player player, String message) 
+	public void sendProposal(Player player, String message) 
 	{
 		if (player == gamePlay.getBlack() && message.startsWith("DEADSUGGESTION"))
 		{

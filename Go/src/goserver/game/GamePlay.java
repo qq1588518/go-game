@@ -9,6 +9,7 @@ import goserver.game.Player;
 import goserver.game.board.Board;
 import goserver.game.states.GamePlayState;
 import goserver.game.states.GamePlayStateBlackMoves;
+import goserver.game.states.GamePlayStateGameEnd;
 
 /**
  * @author mk
@@ -102,11 +103,33 @@ public class GamePlay extends Thread
 
 	public void sendSuggestion(Player player, String message) 
 	{
-		state.sendSuggestion(player, message);
+		state.sendProposal(player, message);
 	}
 
 	public void acceptSuggestion(Player player) 
 	{
 		state.reachAgreement(player);
+	}
+	
+	public double[] calculateResults()
+	{
+		double blackPoints = board.getBlackTerritory() - board.getBlackCaptured();
+		double whitePoints = board.getWhiteTerritory() - board.getWhiteCaptured() + 6.5;
+		
+		double[] results = {blackPoints, whitePoints};
+		
+		return results;
+	}
+
+
+	public void endGame() 
+	{
+		setState(new GamePlayStateGameEnd());
+		double[] results = calculateResults();
+		getTranslator().sendResults(results[0], results[1]);
+		black.setNotBusy();
+		white.setNotBusy();
+		black.setGamePlay(null);
+		white.setGamePlay(null);
 	}
 }

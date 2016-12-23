@@ -106,6 +106,7 @@ public class ClientHandler extends Observable implements Runnable
 
     public void send(String message)
     {
+    	if(writer != null)
         writer.println(message);
         System.out.println("Sending: " + message);
     }

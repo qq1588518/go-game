@@ -79,7 +79,7 @@ public class GamePlayStateWhiteMoves implements GamePlayState
 	}
 
 	@Override
-	public void sendSuggestion(Player player, String message) {	}
+	public void sendProposal(Player player, String message) {	}
 
 	@Override
 	public void reachAgreement(Player player) { }

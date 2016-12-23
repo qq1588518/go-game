@@ -54,7 +54,7 @@ public class GameStateOpponentsMove implements GameState
 	}
 
 	@Override
-	public void sendProposition() {
+	public void sendProposal() {
 		// TODO Auto-generated method stub
 		
 	}

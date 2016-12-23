@@ -71,7 +71,7 @@ public class GameStateMyMove implements GameState
 	public void endMove(Point coords, boolean isAdding) { }
 
 	@Override
-	public void sendProposition() {
+	public void sendProposal() {
 		// TODO Auto-generated method stub
 		
 	}

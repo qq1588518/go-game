@@ -9,6 +9,7 @@ import java.util.Vector;
 
 import goclient.game.states.GameState;
 import goclient.game.states.GameStateMyMove;
+import goclient.game.states.GameStateNotStartedYet;
 import goclient.game.states.GameStateOpponentsMove;
 import goclient.gui.DrawingManager;
 import goclient.gui.DrawingMode;
@@ -271,12 +272,24 @@ public class GameManager
 
 	public void sendProposition() 
 	{
-		state.sendProposition();
+		state.sendProposal();
 	}
 	
 	public void acceptProposition()
 	{
 		translator.sendAcceptance();
+	}
+
+	public void manageResults(double black, double white) 
+	{
+		boolean blackWon = (black > white) ? true : false;
+		boolean iAmTheWinner;
+		if (myColor.equals(StoneType.BLACK) && blackWon) iAmTheWinner = true;
+		else if (myColor.equals(StoneType.WHITE) && !blackWon) iAmTheWinner = true; 
+		else iAmTheWinner = false;
+		
+		state = new GameStateNotStartedYet();
+		mediator.manageGameEnd(black, white, iAmTheWinner, false);
 	}
 	
 

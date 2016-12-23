@@ -54,5 +54,5 @@ public class GameStateOpponentsChoosingDead implements GameState
 	 * An empty method, not used in this state.
 	 */
 	@Override
-	public void sendProposition() {	}
+	public void sendProposal() {	}
 }
