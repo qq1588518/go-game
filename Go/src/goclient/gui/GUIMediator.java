@@ -229,5 +229,9 @@ public class GUIMediator extends JFrame
 		optionsPanel = new OptionsPanel(this);
 		repaint();
 	}
+	
+	public PlayerList getPlayerList(){
+    	return playerList;
+    }
 
 }

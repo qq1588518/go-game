@@ -90,6 +90,12 @@ public class ClientMessagesTranslator {
 			clientHandler.getPlayer().acceptSuggestion();
 			return;
 		}
+		else if(message.startsWith("DELETE "))
+		{
+			message = message.replaceFirst("DELETE ", "");
+			game.deletePlayer(game.getPlayerNamed(message));
+			return;
+		}
 		else response = "UNKNOWNCOMMAND";
 	    clientHandler.send(response);
 	}

@@ -6,9 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import goserver.game.Color;
+import goserver.game.Game;
+import goserver.game.GamePlay;
+import goserver.game.Player;
 import goserver.game.board.Board;
 import goserver.game.board.FieldOutOfBoardException;
 import goserver.game.board.FieldType;
+import goserver.game.board.MoveState;
+import goserver.game.states.GamePlayStateBlackMoves;
+import goserver.server.ClientHandler;
 
 public class BoardTest {
 
@@ -48,7 +54,7 @@ public class BoardTest {
 	/**
 	 * Checks if move is possible on not empty field, and if other fields are still empty.
 	 */
-	//NIEPRZECHODZI NIE WIEM CZEMU
+	
 	@Test
 	public void ifMoveIsNotPossibleTest(){
 		
@@ -80,22 +86,20 @@ public class BoardTest {
 		}
 	}
 	
-	/**
-	 * Checks if move outside board is possible -- dont work, TODO!!!
-	 */
-//	@Test
-//	public void moveOutsideBoardTest(){
-//		for(int i=0; i<20; i++){
-//			int j=-1;	
-//			assertFalse(board.putStone(Color.BLACK, i, j));
-//			j=19;
-//			assertFalse(board.putStone(Color.BLACK, i, j));
-//			j=-1;
-//			assertFalse(board.putStone(Color.BLACK, j, i));
-//			j=19;
-//			assertFalse(board.putStone(Color.BLACK, j, i));
-//		}
-//	}
+
+	@Test
+	public void moveOutsideBoardTest(){
+		for(int i=0; i<20; i++){
+			int j=-1;	
+			assertFalse(board.putStone(Color.BLACK, i, j));
+			j=19;
+			assertFalse(board.putStone(Color.BLACK, i, j));
+			j=-1;
+			assertFalse(board.putStone(Color.BLACK, j, i));
+			j=19;
+			assertFalse(board.putStone(Color.BLACK, j, i));
+		}
+	}
 	
 	@Test
 	public void putWhiteOnBlackTest(){
@@ -106,4 +110,6 @@ public class BoardTest {
 				
 			}
 	}
+	
+	
 }

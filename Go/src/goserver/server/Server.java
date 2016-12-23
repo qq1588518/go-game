@@ -76,7 +76,7 @@ public class Server implements Observer
   
   /** This inner class will keep listening to incoming connections,
    *  and initiating a ClientThread object for each connection. */  
-    private class StartServerThread extends Thread 
+    class StartServerThread extends Thread 
     {
         private boolean listen;
 

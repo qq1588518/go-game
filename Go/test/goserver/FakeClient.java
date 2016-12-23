@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import goserver.game.Game;
 import goserver.game.Player;
+import goserver.server.Server;
 
 public class FakeClient 
 {
@@ -28,7 +29,6 @@ public class FakeClient
     FakeClient client;
     Game game;
     Player player;
-    
     
   
     
@@ -76,6 +76,7 @@ public class FakeClient
     
     @Before
     public void beforeTest(){
+    	
     	client = new FakeClient();
     	client.listenSocket();
     }
@@ -142,7 +143,7 @@ public class FakeClient
 		}
     	client.out.println("LIST");
     	try {
-    		System.out.println("tgtgtgtg");
+    		
 			System.out.println(client.in.readLine());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -156,12 +157,16 @@ public class FakeClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    	
+    	client.out.println("DELETE gosia");
+    	client.out.println("DELETE marcin");
     }
     
     
     @After
     public void afterTest()
     {
+    	
     	client.exitClient();
     }
     

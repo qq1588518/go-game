@@ -102,7 +102,7 @@ public class ClientHandler extends Observable implements Runnable
         // Observer methods
         this.setChanged();              
         this.notifyObservers(this);     
-    }
+}
 
     public void send(String message)
     {

@@ -17,8 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import goclient.game.states.GameStateIAmChoosingDead;
-import goclient.game.states.GameStateIAmSettingTerritories;
 import goclient.program.ComponentException;
 
 /**

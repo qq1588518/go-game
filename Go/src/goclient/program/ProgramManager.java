@@ -31,7 +31,7 @@ public class ProgramManager
     
     public void showPlayers(String list, String text)
     {
-        parent.getGUI().displayPlayersDialog(list, text + parent.hashCode());
+        parent.getGUI().displayPlayersDialog(list, text);
     }
     
     /**
