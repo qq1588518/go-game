@@ -1,8 +1,5 @@
 package goserver.game;
 
-import java.awt.Point;
-import java.util.HashSet;
-
 import goclient.program.EmptyNameException;
 import goclient.program.NameContainsSpaceException;
 import goserver.server.ClientHandler;

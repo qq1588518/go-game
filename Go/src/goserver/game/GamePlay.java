@@ -121,7 +121,6 @@ public class GamePlay extends Thread
 		return results;
 	}
 
-
 	public void endGame() 
 	{
 		setState(new GamePlayStateGameEnd());

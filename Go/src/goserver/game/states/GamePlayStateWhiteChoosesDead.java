@@ -40,7 +40,8 @@ public class GamePlayStateWhiteChoosesDead implements GamePlayState
 				gamePlay.getBoard().removeStones(toRemove);
 				gamePlay.setState(new GamePlayStateBlackSetsTeritory(gamePlay));
 				gamePlay.getTranslator().sendChooseTerritory(gamePlay.getBlack());
-				gamePlay.getTranslator().sendDeadOK(player);				
+				gamePlay.getTranslator().sendDeadOK(player);
+				gamePlay.getTranslator().sendStats(gamePlay.getBoard().getBlackCaptured(), gamePlay.getBoard().getWhiteCaptured());
 			}
 		}
 	}

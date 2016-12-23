@@ -54,8 +54,8 @@ public class OptionsPanel extends JPanel implements ActionListener
     {
         Dimension panelSize = new Dimension(300, 300);
         Dimension gap = new Dimension(300, 15);
-        Dimension textAreaSize = new Dimension(280, 150);
-        Dimension statisticsAreaSize = new Dimension(280, 100);
+        Dimension textAreaSize = new Dimension(280, 200);
+        Dimension statisticsAreaSize = new Dimension(280, 60);
         Dimension buttonSize = new Dimension(120, 30);
         
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -71,9 +71,12 @@ public class OptionsPanel extends JPanel implements ActionListener
         messageArea.setSize(textAreaSize);
         messageArea.setAlignmentX(CENTER_ALIGNMENT);
         messageArea.setLineWrap(true);
+        messageArea.setWrapStyleWord(true);
+        messageArea.setFocusable(false);
         scroll = new JScrollPane(messageArea);
         scroll.setMaximumSize(textAreaSize);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.setFocusable(false);
 
         statisticsArea = new JTextArea();
         statisticsArea.setEditable(false);
@@ -82,6 +85,7 @@ public class OptionsPanel extends JPanel implements ActionListener
         statisticsArea.setMinimumSize(statisticsAreaSize);
         statisticsArea.setMaximumSize(statisticsAreaSize);
         statisticsArea.setPreferredSize(statisticsAreaSize);
+        statisticsArea.setFocusable(false);
         statisticsArea.setAlignmentX(CENTER_ALIGNMENT);
         
         passButton = new JButton("PASS");
@@ -256,4 +260,9 @@ public class OptionsPanel extends JPanel implements ActionListener
     public JButton getPassButton(){	return passButton; }
     
     public JButton getSurrenderButton(){ return surrenderButton;  }
+
+	public void displayStatistics(int black, int white) 
+	{
+		statisticsArea.setText("CAPTURED:\nBLACK: " + String.valueOf(black) + "\nWHITE:" + String.valueOf(white));
+	}
 }
