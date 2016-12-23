@@ -83,17 +83,6 @@ public class GamePlay extends Thread
     {
         return board;
     }
-    public void surrender(String message){
-    	
-    	if(message.equals("BLACK")){
-    		
-    		white.sendMessage("YOULOOSE");
-    	}
-    	else if(message.equals("WHITE")){
-    		
-    		black.sendMessage("YOULOOSE");
-    	}
-    }
 
 	//Send PASS 
 	public void makeMove(Player player) 
@@ -121,14 +110,22 @@ public class GamePlay extends Thread
 		return results;
 	}
 
+	public void endGame(Player p)
+	{
+		setState(new GamePlayStateGameEnd());
+		translator.sendSurrender(p);
+		black.setNotBusy();
+		white.setNotBusy();
+	}
+	
 	public void endGame() 
 	{
 		setState(new GamePlayStateGameEnd());
+
 		double[] results = calculateResults();
-		getTranslator().sendResults(results[0], results[1]);
+		getTranslator().sendResults(results[0], results[1]);		
+
 		black.setNotBusy();
 		white.setNotBusy();
-		black.setGamePlay(null);
-		white.setGamePlay(null);
 	}
 }

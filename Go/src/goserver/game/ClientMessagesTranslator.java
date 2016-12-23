@@ -72,7 +72,7 @@ public class ClientMessagesTranslator {
 		else if (message.startsWith("SURRENDER "))
 		{
 			message = message.replaceFirst("SURRENDER ", "");
-			clientHandler.getPlayer().surrendered(message);
+			clientHandler.getPlayer().getGamePlay().endGame(clientHandler.getPlayer());
 			return;
 		}
 		else if(message.startsWith("DEADSUGGESTION"))
@@ -126,8 +126,8 @@ public class ClientMessagesTranslator {
         clientHandler.send(message);
     }
 
-	public void sendDeclination() {
-		// TODO Auto-generated method stub
+	public void sendDeclination() 
+	{
 		clientHandler.send("DECLINED");
 	}
 

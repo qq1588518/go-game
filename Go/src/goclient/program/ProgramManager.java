@@ -81,6 +81,7 @@ public class ProgramManager
     {
         game = null;
         parent.getSocket().setTranslator(translator);
+        parent.reset();
     }
 
     /**

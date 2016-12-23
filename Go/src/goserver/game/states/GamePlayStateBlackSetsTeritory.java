@@ -64,9 +64,7 @@ public class GamePlayStateBlackSetsTeritory implements GamePlayState
 			if(territories != null)
 			{
 				gamePlay.getBoard().setTerritories(territories);
-				gamePlay.setState(new GamePlayStateGameEnd());
-				double[] results = gamePlay.calculateResults();
-				gamePlay.getTranslator().sendResults(results[0], results[1]);
+				gamePlay.endGame();
 			}
 		}
 	}

@@ -207,7 +207,7 @@ public class GUIMediator extends JFrame
 		String title = iAmTheWinner ? "You are the winner!" : "You are the looser!";
 		
 		String[] options = new String[2];
-    	options[0] = new String("New game");
+    	options[0] =	 new String("New game");
     	options[1] = new String("Quit");
     	int choice = JOptionPane.showOptionDialog(this, message.toString(), title, 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
     	System.out.println(choice);
@@ -221,8 +221,13 @@ public class GUIMediator extends JFrame
 			} catch (ComponentException e) { e.printStackTrace(); }
     	}
     	else if(choice == JOptionPane.CLOSED_OPTION) System.exit(0);
-		
 	}
 
+	public void reset()
+	{
+		gamePanel = new GamePanel(this);
+		optionsPanel = new OptionsPanel(this);
+		repaint();
+	}
 
 }
