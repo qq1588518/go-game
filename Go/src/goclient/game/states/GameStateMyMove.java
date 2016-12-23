@@ -33,17 +33,30 @@ public class GameStateMyMove implements GameState
     @Override
     public void makeMove(int x, int y)
     {
-        if (!moveSent && manager.checkIfMovePossible(x,y)) 
+        if (!moveSent)
         {
-            manager.sendMove(x, y); 
-            moveSent = true;
-            manager.saveWaitingMove(x,y);
+        	if(x == -1 && y == -1)
+        	{
+        		manager.sendMove(x, y);
+        		moveSent = true;
+        		nextTurn();
+        	}
+        	else if( manager.checkIfMovePossible(x,y)) 
+	        {
+	            manager.sendMove(x, y); 
+	            moveSent = true;
+	            manager.saveWaitingMove(x,y);
+	        }
         }
     }
     
     public void reset() { moveSent = false; }
     
-    public void nextTurn() { manager.setState(new GameStateOpponentsMove(manager)); }
+    public void nextTurn() 
+    { 
+    	manager.setState(new GameStateOpponentsMove(manager)); 
+    	manager.getMediator().getOptionsPanel().disactivateButtons(false);
+    }
 
 	/**
 	 * Empty method, not used in this state.
@@ -56,5 +69,11 @@ public class GameStateMyMove implements GameState
 	 */
 	@Override
 	public void endMove(Point coords, boolean isAdding) { }
+
+	@Override
+	public void sendProposition() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

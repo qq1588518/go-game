@@ -49,20 +49,34 @@ public class Player
         translator.sendInvitation(player);
     }
     
- public void surrendered(String message){
+    public void surrendered(String message){
     	
     	gamePlay.surrender(message);
-    	
     }
 
 	
-	public void makeMove() {
-		if (gamePlay != null) gamePlay.makeMove(this);
-		
+	public void makeMove() 
+	{
+		if (gamePlay != null) gamePlay.makeMove(this);	
 	}
 
 	public void beDeclined() {
 		// TODO Auto-generated method stub
 		translator.sendDeclination();
+	}
+
+	public void sendSuggestion(String message) 
+	{
+		gamePlay.sendSuggestion(this, message);
+	}
+
+	public void acceptSuggestion() 
+	{
+		gamePlay.acceptSuggestion(this);
+	}
+
+	public void sendAgreement() 
+	{
+		translator.sendAgreement();
 	}
 }

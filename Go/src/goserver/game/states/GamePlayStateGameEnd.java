@@ -25,4 +25,18 @@ public class GamePlayStateGameEnd implements GamePlayState
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public boolean makeMove(Player player, boolean wasPassed) {
+		return false;
+	}
+	@Override
+	public void sendSuggestion(Player player, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void reachAgreement(Player player) {
+		// TODO Auto-generated method stub
+		
+	}
 }

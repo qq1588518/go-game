@@ -9,6 +9,7 @@ public class GameStateIAmChoosingDead implements GameState {
 
 	private GameManager manager;
 	private Point last = null;
+	private boolean alreadySent = false;
 
 	/**
 	 * Constructs a new State object.
@@ -52,6 +53,13 @@ public class GameStateIAmChoosingDead implements GameState {
 	{ 
 		manager.getMediator().getOptionsPanel().disactivateTeritoriesBox(false);
 		manager.setState(new GameStateOpponentsChoosingDead(manager)); 
+	}
+
+	@Override
+	public void sendProposition() 
+	{
+		if (!alreadySent) manager.getTranslator().sendDead(manager.getDrawingManager().getDead());
+		alreadySent = true;
 	}
 
 }

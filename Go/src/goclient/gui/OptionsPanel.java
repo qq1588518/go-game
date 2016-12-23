@@ -189,13 +189,16 @@ public class OptionsPanel extends JPanel implements ActionListener
     	statisticsArea.setText(input);
     }
     
-    public void activateTeritoriesBox()
+    public void activateTeritoriesBox(boolean withRadioButtons)
     {
     	sendProposisionButton.setEnabled(true);
     	acceptProposisionButton.setEnabled(true);
     	requestResumingButton.setEnabled(true);
-    	myTerritoryRB.setEnabled(true);
-    	theirTerritoryRB.setEnabled(true);
+    	if (withRadioButtons)
+    	{
+        	myTerritoryRB.setEnabled(true);
+        	theirTerritoryRB.setEnabled(true);    		
+    	}
     }
     
     /**
@@ -217,15 +220,12 @@ public class OptionsPanel extends JPanel implements ActionListener
     	passButton.setEnabled(true);
     }
     
-    public void disactivateButtons()
+    public void disactivateButtons(boolean withSurrender)
     {
-    	surrenderButton.setEnabled(false);
+    	if (withSurrender) surrenderButton.setEnabled(false);
     	passButton.setEnabled(false);
     }
     
-    /**
-     * TODO: włączyć przyciski dopiero po rozpoczęciu gry, bo sypie wyjątkami.
-     */
     @Override
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(surrenderButton)){
@@ -247,18 +247,19 @@ public class OptionsPanel extends JPanel implements ActionListener
 				e.printStackTrace();
 			}
 		}
-		if(arg0.getSource().equals(teritoriesButton))
-		{
-			try 
-			{
-				parent.getGameManager().setState(new GameStateIAmSettingTerritories(parent.getGameManager()));
-				activateTeritoriesBox();
-			} catch (ComponentException e) { e.printStackTrace(); }
-		}
 		if(arg0.getSource().equals(sendProposisionButton))
 		{
 			try {
 				parent.getGameManager().sendProposition();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(arg0.getSource().equals(acceptProposisionButton))
+		{
+			try {
+				parent.getGameManager().acceptProposition();
 			} catch (ComponentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

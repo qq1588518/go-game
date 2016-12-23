@@ -38,7 +38,7 @@ public class GamePlayStateBlackMoves implements GamePlayState
     {
        if (p == gamePlay.getBlack())
        {
-          MoveState moveState = gamePlay.getBoard().checkIfMovePossible(Color.BLACK, x, y);
+    	   MoveState moveState = gamePlay.getBoard().checkIfMovePossible(Color.BLACK, x, y);
     	   if (moveState.equals(MoveState.ACCEPTED))
           {
               gamePlay.getBoard().putStone(Color.BLACK, x, y);
@@ -56,12 +56,40 @@ public class GamePlayStateBlackMoves implements GamePlayState
     }
     
     
-    public void makeMove(Player p) {
-		if (p==gamePlay.getBlack()){
-		//	gamePlay.getTranslator().confirmMove(p);
-			gamePlay.getTranslator().sendOpponentsMove(gamePlay.getWhite());
-			gamePlay.setState(new GamePlayStateWhiteMoves(gamePlay));
+    public boolean makeMove(Player p, boolean lastWasPass) 
+    {
+		if (p == gamePlay.getBlack())
+		{
+			if (lastWasPass)
+			{
+				gamePlay.getTranslator().sendChooseDead(gamePlay.getWhite());
+				gamePlay.getTranslator().sendGameStopped(p);
+				gamePlay.setState(new GamePlayStateWhiteChoosesDead(gamePlay));
+				
+			}
+			else
+			{
+				gamePlay.getTranslator().sendOpponentsMove(gamePlay.getWhite());
+				gamePlay.setState(new GamePlayStateWhiteMoves(gamePlay));
+			}
+			return true;
 		}
+		else 
+		{
+			gamePlay.getTranslator().rejectMoveAttempt(p);
+			return false;
+		}
+	}
+
+	@Override
+	public void sendSuggestion(Player player, String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reachAgreement(Player player) {
+		// TODO Auto-generated method stub
 		
 	}
 }

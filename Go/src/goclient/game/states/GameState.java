@@ -16,5 +16,6 @@ public interface GameState
     void nextTurn();
 	void remove(int x, int y);
 	void endMove(Point coords, boolean isAdding);
+	void sendProposition();
 }
 

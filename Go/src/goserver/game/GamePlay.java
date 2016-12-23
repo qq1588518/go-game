@@ -21,9 +21,8 @@ public class GamePlay extends Thread
     private Board board;
     private int n = 19;
     private GamePlayState state;
-    private GamePlayTranslator translator; 
+    private GamePlayTranslator translator;
     boolean wasPassed = false;
-    
     
     /**
      * 
@@ -52,8 +51,8 @@ public class GamePlay extends Thread
     
     public void makeMove(Player p, int x, int y)
     {
+    	state.makeMove(p, x, y);
     	wasPassed = false;
-        state.makeMove(p, x, y);
     }
     
     public Player getBlack()
@@ -69,15 +68,6 @@ public class GamePlay extends Thread
     public GamePlayTranslator getTranslator()
     {
         return translator;
-    }
-
-    /**
-     * @param string
-     */
-    private void send(String message)
-    {
-        black.sendMessage(message);    
-        white.sendMessage(message);
     }
 
     /**
@@ -104,33 +94,19 @@ public class GamePlay extends Thread
     	}
     }
 
-
-//	public void giveTurn(String message) {
-//		if(wasPassed){
-//			white.sendMessage("CHOOSETERITORIES");
-//			black.sendMessage("CHOOSETERITORIES");	
-//			System.out.println("DZIALA");
-//		}
-//		else{
-//			
-//			if(message.equals("BLACK")){
-//				white.sendMessage("ENEMYPASS");
-//			}
-//			else if(message.equals("WHITE")){
-//				black.sendMessage("ENEMYPASS");
-//			}
-//		}
-//	}
 	//Send PASS 
-	public void makeMove(Player player) {
-		// TODO Auto-generated method stub
-		if(wasPassed){
-			white.sendMessage("CHOOSETERITORIES");
-			black.sendMessage("CHOOSETERITORIES");	
-		}
-		else{
-			wasPassed = true;
-			state.makeMove(player);
-		}
+	public void makeMove(Player player) 
+	{
+		if (state.makeMove(player, wasPassed)) wasPassed = true;
+	}
+
+	public void sendSuggestion(Player player, String message) 
+	{
+		state.sendSuggestion(player, message);
+	}
+
+	public void acceptSuggestion(Player player) 
+	{
+		state.reachAgreement(player);
 	}
 }

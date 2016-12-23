@@ -18,5 +18,7 @@ public interface GamePlayState
      * @param y
      */
     void makeMove(Player p, int x, int y);
-    void makeMove(Player player);
+    boolean makeMove(Player player, boolean wasPassed);
+	void sendSuggestion(Player player, String message);
+	void reachAgreement(Player player);
 }

@@ -20,6 +20,8 @@ public class Board
     private StoneGroupSet groups;
     private Field lastCaptured = null;
     private Field lastMove = null;
+    private int whiteCaptured = 0;
+    private int blackCaptured = 0;
     
     /**
      * Constructs a new Board of the given size with all the fields empty. 
@@ -124,6 +126,12 @@ public class Board
     	return groups.updateGroupsAfterMove(lastMove);
     }
     
+    private void updateStatistics(Field f)
+    {
+    	if (f.getType().equals(FieldType.BLACK)) blackCaptured++;
+    	else if (f.getType().equals(FieldType.WHITE)) whiteCaptured++;
+    }
+    
     synchronized public void removeStones(HashSet<Field> fields)
     {
     	Iterator<Field> it = fields.iterator();
@@ -136,6 +144,7 @@ public class Board
     	{
     		f = it.next();
     		lastCaptured = f;
+    		updateStatistics(board[f.getX()][f.getY()]);
     		board[f.getX()][f.getY()].setEmpty();
     	}
     	else lastCaptured = null;
@@ -143,6 +152,7 @@ public class Board
     	while (it.hasNext())
     	{
     		f = it.next();
+    		updateStatistics(board[f.getX()][f.getY()]);
     		board[f.getX()][f.getY()].setEmpty();
     	}	
     }
