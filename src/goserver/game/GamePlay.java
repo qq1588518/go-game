@@ -70,6 +70,11 @@ public class GamePlay extends Thread
     {
         return translator;
     }
+    
+    public GamePlayState getGamePlayState(){
+		return state;
+    	
+    }
 
     /**
      * @param string
@@ -93,6 +98,9 @@ public class GamePlay extends Thread
         return board;
     }
     public void surrender(String message){
+    	
+    	white.setNotBusy();
+    	black.setNotBusy();
     	
     	if(message.equals("BLACK")){
     		

@@ -98,14 +98,12 @@ public class ClientHandler extends Observable implements Runnable
             
             this.socket.close();
         } catch (IOException ioe) { System.out.println(ioe); }
-
-        // Observer methods
-        this.setChanged();              
-        this.notifyObservers(this);     
+     
     }
 
     public void send(String message)
     {
+    	if(writer!=null)
         writer.println(message);
         System.out.println("Sending: " + message);
     }

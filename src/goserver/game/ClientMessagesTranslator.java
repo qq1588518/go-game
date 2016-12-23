@@ -15,6 +15,8 @@ public class ClientMessagesTranslator {
 		game = clientHandler.getGame();
 	}
 	
+	
+
 	public void processIncommingMessage(String message)
 	{
 		String response = "";
@@ -43,6 +45,7 @@ public class ClientMessagesTranslator {
 		    if (game.inviteOpponent(message, clientHandler.getPlayer().getName())) return;
 		    else response = "CHOOSEOPPONENTAGAIN " + getList(); 
 		}
+		
 		else if (message.startsWith("INVAGREE"))
 		{
 		    message = message.replaceFirst("INVAGREE ", "");
@@ -54,6 +57,11 @@ public class ClientMessagesTranslator {
 			if(game.declineOpponent(message)) return;
 			else response = "CHOOSEOPPONENTAGAIN " + getList();
 			
+		}
+		else if(message.startsWith("DELETE ")){
+			message = message.replaceFirst("DELETE ", "");
+			game.deletePlayer(game.getPlayerNamed(message));
+			return;
 		}
 		else if (message.startsWith("MOVE"))
 		{

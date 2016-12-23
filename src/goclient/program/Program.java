@@ -12,7 +12,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import goclient.gui.GUIMediator;
 
 /**
- * TODO: Jak rozwiązać zmianę translatorów i managerów?
+ * Starts our client. Sets ProgramManager, Program	
  *
  */
 public class Program

@@ -13,7 +13,7 @@ public class StoneGroup implements BoardUpdater
 {
     private HashSet<Field> group;
     private FieldType type;
-    private Board board;
+    
 
     
     public StoneGroup(Field field)
@@ -21,7 +21,7 @@ public class StoneGroup implements BoardUpdater
         group = new HashSet<Field>();
         group.add(field);
         this.type = field.getType();
-        this.board = field.getBoard();
+
     }
     
     boolean contains(Field field)

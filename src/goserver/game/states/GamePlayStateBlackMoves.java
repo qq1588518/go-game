@@ -58,7 +58,7 @@ public class GamePlayStateBlackMoves implements GamePlayState
     
     public void makeMove(Player p) {
 		if (p==gamePlay.getBlack()){
-		//	gamePlay.getTranslator().confirmMove(p);
+			//gamePlay.getTranslator().confirmMove(p);
 			gamePlay.getTranslator().sendOpponentsMove(gamePlay.getWhite());
 			gamePlay.setState(new GamePlayStateWhiteMoves(gamePlay));
 		}

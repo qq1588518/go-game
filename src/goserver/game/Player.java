@@ -12,6 +12,7 @@ public class Player
     
     public Player(String name, ClientHandler handler)
     {
+    	
         this.name = name;
         this.handler = handler;
         this.translator = handler.getTranslator();

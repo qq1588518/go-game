@@ -47,6 +47,7 @@ public class Board
      */
     public MoveState checkIfMovePossible(Color c, int x, int y)
     {
+    	if(isOnBoard(x,y)){
     	if (isOnBoard(x,y) && !board[x][y].getType().equals(FieldType.EMPTY)) return MoveState.REJECTEDNOTEMPTY;
     	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
     	if (groups.checkIfSuicidal(move)) return MoveState.REJECTEDSUICIDAL;
@@ -60,6 +61,8 @@ public class Board
     	if (f == null) return MoveState.ACCEPTED;
     	if (f.equals(lastMove)) return MoveState.REJECTEDKO;
     	return MoveState.ACCEPTED;
+    	}
+		return MoveState.REJECTEDNOTEMPTY;
     }
     
     /**
