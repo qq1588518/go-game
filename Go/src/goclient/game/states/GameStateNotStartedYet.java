@@ -45,4 +45,10 @@ public class GameStateNotStartedYet implements GameState
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void sendProposition() {
+		// TODO Auto-generated method stub
+		
+	}
 }

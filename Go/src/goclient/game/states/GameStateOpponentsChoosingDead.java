@@ -22,8 +22,8 @@ public class GameStateOpponentsChoosingDead implements GameState
 	@Override
 	public void nextTurn() 
 	{
-		manager.getMediator().getOptionsPanel().activateTeritoriesBox();
 		manager.setState(new GameStateIAmChoosingDead(manager)); 
+		manager.getMediator().getOptionsPanel().activateTeritoriesBox(false);
 	}
 
 	/**
@@ -49,4 +49,10 @@ public class GameStateOpponentsChoosingDead implements GameState
 	 */
 	@Override
 	public void endMove(Point coords, boolean isAdding) { }
+
+	/**
+	 * An empty method, not used in this state.
+	 */
+	@Override
+	public void sendProposition() {	}
 }

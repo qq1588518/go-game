@@ -30,7 +30,7 @@ public class GameStateOpponentsSettingTerritories implements GameState
 	@Override
 	public void nextTurn() 
 	{ 
-		manager.getMediator().getOptionsPanel().activateTeritoriesBox();
+		manager.getMediator().getOptionsPanel().activateTeritoriesBox(true);
 		manager.setState(new GameStateIAmSettingTerritories(manager)); 
 	}
 
@@ -57,5 +57,11 @@ public class GameStateOpponentsSettingTerritories implements GameState
 	 */
 	@Override
 	public void endMove(Point coords, boolean isAdding) { }
+
+	/**
+	 * An empty method, not used in this state.
+	 */
+	@Override
+	public void sendProposition() {	}
 
 }

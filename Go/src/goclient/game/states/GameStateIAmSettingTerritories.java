@@ -9,6 +9,7 @@ public class GameStateIAmSettingTerritories implements GameState
 {
 	private GameManager manager;
 	private Point last = null;
+	private boolean alreadySent = false;
 
 	/**
 	 * Constructs a new State object.
@@ -52,6 +53,14 @@ public class GameStateIAmSettingTerritories implements GameState
 	{ 
 		manager.getMediator().getOptionsPanel().disactivateTeritoriesBox(false);
 		manager.setState(new GameStateOpponentsSettingTerritories(manager)); 
+	}
+
+	@Override
+	public void sendProposition() 
+	{
+		if (!alreadySent ) manager.getTranslator().sendTerritories(manager.getDrawingManager().getMyTeritory(), 
+												manager.getDrawingManager().getOpponentsTeritory());
+		alreadySent = true;
 	}
 
 

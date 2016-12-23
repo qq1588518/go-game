@@ -87,7 +87,8 @@ public class GameManager
      */
     public void sendMove(int x, int y)
     {
-        translator.sendMove(x,y);
+        if(x == -1 && y == -1) translator.sendPassMove();
+        else translator.sendMove(x,y);
     }
     
     /**
@@ -121,6 +122,11 @@ public class GameManager
     public int getBoardSize()
     {
     	return boardSize;
+    }
+    
+    public GameServerTranslator getTranslator()
+    {
+    	return translator;
     }
 
     /**
@@ -194,24 +200,13 @@ public class GameManager
     	translator.sendSurrender();
     }
 
-	public void missTurn() {
-		 state = new GameStateOpponentsMove(this);
-		if (translator == null)
-			try {
-				throw new ComponentException("Translator not set in ProgramManager");
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-		translator.sendPassMove();
-		// TODO Auto-generated method stub
-		
+	public void missTurn() 
+	{
+		state.makeMove(-1, -1);
 	}
     
-    synchronized public void removeStones(Vector<Point> fields)
+    synchronized public void removeStones(HashSet<Point> fields)
     {
-        
     	for (Point point : fields)
         {
         	StoneType c = (board[point.x][point.y] == Field.BLACK) ? StoneType.BLACK : StoneType.WHITE;
@@ -240,7 +235,6 @@ public class GameManager
             		j >= upperLeftY && j <= upperLeftY + height) fields.add(new Point(i, j));
             }
         }
-		
 		return fields;
 	}
 	
@@ -277,7 +271,12 @@ public class GameManager
 
 	public void sendProposition() 
 	{
-		
+		state.sendProposition();
+	}
+	
+	public void acceptProposition()
+	{
+		translator.sendAcceptance();
 	}
 	
 

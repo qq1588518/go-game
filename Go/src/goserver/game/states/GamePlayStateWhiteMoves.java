@@ -53,13 +53,35 @@ public class GamePlayStateWhiteMoves implements GamePlayState
        else gamePlay.getTranslator().rejectMoveAttempt(p);
     }
     
-    public void makeMove(Player p) {
-		if (p==gamePlay.getWhite()){
-			//gamePlay.getTranslator().confirmMove(p);
-			gamePlay.getTranslator().sendOpponentsMove(gamePlay.getBlack());
-			gamePlay.setState(new GamePlayStateBlackMoves(gamePlay));
+    public boolean makeMove(Player p, boolean lastWasPass) 
+    {
+		if (p == gamePlay.getWhite())
+		{
+			if (lastWasPass)
+			{
+				gamePlay.getTranslator().sendChooseDead(gamePlay.getBlack());
+				gamePlay.getTranslator().sendGameStopped(p);
+				gamePlay.setState(new GamePlayStateBlackChoosesDead(gamePlay));	
+			}
+			else
+			{
+				gamePlay.getTranslator().sendOpponentsMove(gamePlay.getBlack());
+				gamePlay.setState(new GamePlayStateBlackMoves(gamePlay));
+			}
+			return true;
 		}
-		
+		else
+		{
+			gamePlay.getTranslator().rejectMoveAttempt(p);
+			return false;
+		}
+	
 	}
+
+	@Override
+	public void sendSuggestion(Player player, String message) {	}
+
+	@Override
+	public void reachAgreement(Player player) { }
     
 }

@@ -30,9 +30,16 @@ public class GameStateOpponentsMove implements GameState
     {
         System.out.println("Can't make move now. It's not your turn!");
     }
+    
+    public void nextTurn() 
+    { 
+    	manager.setState(new GameStateMyMove(manager)); 
+    	manager.getMediator().getOptionsPanel().activateButtons();
+    }
+    
     @Override
     public void reset(){ }
-    public void nextTurn() { manager.setState(new GameStateMyMove(manager)); }
+
 
 	@Override
 	public void remove(int x, int y) {
@@ -42,6 +49,12 @@ public class GameStateOpponentsMove implements GameState
 
 	@Override
 	public void endMove(Point coords, boolean isAdding) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendProposition() {
 		// TODO Auto-generated method stub
 		
 	}

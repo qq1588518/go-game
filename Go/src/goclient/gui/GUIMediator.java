@@ -14,7 +14,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import goclient.game.GameManager;
 import goclient.program.ComponentException;
-import goclient.program.PlayerList;
 import goclient.program.ProgramManager;
 
 /**

@@ -1,5 +1,8 @@
 package goserver.game;
 
+import java.awt.Point;
+import java.util.HashSet;
+
 import goclient.program.EmptyNameException;
 import goclient.program.NameContainsSpaceException;
 import goserver.server.ClientHandler;
@@ -8,6 +11,7 @@ public class ClientMessagesTranslator {
 	
 	ClientHandler clientHandler;
 	private Game game;
+
 	
 	public ClientMessagesTranslator(ClientHandler clientHandler)
 	{
@@ -65,12 +69,23 @@ public class ClientMessagesTranslator {
 		    } 
 		    else if (coords[0].equals("PASS")){
 		    	clientHandler.getPlayer().makeMove();
+		    	return;
 		    }
 		    
 		}
 		else if (message.startsWith("SURRENDER ")){
 			message = message.replaceFirst("SURRENDER ", "");
 			clientHandler.getPlayer().surrendered(message);
+			return;
+		}
+		else if(message.startsWith("DEADSUGGESTION"))
+		{
+			clientHandler.getPlayer().sendSuggestion(message);
+			return;
+		}
+		else if(message.startsWith("ACCEPT"))
+		{
+			clientHandler.getPlayer().acceptSuggestion();
 			return;
 		}
 		else response = "UNKNOWNCOMMAND";
@@ -113,5 +128,12 @@ public class ClientMessagesTranslator {
 		// TODO Auto-generated method stub
 		clientHandler.send("DECLINED");
 	}
+
+	public void sendAgreement() 
+	{
+		clientHandler.send("AGREE");
+	}
+	
+
 
 }
