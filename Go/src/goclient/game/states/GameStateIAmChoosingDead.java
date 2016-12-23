@@ -48,6 +48,10 @@ public class GameStateIAmChoosingDead implements GameState {
 	public void reset() { }
 	
 	@Override
-	public void nextTurn() { manager.setState(new GameStateOpponentsChoosingDead(manager)); }
+	public void nextTurn() 
+	{ 
+		manager.getMediator().getOptionsPanel().disactivateTeritoriesBox(false);
+		manager.setState(new GameStateOpponentsChoosingDead(manager)); 
+	}
 
 }

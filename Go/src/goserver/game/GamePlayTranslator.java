@@ -57,6 +57,11 @@ public class GamePlayTranslator
     {
         p.sendMessage("CANNOTMOVENOW");
     }
+    
+    public void sendOpponentsMove(Player p, int x, int y)
+    {
+        p.sendMessage("OPPOMOVE " + String.valueOf(x) + " " + String.valueOf(y));
+    }
 
     /**
      * @param white2
@@ -98,6 +103,11 @@ public class GamePlayTranslator
     {
     	p.sendMessage(createRemovedStonesMessage(removed));
     } 
+    
+    public void sendOpponentsMove(Player p) {
+		p.sendMessage("OPPOPASS");
+		
+	}
     
     
 }

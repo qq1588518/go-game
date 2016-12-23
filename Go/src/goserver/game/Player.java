@@ -55,8 +55,14 @@ public class Player
     	
     }
 
-	public void passed(String message) {
-		gamePlay.giveTurn(message);
+	
+	public void makeMove() {
+		if (gamePlay != null) gamePlay.makeMove(this);
 		
+	}
+
+	public void beDeclined() {
+		// TODO Auto-generated method stub
+		translator.sendDeclination();
 	}
 }

@@ -5,8 +5,6 @@ package goserver.game.board;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-
 import goserver.game.Color;
 
 /**
@@ -47,7 +45,7 @@ public class Board
      */
     public MoveState checkIfMovePossible(Color c, int x, int y)
     {
-    	if (!board[x][y].getType().equals(FieldType.EMPTY)) return MoveState.REJECTEDNOTEMPTY;
+    	if (isOnBoard(x,y) && !board[x][y].getType().equals(FieldType.EMPTY)) return MoveState.REJECTEDNOTEMPTY;
     	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
     	if (groups.checkIfSuicidal(move)) return MoveState.REJECTEDSUICIDAL;
     	/**
@@ -68,9 +66,15 @@ public class Board
      * @param x first coordinate of the stone.
      * @param y second coordinate of the stone.
      */
-    public void putStone(Color c, int x, int y)
+    public boolean putStone(Color c, int x, int y)
     {
-    	board[x][y].setType((c == Color.BLACK) ? FieldType.BLACK : FieldType.WHITE);
+    	if(checkIfMovePossible(c, x, y)==MoveState.ACCEPTED){
+    		board[x][y].setType((c == Color.BLACK) ? FieldType.BLACK : FieldType.WHITE);
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
     }
     
     /**
@@ -80,7 +84,7 @@ public class Board
      * @return FieldType of the Field of given coordinates.
      * @throws FieldOutOfBoardException when given coordinates are out of board.
      */
-    FieldType getFieldType(int x, int y) throws FieldOutOfBoardException
+    public FieldType getFieldType(int x, int y) throws FieldOutOfBoardException
     {
         if (!isOnBoard(x, y)) throw new FieldOutOfBoardException("Field would be outside board");
         return board[x][y].getType();
@@ -92,7 +96,7 @@ public class Board
      * @param y second coordinate of the field.
      * @return Field of given coordinates.
      */
-    Field getField(int x, int y)
+    public Field getField(int x, int y)
     {
         if (!isOnBoard(x, y)) return null;
         return board[x][y];

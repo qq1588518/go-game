@@ -68,13 +68,18 @@ public class GameManager
      */
     public boolean checkIfMovePossible(int x, int y)
     {
+    	if(x < 0 || y < 0 || x >= boardSize || boardSize <= y)
+    	{
+    		displayMessage("Clicked outside the board");
+    		return false;
+    	}
         if (board[x][y] != Field.EMPTY) 
         {
             displayMessage("This field is already ocuppied. ");
             return false;
         }
         return true;
-    }
+}
     
     /**
      * @param x
@@ -252,6 +257,7 @@ public class GameManager
 	public void addDeadStoneSuggestion(HashSet<Point> dead) 
 	{
 		drawingManager.setDeadStones(dead);
+		state.nextTurn();
 	}
 	
 	public void addTerritorySuggestion(HashSet<Point> my, HashSet<Point> oppo) 
@@ -264,8 +270,14 @@ public class GameManager
 	public void resumeGame(StoneType color) 
 	{
 		drawingManager.removeAllSigns();
+		mediator.getOptionsPanel().disactivateTeritoriesBox(true);
 		if (color.equals(myColor)) state = new GameStateMyMove(this);
 		else state = new GameStateOpponentsMove(this);
+	}
+
+	public void sendProposition() 
+	{
+		
 	}
 	
 

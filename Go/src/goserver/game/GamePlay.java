@@ -5,6 +5,7 @@ package goserver.game;
 
 import java.util.Random;
 
+import goserver.game.Player;
 import goserver.game.board.Board;
 import goserver.game.states.GamePlayState;
 import goserver.game.states.GamePlayStateBlackMoves;
@@ -21,6 +22,7 @@ public class GamePlay extends Thread
     private int n = 19;
     private GamePlayState state;
     private GamePlayTranslator translator; 
+    boolean wasPassed = false;
     
     
     /**
@@ -28,7 +30,7 @@ public class GamePlay extends Thread
      */
     public GamePlay(Player first, Player second)
     {
-        board = new Board(19);
+        board = new Board(n);
         Random r = new Random(); 
         boolean firstBlack = r.nextBoolean();
         black = firstBlack ? first : second;
@@ -50,6 +52,7 @@ public class GamePlay extends Thread
     
     public void makeMove(Player p, int x, int y)
     {
+    	wasPassed = false;
         state.makeMove(p, x, y);
     }
     
@@ -90,7 +93,7 @@ public class GamePlay extends Thread
         return board;
     }
     public void surrender(String message){
-    	System.out.println("hhyyhyhy " + message);
+    	
     	if(message.equals("BLACK")){
     		
     		white.sendMessage("YOULOOSE");
@@ -102,12 +105,32 @@ public class GamePlay extends Thread
     }
 
 
-	public void giveTurn(String message) {
-		if(message.equals("BLACK")){
-			white.sendMessage("ENEMYPASS");
+//	public void giveTurn(String message) {
+//		if(wasPassed){
+//			white.sendMessage("CHOOSETERITORIES");
+//			black.sendMessage("CHOOSETERITORIES");	
+//			System.out.println("DZIALA");
+//		}
+//		else{
+//			
+//			if(message.equals("BLACK")){
+//				white.sendMessage("ENEMYPASS");
+//			}
+//			else if(message.equals("WHITE")){
+//				black.sendMessage("ENEMYPASS");
+//			}
+//		}
+//	}
+	//Send PASS 
+	public void makeMove(Player player) {
+		// TODO Auto-generated method stub
+		if(wasPassed){
+			white.sendMessage("CHOOSETERITORIES");
+			black.sendMessage("CHOOSETERITORIES");	
 		}
-		else if(message.equals("WHITE")){
-			black.sendMessage("ENEMYPASS");
+		else{
+			wasPassed = true;
+			state.makeMove(player);
 		}
 	}
 }

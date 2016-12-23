@@ -133,7 +133,7 @@ public class Server implements Observer
             try 
             {
               socket.close();
-              System.out.println("zamykam");
+              System.out.println("closing");
             } 
             catch (IOException e) 
             {

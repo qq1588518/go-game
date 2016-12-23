@@ -11,6 +11,7 @@ public class DrawingManager
 	private HashSet<Point> deadStones;
 	private HashSet<Point> myTeritory;
 	private HashSet<Point> opponentsTeritory;
+	public DrawingMode drawingMode;
 	
 	/**
 	 * Constructs a new DrawingManager object 

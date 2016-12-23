@@ -43,11 +43,23 @@ public class ProgramServerTranslator extends ServerTranslator
         {
             manager.invite(input.replaceFirst("INVITATIONFROM ", ""));
         }
+        else if(input.startsWith("DECLINED")){
+        	try {
+				manager.askForList();
+			} catch (ComponentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
         else if(input.startsWith("GAMESTART"))
         {
             input = input.replaceFirst("GAMESTART ", "").trim();
             if (input.equals("BLACK")) manager.startGame(StoneType.BLACK);
             else if (input.equals("WHITE")) manager.startGame(StoneType.WHITE);          
+        }
+        else if(input.startsWith("CHOOSEANOTHEROPPONENT ")){
+        	input = input.replaceFirst("CHOOSEANOTHEROPPONENT " , "");
+        	manager.showPlayers(input, "Enemy don't want to play with you. Better use your holidays free time for your own or choose another player");
         }
         else if(input.startsWith("CHOOSEOPPONENTAGAIN"))
         {
@@ -100,6 +112,12 @@ public class ProgramServerTranslator extends ServerTranslator
     {
         socket.send("INVAGREE " + name);
     }
+    
+    public void sendDecline(String name) {
+		// TODO Auto-generated method stub
+    	
+		socket.send("INVDECLINE " + name);
+	}
 
     /**
      * @param socket
