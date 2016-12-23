@@ -41,9 +41,6 @@ public class OptionsPanel extends JPanel implements ActionListener
     private JRadioButton theirTerritoryRB;
     private ButtonGroup radioButtons;
     
-    
-    private JButton teritoriesButton; //for debug only
-    
     public OptionsPanel(GUIMediator parent)
     {
         this.parent = parent;
@@ -72,7 +69,6 @@ public class OptionsPanel extends JPanel implements ActionListener
         messageArea.setVisible(true);
         
         messageArea.setSize(textAreaSize);
-       // messageArea.setMinimumSize(textAreaSize);
         messageArea.setAlignmentX(CENTER_ALIGNMENT);
         messageArea.setLineWrap(true);
         scroll = new JScrollPane(messageArea);
@@ -115,8 +111,8 @@ public class OptionsPanel extends JPanel implements ActionListener
         add(statisticsArea);
         add(Box.createRigidArea(gap));
         
-        sendProposisionButton = new JButton("Send proposition");
-        acceptProposisionButton = new JButton("Accept proposition");
+        sendProposisionButton = new JButton("Send proposal");
+        acceptProposisionButton = new JButton("Accept proposal");
         requestResumingButton = new JButton("Request resuming the game");
         
         Dimension tbuttonSize = new Dimension(250, 30);
@@ -153,6 +149,7 @@ public class OptionsPanel extends JPanel implements ActionListener
     	theirTerritoryRB.setEnabled(false);
         
         myTerritoryRB.addActionListener(this);
+        theirTerritoryRB.addActionListener(this);
         
         Box teritoriesBox = new Box(BoxLayout.PAGE_AXIS);
         teritoriesBox.add(sendProposisionButton);
@@ -163,17 +160,6 @@ public class OptionsPanel extends JPanel implements ActionListener
         teritoriesBox.add(theirTerritoryRB);
         teritoriesBox.setAlignmentX(CENTER_ALIGNMENT);
         add(teritoriesBox);
-
-//        /**
-//         * TODO: usunąć, jak będzie gotowe
-//         */
-//        teritoriesButton = new JButton("teritories");
-//        teritoriesButton.setSize(buttonSize);
-//        teritoriesButton.setMinimumSize(buttonSize);
-//        teritoriesButton.setMaximumSize(buttonSize);
-//        teritoriesButton.setPreferredSize(buttonSize);
-//        teritoriesButton.addActionListener(this);
-//        add(teritoriesButton);
     }
 
     /**
@@ -230,58 +216,44 @@ public class OptionsPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource().equals(surrenderButton)){
 			try {
-				//parent.getGameManager().getMediator().displayLooseSurrender();
 				parent.getGameManager().sendWhiteFlag();
 				parent.displayLooseSurrender();
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ComponentException e) { e.printStackTrace(); }
 		}
 		if(arg0.getSource().equals(passButton)){
 			try {
-				
 				parent.getGameManager().missTurn();
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ComponentException e) { e.printStackTrace(); }
 		}
 		if(arg0.getSource().equals(sendProposisionButton))
 		{
 			try {
 				parent.getGameManager().sendProposition();
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ComponentException e) { e.printStackTrace(); }
 		}
 		if(arg0.getSource().equals(acceptProposisionButton))
 		{
 			try {
 				parent.getGameManager().acceptProposition();
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (ComponentException e) { e.printStackTrace(); }
 		}
 		if(arg0.getSource().equals(myTerritoryRB))
 		{
 			try {
 				if (myTerritoryRB.isSelected()) parent.getGameManager().getDrawingManager().drawingMode = DrawingMode.MYTERITORY;
-				else parent.getGameManager().getDrawingManager().drawingMode = DrawingMode.OPPONENTSTERITORY;
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			} catch (ComponentException e) { e.printStackTrace(); }
+		}
+		if(arg0.getSource().equals(theirTerritoryRB))
+		{
+			try {
+				if (theirTerritoryRB.isSelected()) parent.getGameManager().getDrawingManager().drawingMode = DrawingMode.OPPONENTSTERITORY;
+
+			} catch (ComponentException e) { e.printStackTrace(); }
 		}
 	}
     
-    public JButton getPassButton(){
-    	return passButton;
-    }
+    public JButton getPassButton(){	return passButton; }
     
-    public JButton getSurrenderButton(){
-    	return surrenderButton;
-}
+    public JButton getSurrenderButton(){ return surrenderButton;  }
 }

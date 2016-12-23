@@ -108,8 +108,8 @@ public class GameServerTranslator extends ServerTranslator
         else if (input.startsWith("SETTERRITORY"))
         {
         	manager.displayMessage("You have reached an agreement on dead stones. Now please suggest territories.\n");
-        	manager.getDrawingManager().removeAllSigns();
         	manager.removeStones(manager.getDrawingManager().getDead());
+        	manager.getDrawingManager().removeAllSigns();
         	manager.setState(new GameStateIAmSettingTerritories(manager));
         	manager.getMediator().getOptionsPanel().activateTeritoriesBox(true);
         }
