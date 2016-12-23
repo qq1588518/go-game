@@ -3,7 +3,6 @@ package goclient.game.states;
 import java.awt.Point;
 
 import goclient.game.GameManager;
-import goclient.gui.DrawingMode;
 
 public class GameStateIAmSettingTerritories implements GameState 
 {

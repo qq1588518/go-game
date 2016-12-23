@@ -5,7 +5,6 @@ package goclient.game;
 
 import java.awt.Point;
 import java.util.HashSet;
-import java.util.Vector;
 
 import goclient.game.states.GameStateIAmChoosingDead;
 import goclient.game.states.GameStateIAmSettingTerritories;
@@ -14,8 +13,6 @@ import goclient.game.states.GameStateOpponentsChoosingDead;
 import goclient.game.states.GameStateOpponentsSettingTerritories;
 import goclient.program.ServerTranslator;
 import goclient.program.SocketClient;
-import goserver.game.Color;
-import goserver.game.board.Field;
 
 /**
  * @author mk

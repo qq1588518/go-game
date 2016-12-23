@@ -26,10 +26,7 @@ public class GameStateOpponentsMove implements GameState
     }
 
     @Override
-    public void makeMove(int x, int y)
-    {
-        System.out.println("Can't make move now. It's not your turn!");
-    }
+    public void makeMove(int x, int y) { }
     
     public void nextTurn() 
     { 

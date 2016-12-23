@@ -62,15 +62,6 @@ public class GameManagerTest
         assertEquals(gm.getState().getClass(), GameStateOpponentsMove.class);
     }
     
-    /**
-     * TODO: 
-     * Test method for {@link goclient.GameManager#makeMove()}.
-     */
-    @Test
-    public void testMakeMove()
-    {
-        gm.makeMove(1, 1);
-     //   gm.getMediator().getGamePanel().getBoardPanel().
-    }
+   
     
 }

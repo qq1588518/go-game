@@ -53,19 +53,22 @@ public class Board
      */
     public MoveState checkIfMovePossible(Color c, int x, int y)
     {
-    	if (isOnBoard(x,y) && !board[x][y].getType().equals(FieldType.EMPTY)) return MoveState.REJECTEDNOTEMPTY;
-    	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
-    	if (groups.checkIfSuicidal(move)) return MoveState.REJECTEDSUICIDAL;
-    	/**
-    	 * Ko rule:
-    	 * One may not capture just one stone, if that stone was played on the previous move, 
-    	 * and that move also captured just one stone.
-    	 */      
-    	if (lastCaptured == null) return MoveState.ACCEPTED;
-    	Field f = groups.checkForKo(move);
-    	if (f == null) return MoveState.ACCEPTED;
-    	if (f.equals(lastMove)) return MoveState.REJECTEDKO;
-    	return MoveState.ACCEPTED;
+    	if(isOnBoard(x,y)){
+        	if (isOnBoard(x,y) && !board[x][y].getType().equals(FieldType.EMPTY)) return MoveState.REJECTEDNOTEMPTY;
+        	Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
+        	if (groups.checkIfSuicidal(move)) return MoveState.REJECTEDSUICIDAL;
+        	/**
+        	 * Ko rule:
+        	 * One may not capture just one stone, if that stone was played on the previous move, 
+        	 * and that move also captured just one stone.
+        	 */      
+        	if (lastCaptured == null) return MoveState.ACCEPTED;
+        	Field f = groups.checkForKo(move);
+        	if (f == null) return MoveState.ACCEPTED;
+        	if (f.equals(lastMove)) return MoveState.REJECTEDKO;
+        	return MoveState.ACCEPTED;
+        }
+    	return MoveState.REJECTEDNOTEMPTY;
     }
     
     /**

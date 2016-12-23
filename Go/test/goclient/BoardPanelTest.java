@@ -3,7 +3,7 @@
  */
 package goclient;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +13,6 @@ import goclient.game.StoneType;
 import goclient.game.WrongCoordsException;
 import goclient.gui.BoardPanel;
 import goclient.gui.GUIMediator;
-import goclient.program.ComponentException;
 import goclient.program.Program;
 import goclient.program.ProgramManager;
 

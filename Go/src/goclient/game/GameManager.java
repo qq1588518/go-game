@@ -5,7 +5,6 @@ package goclient.game;
 
 import java.awt.Point;
 import java.util.HashSet;
-import java.util.Vector;
 
 import goclient.game.states.GameState;
 import goclient.game.states.GameStateMyMove;

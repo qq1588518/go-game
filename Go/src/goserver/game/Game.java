@@ -82,7 +82,7 @@ public class Game extends Thread
      * @param name
      * @return
      */
-    private Player getPlayerNamed(String name)
+    public Player getPlayerNamed(String name)
     {
         for (Player player : players)
         {
