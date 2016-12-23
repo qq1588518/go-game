@@ -215,6 +215,13 @@ public class GamePlayTranslator
 		notifyBoth("CAPTURED BLACK " + String.valueOf(black) + " : " + "WHITE " + String.valueOf(white));
 	}
 
+	public void sendSurrender(Player p) 
+	{
+		if (p == black) white.sendMessage("YOULOOSE");
+		else black.sendMessage("YOULOOSE");
+	}
+
+
     
     
 }

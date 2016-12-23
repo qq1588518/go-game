@@ -48,13 +48,7 @@ public class Player
     {
         translator.sendInvitation(player);
     }
-    
-    public void surrendered(String message){
     	
-    	gamePlay.surrender(message);
-    }
-
-	
 	public void makeMove() 
 	{
 		if (gamePlay != null) gamePlay.makeMove(this);	
@@ -78,5 +72,10 @@ public class Player
 	public void sendAgreement() 
 	{
 		translator.sendAgreement();
+	}
+
+	public GamePlay getGamePlay() 
+	{
+		return gamePlay;
 	}
 }
