@@ -7,56 +7,130 @@ import goclient.program.ComponentException;
 
 public class DrawingManager 
 {
-	DrawingMode mode = DrawingMode.SINGLEMODE;
 	private GUIMediator mediator;
 	private HashSet<Point> deadStones;
-	private Point lastClick;
+	private HashSet<Point> myTeritory;
+	private HashSet<Point> opponentsTeritory;
+	public DrawingMode drawingMode = DrawingMode.MYTERITORY;
 	
+	/**
+	 * Constructs a new DrawingManager object 
+	 * @param mediator GUIMediator which handles drawing objects on screen.
+	 */
 	public DrawingManager(GUIMediator mediator)
 	{
 		this.mediator = mediator;
 		deadStones = new HashSet<>();
+		myTeritory = new HashSet<>();
+		opponentsTeritory = new HashSet<>();
 	}
-	public void changeMode(DrawingMode mode) { this.mode = mode; }
 	
-	public void markAsDead(int x, int y)
+	/**
+	 * Chooses appropriate set of Points according to given DrawingMode
+	 * @param mode DrawingMode for choosing set.
+	 * @return chosen HashSet of Points
+	 */
+	private HashSet<Point> chooseSet(DrawingMode mode)
 	{
-		if (mode.equals(DrawingMode.SINGLEMODE)) 
+		if(mode.equals(DrawingMode.MYTERITORY)) return myTeritory;
+		else if (mode.equals(DrawingMode.OPPONENTSTERITORY)) return opponentsTeritory;
+		else return deadStones;
+	}
+	
+	private HashSet<Point> chooseExcludingSet(DrawingMode mode)
+	{
+		if(mode.equals(DrawingMode.OPPONENTSTERITORY)) return myTeritory;
+		else if (mode.equals(DrawingMode.MYTERITORY)) return opponentsTeritory;
+		else return new HashSet<Point>();
+	}
+	
+	/**
+	 * Add given coordinates to a set depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
+	public void mark(int x, int y, DrawingMode mode)
+	{
+		HashSet<Point> set = chooseSet(mode);
+		HashSet<Point> excludingSet = chooseExcludingSet(mode);
+		try 
 		{
-			try {
-				if(!mediator.getGameManager().isFieldEmpty(x, y)) deadStones.add(new Point(x, y));
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//lastClick = null;
-		}
-		else
-		{
-			if (lastClick == null) lastClick = new Point(x, y);
-			else
-			{
-				int upperLeftX = (lastClick.x > x) ? x : lastClick.x;
-				int upperLeftY = (lastClick.y > y) ? y : lastClick.y;
-				int width = Math.abs(lastClick.x - x);
-				int height = Math.abs(lastClick.y - y);
-				HashSet<Point> fields;
-				try {
-					fields = mediator.getGameManager().getSameColorFieldsInArea(upperLeftX, upperLeftY, width, height);
-					if (fields != null)
-					{
-						deadStones.addAll(fields);
-					}
-				} catch (ComponentException e) { return; }
-				lastClick = null;				
-			}
-		}
+			if(mediator.getGameManager().isFieldTypeAppropriate(x, y, mode) && !excludingSet.contains(new Point(x, y))) set.add(new Point(x, y));
+		} 
+		catch (ComponentException e) { System.out.println(e.getMessage());}
+
 		mediator.getGamePanel().getBoardPanel().repaint();
 	}
 	
-	public void unmarkDead(int x, int y)
+	/**
+	 * Remove point of given coordinates from a set chosen depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
+	public void unmark(int x, int y, DrawingMode mode)
 	{
-		deadStones.remove(new Point(x, y));
+		HashSet<Point> set = chooseSet(mode);
+		set.remove(new Point(x, y));
+		mediator.getGamePanel().getBoardPanel().repaint();
+	}
+	
+	/**
+	 * Add group of points to a set chosen depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
+	public void markGroup(Point first, Point last, DrawingMode mode) 
+	{
+		HashSet<Point> set = chooseSet(mode);
+		HashSet<Point> excludingSet = chooseExcludingSet(mode);
+		int upperLeftX = (last.x > first.x) ? first.x : last.x;
+		int upperLeftY = (last.y > first.y) ? first.y : last.y;
+		int width = Math.abs(last.x - first.x);
+		int height = Math.abs(last.y - first.y);
+		HashSet<Point> fields;
+		try 
+		{
+			fields = mediator.getGameManager().getAppropriateFieldsInArea(upperLeftX, upperLeftY, width, height, mode);
+			if (fields != null) 
+			{
+				for (Point point : fields) 
+				{
+					if(!excludingSet.contains(point)) set.add(point);
+				}
+			}
+		} 
+		catch (ComponentException e) { System.out.println(e.getMessage());}
+		repaint();
+	}
+	
+	/**
+	 * Remove set of given points from a set chosen depending on current DrawingMode 
+	 * @param x first coordinate of the point.
+	 * @param y second coordinate of the point.
+	 * @param mode DrawingMode used for choosing proper set.
+	 */
+	public void unmarkGroup(Point first, Point last, DrawingMode mode) 
+	{
+		HashSet<Point> set;
+		if(mode.equals(DrawingMode.MYTERITORY)) set = myTeritory;
+		else if (mode.equals(DrawingMode.OPPONENTSTERITORY)) set = opponentsTeritory;
+		else set = deadStones;
+		
+		int upperLeftX = (last.x > first.x) ? first.x : last.x;
+		int upperLeftY = (last.y > first.y) ? first.y : last.y;
+		int width = Math.abs(last.x - first.x);
+		int height = Math.abs(last.y - first.y);
+		HashSet<Point> fields;
+		try 
+		{
+			fields = mediator.getGameManager().getAppropriateFieldsInArea(upperLeftX, upperLeftY, width, height, mode);
+			if (fields != null) set.removeAll(fields);
+		} 
+		catch (ComponentException e) { System.out.println(e.getMessage());}
+		repaint();
 	}
 	
 	public HashSet<Point> getDead()
@@ -64,6 +138,60 @@ public class DrawingManager
 		return deadStones;
 	}
 	
+	public void removeAllDeadSigns()
+	{
+		deadStones.removeAll(deadStones);
+		repaint();
+	}
+	
+	public void removeAllTeritoriesSigns()
+	{
+		myTeritory.removeAll(myTeritory);
+		opponentsTeritory.removeAll(opponentsTeritory);
+		repaint();
+	}
+	
+	/**
+	 * removes all signs, made in setting territories and choosing dead stones states
+	 */
+	public void removeAllSigns()
+	{
+		removeAllTeritoriesSigns();
+		removeAllDeadSigns();
+	}
+
+	public HashSet<Point> getMyTeritory() 
+	{
+		return myTeritory;
+	}
+
+	public HashSet<Point> getOpponentsTeritory() 
+	{
+		return opponentsTeritory;
+	}
+	
+	public void setMyTeritory(HashSet<Point> points)
+	{
+		myTeritory = points;
+		repaint();
+	}
+	
+	public void setOpponentsTeritory(HashSet<Point> points)
+	{
+		opponentsTeritory = points;
+		repaint();
+	}
+	
+	public void setDeadStones(HashSet<Point> points)
+	{
+		deadStones = points;
+		repaint();
+	}
+	
+	private void repaint()
+	{
+		mediator.getGamePanel().getBoardPanel().repaint();
+	}
 	
 
 }

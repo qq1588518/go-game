@@ -3,11 +3,13 @@
  */
 package goclient.gui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashSet;
@@ -37,7 +39,7 @@ public class BoardPanel extends JPanel
     private Vector<Stone> stones;
     
     private BufferedImage blackStone;
-    private BufferedImage whiteStone;
+	private BufferedImage whiteStone;
     
     
     /**
@@ -51,14 +53,6 @@ public class BoardPanel extends JPanel
     }
 
     
-    public Vector<Stone> getStones(){
-    	return stones;
-    }
-    /**
-     * TODO: coś zrobić z wyjątkiem wyrzucanym jak brak obrazka 
-     * 
-     * Initialises components of the BoardPanel.
-     */
     private void initComponents()
     {
         Dimension panelSize = new Dimension(500, 500);
@@ -69,9 +63,7 @@ public class BoardPanel extends JPanel
 
         setBackground(new Color(220, 179, 92));
         createBoard();
-        
-         
-        
+
         try
         {
             blackStone = ImageIO.read(this.getClass().getResource("black.png"));
@@ -79,41 +71,9 @@ public class BoardPanel extends JPanel
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
-
-    /**
-     * Paints board and stones
-     */
-    @Override
-    public void paintComponent(Graphics g) 
-    {
-        super.paintComponent(g);
-        drawBoard(g);
-        drawStone(g);
-        drawDeadSigns(g);
-    }
-    
-    private void drawDeadSigns(Graphics g) 
-    {
-    	 Graphics2D g2d = (Graphics2D) g;
-         g2d.setPaint(Color.red);
-             	
-         try {
-			HashSet<Point> dead = parent.getGameManager().getDrawingManager().getDead();
-			
-			for (Point point : dead) 
-			{
-				int signSize = fieldSize/3;
-				 g.drawLine(fields[point.x][point.y].x - signSize, fields[point.x][point.y].y - signSize, 
-						 	fields[point.x][point.y].x + signSize, fields[point.x][point.y].y + signSize);
-				 g.drawLine(fields[point.x][point.y].x + signSize, fields[point.x][point.y].y - signSize, 
-						 	fields[point.x][point.y].x - signSize, fields[point.x][point.y].y + signSize);
-			}
-
-		} catch (ComponentException e) { return; }
-	}
 
 	/**
      * Calculates positions of fields and hoshi on the board.
@@ -150,10 +110,24 @@ public class BoardPanel extends JPanel
         hoshi[8] = new Point((int)fields[n/2][n/2].getX(), (int)fields[n/2][n/2].getY());
         
         stoneRadius = fieldSize / 2;
+}
+   
+    /**
+     * Paints board and stones
+     */
+    @Override
+    public void paintComponent(Graphics g) 
+    {
+        super.paintComponent(g);
+        drawBoard(g);
+        drawStone(g);
+        drawDeadSigns(g);
+        drawTeritories(g);
     }
     
     /**
      * Draws board on screen using given Graphics object.
+     * @param g Graphics object to handle drawing
      */
     private void drawBoard(Graphics g)
     {
@@ -198,11 +172,9 @@ public class BoardPanel extends JPanel
         {
             g.fillOval(point.x - radius, point.y - radius, 2 * radius, 2 * radius);
         } 
-    }
+}
 
     /**
-     * TODO: zmienić algorytm skalowania na jakiś lepszy 
-     * 
      * Draw images representing Stones on board
      * @param g Graphics object to handle drawing
      */
@@ -217,13 +189,69 @@ public class BoardPanel extends JPanel
                         stoneRadius * 2, stoneRadius * 2, null);
         }  
     }
-        
     
     /**
-     * TODO: to powinna chyba być publiczna funkcja, wołana z zewnątrz, 
-     * żeby mieć pole, na którym chcemy postawić kamień - i dalej sprawdzać, 
-     * czy możemy go tam postawić.
-     * 
+     * Draws symbols of dead stones (red X) on board.
+     * @param g Graphics object to handle drawing
+     */
+    private void drawDeadSigns(Graphics g) 
+    {
+    	 Graphics2D g2d = (Graphics2D) g;
+         g2d.setPaint(Color.red);
+         Stroke s = g2d.getStroke();
+         g2d.setStroke(new BasicStroke(3));
+         try {
+			HashSet<Point> dead = parent.getGameManager().getDrawingManager().getDead();
+			
+			for (Point point : dead) 
+			{
+				int signSize = fieldSize/3;
+				 g.drawLine(fields[point.x][point.y].x - signSize, fields[point.x][point.y].y - signSize, 
+						 	fields[point.x][point.y].x + signSize, fields[point.x][point.y].y + signSize);
+				 g.drawLine(fields[point.x][point.y].x + signSize, fields[point.x][point.y].y - signSize, 
+						 	fields[point.x][point.y].x - signSize, fields[point.x][point.y].y + signSize);
+			}
+
+		} catch (ComponentException e) { return; }
+         
+         g2d.setStroke(s);
+	}
+
+    /**
+     * Allows us draw teritories with given colors
+     * @param g
+     */
+    private void drawTeritories(Graphics g)
+    {         
+		 try 
+		 {
+			 HashSet<Point> my = parent.getGameManager().getDrawingManager().getMyTeritory();
+			 drawRectangles(g, new Color(0f,1f,0f,.5f), my);
+			 HashSet<Point> oppo = parent.getGameManager().getDrawingManager().getOpponentsTeritory();
+			 drawRectangles(g, new Color(0f,0f,1f,.5f), oppo);
+		} 
+		catch (ComponentException e) { return; }
+    }
+    
+    /**
+     * Draws field-sized rectangles on points from given HashSet.
+     * @param g Graphics object to handle drawing
+     * @param c Color of rectangles
+     * @param points HashSet of Points of centers of rectangles to draw.
+     */
+    private void drawRectangles(Graphics g, Color c, HashSet<Point> points)
+    {
+		 Graphics2D g2d = (Graphics2D) g;
+		 g2d.setPaint(c);
+		int signSize = fieldSize/2;
+		
+		for (Point p : points) 
+		{
+	        g.fillRect(fields[p.x][p.y].x - signSize, fields[p.x][p.y].y - signSize, 2 * signSize, 2 * signSize);
+		}
+    }
+    	 
+    /**
      * Calculates point on grid which is closest to given one. 
      * If given point is further than precision allows, returns null.
      * @param Point to pull to grid
@@ -256,26 +284,20 @@ public class BoardPanel extends JPanel
         if (deltaX > precision || deltaY > precision) return null;
     
         return new Point(gridXrounded, gridYrounded);
-    }
+}
     
-    
-    /**
-     * TODO: ostatecznie tu pewnie nie powinno być sprawdzania, czy jest nullem.
-     * Ta fcja wołana powinna być tylko dla kamieni, o których wiemy, że są dobre 
-     * i można je postawić. 
-     * 
-     * Adds a new Stone to Vector of Stones to draw on board.
-     * @param stoneType color of Stone
-     * @param p Point with coords on grid
-     */
-    synchronized public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
-    {
-        if (x >= 0 && x < n && y >= 0 && y < n) stones.add(new Stone(x, y, stoneType));
-        else throw new WrongCoordsException("Chosen coordinates do not exist on board.");
-        repaint();
-    }
+    /**    
+    * Adds a new Stone to Vector of Stones to draw on board.
+    * @param stoneType color of Stone
+    * @param p Point with coords on grid
+    */
+   synchronized public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
+   {
+       if (x >= 0 && x < n && y >= 0 && y < n) stones.add(new Stone(x, y, stoneType));
+       else throw new WrongCoordsException("Chosen coordinates do not exist on board.");
+       repaint();
+}
 
-    
     /**
      * @param x
      * @param y
@@ -292,6 +314,14 @@ public class BoardPanel extends JPanel
     	}
     	
         repaint();
+    }
+    
+    /**
+     * Returns vector of stones
+     * @return
+     */
+    public Vector<Stone> getStones(){
+    	return stones;
     }
 
 }

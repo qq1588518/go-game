@@ -5,15 +5,15 @@ package goclient.game;
 
 import java.awt.Point;
 import java.util.HashSet;
-import java.util.Vector;
 
 import goclient.game.states.GameState;
 import goclient.game.states.GameStateMyMove;
+import goclient.game.states.GameStateNotStartedYet;
 import goclient.game.states.GameStateOpponentsMove;
 import goclient.gui.DrawingManager;
+import goclient.gui.DrawingMode;
 import goclient.gui.GUIMediator;
 import goclient.program.ComponentException;
-import goserver.game.Color;
 
 public class GameManager
 {
@@ -27,13 +27,18 @@ public class GameManager
     private Field[][] board;
     private int waitingX;
     private int waitingY;
+   
     /**
-     * 
+     * Creates board, sets fields EMPTY and gives player color.
+     * Checks if move is possible from Client side.
+     * Manages which stones should be painted or removed.
+     * @param boardSize
+     * @param mediator
+     * @param myColor
      */
     public GameManager(int boardSize, GUIMediator mediator, StoneType myColor)
     {
         this.boardSize = boardSize;
-        System.out.println(boardSize);
         this.mediator = mediator;
         this.myColor = myColor;
         this.drawingManager = new DrawingManager(mediator);
@@ -54,6 +59,7 @@ public class GameManager
     }
 
     /**
+     * Allows to show message in GUI window
      * @param input
      */
     public void displayMessage(String input)
@@ -62,13 +68,16 @@ public class GameManager
     }
 
     /**
-     * @param x
-     * @param y
-     * @return
+     * 
+     * Checks if move is possible from client side
+     * @param x - coordx
+     * @param y - coordy
+     * @return true if move is possible, false if not
      */
     public boolean checkIfMovePossible(int x, int y)
     {
-    	if(x<=0 || y<=0 || x>=boardSize || boardSize<=y){
+    	if(x < 0 || y < 0 || x >= boardSize || boardSize <= y)
+    	{
     		displayMessage("Clicked outside the board");
     		return false;
     	}
@@ -78,18 +87,18 @@ public class GameManager
             return false;
         }
         return true;
-    }
+}
     
-
     /**
+     * If coords equals -1, tell translator to send pass move to server
      * @param x
      * @param y
      */
     public void sendMove(int x, int y)
     {
-        translator.sendMove(x,y);
+        if(x == -1 && y == -1) translator.sendPassMove();
+        else translator.sendMove(x,y);
     }
-    
     
     /**
      * @param gt
@@ -99,34 +108,57 @@ public class GameManager
         this.translator = gt;
     }
     
+    /**
+     * 
+     * @param state
+     */
     public void setState(GameState state)
     {
         this.state = state;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public GameState getState()
     {
         return state;
     }
-
+    /**
+     * 
+     * @return
+     */
     public GUIMediator getMediator()
     {
         return mediator;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public DrawingManager getDrawingManager()
     {
     	return drawingManager;
     }
-    
+    /**
+     * 
+     * @return
+     */
     public int getBoardSize()
     {
     	return boardSize;
     }
+    /**
+     * 
+     * @return
+     */
+    public GameServerTranslator getTranslator()
+    {
+    	return translator;
+    }
 
     /**
-     * @param string
-     * @param string2
+     * Adds move to board panel
      */
     public void addMyMove()
     {
@@ -134,7 +166,6 @@ public class GameManager
         {
             mediator.getGamePanel().getBoardPanel().addStone(myColor, waitingX, waitingY);
             board[waitingX][waitingY] = (myColor == StoneType.BLACK) ? Field.BLACK : Field.WHITE;
-           // state = new GameStateOpponentsMove(this);
         }
         catch (WrongCoordsException e)
         {
@@ -144,6 +175,7 @@ public class GameManager
     }
 
     /**
+     * Saves move waiting for response from server
      * @param x
      * @param y
      */
@@ -154,7 +186,8 @@ public class GameManager
     }
 
     /**
-     * 
+     * Displayes message of reason, why user could not put stone
+     * @param reason
      */
     public void resetMyMove(String reason)
     {
@@ -174,6 +207,7 @@ public class GameManager
     }
 
     /**
+     * Adds opponent move to user board
      * @param valueOf
      * @param valueOf2
      */
@@ -183,7 +217,6 @@ public class GameManager
         {
             mediator.getGamePanel().getBoardPanel().addStone(myColor.other(), x, y);
             board[x][y] = (myColor == StoneType.BLACK) ? Field.WHITE : Field.BLACK;
-         //   state = new GameStateMyMove(this);
         }
         catch (WrongCoordsException e)
         {
@@ -192,34 +225,29 @@ public class GameManager
         }
     }    
     
+    /**
+     * Tells translator to send information about user surrender
+     * @throws ComponentException
+     */
     public void sendWhiteFlag() throws ComponentException{
     	if (translator == null) throw new ComponentException("Translator not set in ProgramManager");
     	translator.sendSurrender();
     }
 
-	public void missTurn() {
-		 state = new GameStateOpponentsMove(this);
-		if (translator == null)
-			try {
-				throw new ComponentException("Translator not set in ProgramManager");
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
-		translator.sendPassMove();
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void addOpponentsMove(String string) {
-		state = new GameStateMyMove(this);
-		displayMessage("Opponent has passed");
+    /**
+     * Makes pass move
+     */
+	public void missTurn() 
+	{
+		state.makeMove(-1, -1);
 	}
     
-    synchronized public void removeStones(Vector<Point> fields)
+	/**
+	 * Removes stones with indicated hashset
+	 * @param fields
+	 */
+    synchronized public void removeStones(HashSet<Point> fields)
     {
-        
     	for (Point point : fields)
         {
         	StoneType c = (board[point.x][point.y] == Field.BLACK) ? StoneType.BLACK : StoneType.WHITE;
@@ -229,8 +257,13 @@ public class GameManager
         state.nextTurn();
     }
 
-
-	public HashSet<Point> getSameColorFieldsInArea(int upperLeftX, int upperLeftY, int width, int height) 
+    private boolean isAppropriate(int x, int y, DrawingMode mode)
+    {
+    	if (mode.equals(DrawingMode.DEAD))  return !board[x][y].equals(Field.EMPTY);
+    	else  return board[x][y].equals(Field.EMPTY);
+    }
+    
+	public HashSet<Point> getAppropriateFieldsInArea(int upperLeftX, int upperLeftY, int width, int height, DrawingMode mode) 
 	{
 		HashSet<Point> fields = new HashSet<Point>(); 
 		
@@ -238,18 +271,81 @@ public class GameManager
         {
             for (int j = 0; j < boardSize; j++) 
             {
-            	if (!board[i][j].equals(Field.EMPTY) && 
+            	if (isAppropriate(i, j, mode) && 
             		i >= upperLeftX && i <= upperLeftX + width &&
             		j >= upperLeftY && j <= upperLeftY + height) fields.add(new Point(i, j));
             }
         }
-		
 		return fields;
 	}
 	
-	public boolean isFieldEmpty(int x, int y)
+	public boolean isFieldTypeAppropriate(int x, int y, DrawingMode mode)
 	{
-		return board[x][y].equals(Field.EMPTY) ? true : false;	
+		return isAppropriate(x, y, mode);
+	}
+	/**
+	 * Removes pointed stones
+	 * @param x
+	 * @param y
+	 */
+	public void remove(int x, int y) 
+	{
+		state.remove(x, y);
+	}
+
+	public void addDeadStoneSuggestion(HashSet<Point> dead) 
+	{
+		drawingManager.setDeadStones(dead);
+		state.nextTurn();
+	}
+	
+	public void addTerritorySuggestion(HashSet<Point> my, HashSet<Point> oppo) 
+	{
+		drawingManager.setMyTeritory(my);
+		drawingManager.setOpponentsTeritory(oppo);
+		state.nextTurn();
+	}
+
+	public void resumeGame(StoneType color) 
+	{
+		drawingManager.removeAllSigns();
+		mediator.getOptionsPanel().disactivateTeritoriesBox(true);
+		if (color.equals(myColor)) state = new GameStateMyMove(this);
+		else
+		{
+			state = new GameStateOpponentsMove(this);
+			translator.sendResume();
+		}
+	}
+	/**
+	 * When player is content, he can send proposition to enemy player
+	 */
+	public void sendProposition() 
+	{
+		state.sendProposal();
+	}
+	/**
+	 * Accept proposition
+	 */
+	public void acceptProposition()
+	{
+		translator.sendAcceptance();
+	}
+	/**
+	 * Counts which player won game; send it to mediator
+	 * @param black
+	 * @param white
+	 */
+	public void manageResults(double black, double white) 
+	{
+		boolean blackWon = (black > white) ? true : false;
+		boolean iAmTheWinner;
+		if (myColor.equals(StoneType.BLACK) && blackWon) iAmTheWinner = true;
+		else if (myColor.equals(StoneType.WHITE) && !blackWon) iAmTheWinner = true; 
+		else iAmTheWinner = false;
+		
+		state = new GameStateNotStartedYet();
+		mediator.manageGameEnd(black, white, iAmTheWinner, false);
 	}
 	
 

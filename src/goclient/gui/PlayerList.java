@@ -1,4 +1,4 @@
-package goclient.program;
+package goclient.gui;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
-import goclient.gui.GUIMediator;
+import goclient.program.ComponentException;
 
 
 /**

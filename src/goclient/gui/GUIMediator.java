@@ -12,14 +12,13 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import goclient.gui.GamePanel;
 import goclient.game.GameManager;
 import goclient.program.ComponentException;
-import goclient.program.PlayerList;
 import goclient.program.ProgramManager;
 
 /**
- * Main frame of the program and also the Mediator between GUI components
+ * Main frame of the program and also the Mediator between GUI components.
+ * Holds all methods to show our GUI components.
  *
  */
 @SuppressWarnings("serial")
@@ -35,6 +34,7 @@ public class GUIMediator extends JFrame
     
     /**
      * Constructs a new GUIMediator frame.
+     * @param programManager parent of GUI Mediator
      */
     public GUIMediator(ProgramManager programManager) 
     {
@@ -71,7 +71,6 @@ public class GUIMediator extends JFrame
         setLayout(new BorderLayout());
         add(this.gamePanel, BorderLayout.CENTER);
         add(this.optionsPanel, BorderLayout.WEST);
- 
     }
     
     /**
@@ -103,7 +102,7 @@ public class GUIMediator extends JFrame
     }
     /**
      * 
-     * @return
+     * @return ProgramManager
      */
     public ProgramManager getProgramManager()
     {
@@ -119,9 +118,9 @@ public class GUIMediator extends JFrame
     }
 
     /**
-     * shows list of players
-     * @param list
-     * @param tytul 
+     * Show list of players
+     * @param list - names of players
+     * @param tytul - title of frame, information to user
      */
     public void displayPlayersDialog(String list, String tytul)
     {
@@ -140,7 +139,8 @@ public class GUIMediator extends JFrame
     }
 
     /**
-     * @param name
+     * Displayes invitation from opponent to user, with possibility to agree or decline
+     * @param name of enemy who invited you
      */
     public void displayInvitation(String name)
     {
@@ -152,20 +152,12 @@ public class GUIMediator extends JFrame
             	programManager.respondInvitation(name, true);
             	playerList.setVisible(false);
             }
-            else if(choice == JOptionPane.CLOSED_OPTION){
-        		System.exit(0);
-        	}
-            else{
-            	programManager.respondInvitation(name, false);
-            	
-           
-            }       
+            else programManager.respondInvitation(name, false);       
         }
         catch (ComponentException e)
         {
             System.out.println(e.getMessage());
         }
-
     }
 
     /**
@@ -174,11 +166,16 @@ public class GUIMediator extends JFrame
     public void setGameComponents(GameManager game)
     {
         gameManager = game;
-        gamePanel.getBoardPanel().addMouseListener(new Mouse(this));
-        gamePanel.getBoardPanel().addKeyListener(new Keyboard(game.getDrawingManager()));
+        Mouse m = new Mouse(this);
+        gamePanel.getBoardPanel().addMouseListener(m);
     }
 
-    public void setOptionPanelButtonsListeners(GameManager game){
+    /**
+     * adds ActionListeners to buttons after game start
+     * @param game
+     */
+    public void setOptionPanelButtonsListeners(GameManager game)
+    {
     	gameManager = game;
     	this.getOptionsPanel().getSurrenderButton().addActionListener(this.getOptionsPanel());
     	this.getOptionsPanel().getPassButton().addActionListener(this.getOptionsPanel());
@@ -186,74 +183,80 @@ public class GUIMediator extends JFrame
     
     /**
      * @param message
+     * Shows error dialog
      */
     public void displayError(String message)
     {
-        JOptionPane.showMessageDialog(this, message, "Error", ERROR);
+        JOptionPane.showMessageDialog(this, message, "Something went wrong...", ERROR);
     }
 
-    public void displayLooseSurrender() {
-		String text = "<html> You surrendered! You lost :c\nWhat to do next?";
-    	String[] options = new String[2];
-    	options[0] = new String("New game");
-    	options[1] = new String("End game");
-    	int choice = JOptionPane.showOptionDialog(this, text, "Looser", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-    	System.out.println(choice);
-    	if (choice == 1){
-    		System.exit(1);
-    	}
-    	else if (choice == 0){
-    		gamePanel.setVisible(false);
-    		this.remove(gamePanel);
-    		gamePanel = new GamePanel(this);
-    		this.add(gamePanel);
-    		gamePanel.setVisible(true);
-    		gamePanel.repaint();
-    		programManager.endGame();
-    	
-    		try {
-    			playerList.setVisible(true);
-				programManager.askForList();
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-    	}
-    	else if(choice == JOptionPane.CLOSED_OPTION){
-    		System.exit(0);
-    	}
-		
+    /**
+     * Shows message dialog
+     * @param string
+     */
+    public void displayDialog(String string) 
+	{
+		JOptionPane.showMessageDialog(this, string);
 	}
-    public void displayWinSurrender(){
-    	String text = "<html> Enemy surrendered! You win!\nWhat to do next?";
-    	String[] options = new String[2];
-    	options[0] = new String("New game");
-    	options[1] = new String("End game");
-    	int choice = JOptionPane.showOptionDialog(this, text, "Winner", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+    
+    /**
+     * Shows dialog ending the game
+     * @param black - colour of player1
+     * @param white - colour of player2
+     * @param iAmTheWinner - bool holds information who wins
+     * @param wasSurrender - if game was surrendered
+     */
+	public void manageGameEnd(double black, double white, boolean iAmTheWinner, boolean wasSurrender) 
+	{
+		StringBuilder message = new StringBuilder();
+		if(!wasSurrender)
+		{
+			message.append("<html> Game finished. ");
+			if (iAmTheWinner) message.append("Congratulations. You won.\n");
+			else  message.append("You lost.\n");
+			message.append("Results:\n BLACK: " + String.valueOf(black) + " WHITE: " + String.valueOf(white) + "\n");
+		}
+		else
+		{
+			if (iAmTheWinner) message.append("<html> Your opponent has surrendered.\n Congratulations. You won.\n");
+			else message.append("<html> You have surrendered. You lost.\n");
+		}
+		message.append("What do you want to do next?");
+		
+		String title = iAmTheWinner ? "You are the winner!" : "You are the looser!";
+		
+		String[] options = new String[2];
+    	options[0] =	 new String("New game");
+    	options[1] = new String("Quit");
+    	int choice = JOptionPane.showOptionDialog(this, message.toString(), title, 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
     	System.out.println(choice);
-    	if (choice == 1){
-    		System.exit(1);
-    	}
-    	else if (choice == 0){
-    		gamePanel.setVisible(false);
-    		this.remove(gamePanel);
-    		gamePanel = new GamePanel(this);
-    		this.add(gamePanel);
-    		gamePanel.setVisible(true);
-    		gamePanel.repaint();
+    	if (choice == 1) System.exit(1);
+    	else if (choice == 0)
+    	{
+    		programManager.endGame();
     		try {
     			playerList.setVisible(true);
 				programManager.askForList();
-			} catch (ComponentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		
+			} catch (ComponentException e) { e.printStackTrace(); }
     	}
-    	else if(choice == JOptionPane.CLOSED_OPTION){
-    		System.exit(0);
-    	}
-    }
+    	else if(choice == JOptionPane.CLOSED_OPTION) System.exit(0);
+	}
 
+	/**
+	 * creates new GamePanel and OptionsPanel if player choose "New Game" option
+	 */
+	public void reset()
+	{
+		gamePanel = new GamePanel(this);
+		optionsPanel = new OptionsPanel(this);
+		repaint();
+	}
+	/**
+	 * 
+	 * @return list of players
+	 */
+	public PlayerList getPlayerList(){
+    	return playerList;
+    }
 
 }

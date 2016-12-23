@@ -4,6 +4,7 @@
 package goclient.program;
 
 import java.awt.EventQueue;
+import java.awt.Frame;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -11,7 +12,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import goclient.gui.GUIMediator;
 
 /**
- * TODO: Jak rozwiązać zmianę translatorów i managerów?
+ * TODO: Jak rozwiązać zmianę translatorów i managerów?
  *
  */
 public class Program
@@ -58,6 +59,13 @@ public class Program
     public GUIMediator getGUI()
     {
         return frame;
+    }
+    
+    public void reset()
+    {
+    	frame.dispose();
+    	frame = new GUIMediator(programManager);
+    	frame.setVisible(true);
     }
     
     /**
