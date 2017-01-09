@@ -50,6 +50,9 @@ public class GameStateIAmSettingTerritories implements GameState
 		last = null;
 	}
 
+	/**
+	 * Empty method, not used in this state.
+	 */
 	@Override
 	public void reset() { }
 	
@@ -67,6 +70,4 @@ public class GameStateIAmSettingTerritories implements GameState
 												manager.getDrawingManager().getOpponentsTeritory());
 		alreadySent = true;
 	}
-
-
 }
