@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author mk
- * 
- */
-package goserver;

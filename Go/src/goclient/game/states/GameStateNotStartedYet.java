@@ -11,45 +11,39 @@ import java.awt.Point;
  */
 public class GameStateNotStartedYet implements GameState
 {
-    
-
-
-    /* 
-     * Do nothing - cannot click on board when game is not started.
-     *
-     * 
-     */
-    @Override
+	/**
+	 * Empty method, not used in this state.
+	 */
+	@Override
     public void makeMove(int x, int y) {}
 
-    /* (non-Javadoc)
-     * @see goclient.GameState#reset()
-     */
-    @Override
-    public void reset()
-    {
-        // TODO Auto-generated method stub
-        
-    }
+	/**
+	 * Empty method, not used in this state.
+	 */
+	@Override
+    public void reset() { }
     
-    
+	/**
+	 * Empty method, not used in this state.
+	 */
+	@Override
     public void nextTurn() { }
 
+	/**
+	 * Empty method, not used in this state.
+	 */
 	@Override
-	public void remove(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void remove(int x, int y) { }
 
+	/**
+	 * Empty method, not used in this state.
+	 */
 	@Override
-	public void endMove(Point coords, boolean isAdding) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void endMove(Point coords, boolean isAdding) { }
 
+	/**
+	 * Empty method, not used in this state.
+	 */
 	@Override
-	public void sendProposal() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void sendProposal() { }
 }

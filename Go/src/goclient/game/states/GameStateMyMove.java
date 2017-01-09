@@ -69,13 +69,11 @@ public class GameStateMyMove implements GameState
 	 */
 	@Override
 	public void endMove(Point coords, boolean isAdding) { }
+	
 	/**
 	 * Empty method, not used in this state.
 	 */
 	@Override
-	public void sendProposal() {
-		
-		
-	}
+	public void sendProposal() { }
     
 }
