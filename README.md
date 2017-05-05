@@ -13,3 +13,15 @@ First you have to run the server (`serw.jar` file), then the client(s) (`prog.ja
 ### Team
 * Małgorzata Kaczmarczyk
 * Marcin Zieliński
+
+### Screenshots
+
+##### Play
+![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/play.png?raw=true)
+
+##### Choosing dead stones
+![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/dead.png?raw=true)
+
+##### Choosing territories
+![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/territories.png?raw=true)
+
