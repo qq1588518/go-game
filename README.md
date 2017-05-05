@@ -23,5 +23,5 @@ First you have to run the server (`serw.jar` file), then the client(s) (`prog.ja
 ![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/dead.png?raw=true)
 
 ##### Choosing territories
-![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/territories.png?raw=true)
+![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/territory.png?raw=true)
 
