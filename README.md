@@ -1,6 +1,8 @@
 # Go game
 This is a project for the Programming Technologies course delivered at Wroclaw University of Science and Technology in winter 2016 written in Java and using swing as a GUI tool. 
 
+Full javadocs can be found at https://makacz.github.io/go-game/. 
+
 ### Compile and run
 First you have to run the server (`serw.jar` file), then the client(s) (`prog.jar` file). 
 
@@ -17,11 +19,11 @@ First you have to run the server (`serw.jar` file), then the client(s) (`prog.ja
 ### Screenshots
 
 ##### Play
-![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/play.png?raw=true)
+![Gameplay screenshot](https://github.com/makacz/go-game/blob/master/screenshots/play.png?raw=true)
 
 ##### Choosing dead stones
-![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/dead.png?raw=true)
+![Dead stones screenshot](https://github.com/makacz/go-game/blob/master/screenshots/dead.png?raw=true)
 
 ##### Choosing territories
-![Alt text](https://github.com/makacz/go-game/blob/GOTOWE/screenshots/territory.png?raw=true)
+![Territories screenshot](https://github.com/makacz/go-game/blob/master/screenshots/territory.png?raw=true)
 
