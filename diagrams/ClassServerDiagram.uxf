@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1652</x>
+      <y>805</y>
+      <w>147</w>
+      <h>196</h>
+    </coordinates>
+    <panel_attributes>Server.java
+Package::goserver
+--
+- socket : Socket
+- clients : Vector&lt;ClientHandler&gt;
+- game : Vector&lt;GamePlays&gt;
+- ssocket : ServerSocket
+- sst : StartServerThread
+- clientHandler : ClientHandler
+- port : int
+- listening : boolean
+
+--
++ Server()
++ startServer(): void
++ stopServer(): void
+--
+Responsibilities
+--create and manage server
+--contain PlayerList</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1477</x>
+      <y>623</y>
+      <w>147</w>
+      <h>147</h>
+    </coordinates>
+    <panel_attributes>StartServerThread
+Extends Thread
+--
+- listen : boolean
+--
++StartServerThread(){
+newGame
+}
++stopServerThread(): void
++main(String[] args): void
+
+--
+Responsibilities
+--Creates ClientHandler with Game</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1631</x>
+      <y>679</y>
+      <w>56</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Runnable
+--
++run(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1792</x>
+      <y>770</y>
+      <w>119</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>150.0;10.0;150.0;120.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1799</x>
+      <y>742</y>
+      <w>98</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>Exceptions:
+-WrongMove
+-WrongName</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1547</x>
+      <y>567</y>
+      <w>126</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0;150.0;10.0;160.0;80.0;160.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1281</x>
+      <y>868</y>
+      <w>147</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>ClientHandler.java
+Package::goserver
+--
+- reader: BufferedReader
+- writer: PrintWriter
+- socket: Socket
+- running: boolean
+- clientMessagesTranslator: ClientMessagesTranslator
+- player: Player
+-game: Game
+--
++ClientHandler(socket: Socket
++stopClient(): void
+
+--
+Responsibilities
+--Manage Client</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1659</x>
+      <y>483</y>
+      <w>70</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>Thread
+--
++run(): void
++finalize: void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1547</x>
+      <y>490</y>
+      <w>126</w>
+      <h>147</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+&lt;&lt;extends&gt;&gt;</panel_attributes>
+    <additional_attributes>160.0;20.0;40.0;20.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1421</x>
+      <y>763</y>
+      <w>140</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>180.0;10.0;10.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>658</x>
+      <y>665</y>
+      <w>147</w>
+      <h>343</h>
+    </coordinates>
+    <panel_attributes>GamePlay.java
+Thread
+Package::goserver
+--
+-black, white: Player
+-board: Board
+-n: int
+-state: GamePlayState
+-translator: GamePlayTranslator
+-wasPassed: boolean
+--
++GamePlay(Player first, Player second)
+
++makeMove(Player p, int x, int y): void
++getBlack: Player
++getWhite: Player;
++getTranslator: GamePlayTranslator
++getGamePlayState(): GamePlayState
+-send(String message): void
++setState(GamePlayState state) void
++getBoard: Board
++surrender(String message): void
++makeMove(Player p): void
+--
+Contain functions managing gameplay
+makeMove can make pass move, 
+or put stone on board
+
+
+--
+Responsibilities
+Manage Moves and Gameplay</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>672</x>
+      <y>483</y>
+      <w>147</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>ENUM FieldType
+--
+WHITE, BLACK EMPTY</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>728</x>
+      <y>511</y>
+      <w>21</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>406</x>
+      <y>574</y>
+      <w>154</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>GamePlayState
+--
+-makeMove(Player p, int x, int y);
+-makeMove(Player player);</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>413</x>
+      <y>329</y>
+      <w>84</w>
+      <h>266</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;360.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>252</x>
+      <y>329</y>
+      <w>238</w>
+      <h>273</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;320.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>483</x>
+      <y>343</y>
+      <w>98</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;340.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>420</x>
+      <y>315</y>
+      <w>147</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>GamePlayStateGameEnd
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>112</x>
+      <y>315</y>
+      <w>147</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>GamePlayStateWhiteMoves
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>266</x>
+      <y>315</y>
+      <w>147</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>GamePlayStateBlackSetsTerritory
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1064</x>
+      <y>938</y>
+      <w>119</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1148</x>
+      <y>931</y>
+      <w>56</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Runnable
+--
++run(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>924</x>
+      <y>931</y>
+      <w>147</w>
+      <h>203</h>
+    </coordinates>
+    <panel_attributes>ClientMessagesTranslator.java
+Package::goserver
+--
+-game: Game
+-clientHandler: ClientHandler
+-response
+--
++processIncommingMessage(String message): void
+-getList:  String
++sendInvitation(String player): void
++sendDeclination: void
++sendMessage: void
+--
+Responsibilities
+processIncommingMessage
+choosing response to server
+question and create game or 
+send information to 
+ClientHandler</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1197</x>
+      <y>644</y>
+      <w>98</w>
+      <h>343</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;60.0;10.0;60.0;470.0;120.0;470.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>959</x>
+      <y>588</y>
+      <w>245</w>
+      <h>161</h>
+    </coordinates>
+    <panel_attributes>Game.java
+Package::goserver
+--
+-players: Vector&lt;Player&gt;
+--
++getNotBusyPlayers()
++addPlayer(String name, ClientHandler h): boolean
++chooseOpponent(String name, Player p):boolean,
++inviteOpponent(String name, String byWho): boolean
++deletePlayer(Player player): void
++declineOppoenent(String message): boolean
+-checkIfNameIsGood(String name): void
+-isNameTaken(String name): boolean
+-getPlayerNamed(String name): Player</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>798</x>
+      <y>651</y>
+      <w>175</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>230.0;10.0;90.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>553</x>
+      <y>721</y>
+      <w>119</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>150.0;50.0;60.0;50.0;60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>413</x>
+      <y>651</y>
+      <w>147</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>GamePlayTranslator.java
+Thread
+Package::goserver
+--
+-black, white: Player
+--
++notifyBoth(String message): void
++notifyGameStart(): void
++confirmMove(Player p): void
++rejectMove(Player p, MoveState ms): void
++rejectMoveAttempt(Player p): void
++sendOpponentsMove(Player p, int x, int y): void
++sendOpponentsMove(Player p, int x, int y, HashSet&lt;Field&gt; removed): void
+-createRemovedStonesMessage(HashSet&lt;Field&gt; removed);
++sendRemovedStones(Player p, HashSet&lt;Field&gt; removed): void
++sendOpponentsMove(Player p): void
+--
+Sends message to Client
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>483</x>
+      <y>581</y>
+      <w>189</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;230.0;10.0;230.0;230.0;250.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>574</x>
+      <y>315</y>
+      <w>147</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>GamePlayStateWhiteSetsTerritory
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>728</x>
+      <y>315</y>
+      <w>147</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>GamePlayStateBlack
+Moves
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>483</x>
+      <y>357</y>
+      <w>133</w>
+      <h>245</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>170.0;10.0;10.0;330.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>483</x>
+      <y>378</y>
+      <w>273</w>
+      <h>224</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>370.0;10.0;10.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>798</x>
+      <y>322</y>
+      <w>133</w>
+      <h>413</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>170.0;10.0;120.0;10.0;120.0;510.0;10.0;570.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>917</x>
+      <y>315</y>
+      <w>252</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>Board.java
+Package::goserver
+--
+-board: Field[][]
+-size: int
+-groups: StoneGroupSet
+-lastCaptured: Field
+-lastMove: Field
+--
++checkIfMovePossible(Color c, int x, int y: MoveState)
++putStone(Color c, int x, int y): boolean
++getFieldType(int x, int y): FieldType
++getField(int x, int y): Field
+-isOnBoard(int x, int y): boolean
++update(Field lastMove): HashSet&lt;Field&gt;
++removeStones(HashSet&lt;Field&gt; fields): void
+--
+Contain board and functions managing board
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>742</x>
+      <y>427</y>
+      <w>189</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=.&gt;
+</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0;250.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>707</y>
+      <w>77</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;70.0;90.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>175</x>
+      <y>707</y>
+      <w>182</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>ENUM MoveState
+--
+ACCEPTED, REJECTEDNOTEMPTY
+REJECTEDSUICIDAL, REJECTEDKO</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1176</x>
+      <y>938</y>
+      <w>119</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1659</x>
+      <y>686</y>
+      <w>63</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0;70.0;170.0</additional_attributes>
+  </element>
+</diagram>
