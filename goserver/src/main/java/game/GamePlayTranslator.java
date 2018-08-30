@@ -1,6 +1,3 @@
-/**
- *
- */
 package game;
 
 import game.board.Board;
@@ -11,6 +8,7 @@ import game.board.MoveState;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Translates message from GamePlay to text messages sent to Players.
@@ -18,7 +16,6 @@ import java.util.HashSet;
 public class GamePlayTranslator {
     private final Player black;
     private final Player white;
-    private String lastSuggestion;
     private String lastDeadSuggestion;
     private String lastTerritorySuggestion;
 
@@ -57,48 +54,39 @@ public class GamePlayTranslator {
         p.sendMessage("CANNOTMOVENOW");
     }
 
-    public void sendOpponentsMove(Player p, int x, int y) {
-        p.sendMessage("OPPOMOVE " + String.valueOf(x) + " " + String.valueOf(y));
-    }
-
     /**
-     * @param white2
      * @param x
      * @param y
      * @param removed
      */
-    public void sendOpponentsMove(Player p, int x, int y, HashSet<Field> removed) {
-        StringBuilder message = new StringBuilder("OPPOMOVE ");
-        message.append(String.valueOf(x) + "," + String.valueOf(y));
-        message.append(":");
-        message.append(createRemovedStonesMessage(removed));
-        p.sendMessage(message.toString());
+    public void sendOpponentsMove(Player p, int x, int y, Set<Field> removed) {
+        String message = "OPPOMOVE " + String.valueOf(x) + "," + String.valueOf(y) +
+                ":" + createRemovedStonesMessage(removed);
+        p.sendMessage(message);
     }
 
     /**
      * @param removed
      */
-    private String createRemovedStonesMessage(HashSet<Field> removed) {
+    private String createRemovedStonesMessage(Set<Field> removed) {
         StringBuilder message = new StringBuilder("REMOVED ");
         if (removed != null && !removed.isEmpty()) {
 
             for (Field field : removed) {
-                message.append(String.valueOf(field.getX()) + "," + String.valueOf(field.getY()) + " ");
+                message.append(String.valueOf(field.getX())).append(",").append(String.valueOf(field.getY())).append(" ");
             }
         } else message.append("NONE");
         return message.toString();
     }
 
-    /**
-     * @param removed
-     */
-    public void sendRemovedStones(Player p, HashSet<Field> removed) {
-        p.sendMessage(createRemovedStonesMessage(removed));
-    }
+
+    public void sendRemovedStones(Player p, Set<Field> removed) { p.sendMessage(createRemovedStonesMessage(removed)); }
 
     public void sendOpponentsMove(Player p) {
         p.sendMessage("OPPOPASS");
     }
+
+
 
     public void sendChooseDead(Player p) {
         p.sendMessage("CHOOSEDEAD");
@@ -106,10 +94,6 @@ public class GamePlayTranslator {
 
     public void sendGameStopped(Player p) {
         p.sendMessage("GAMESTOPPED");
-    }
-
-    public String getLastSuggestion() {
-        return lastSuggestion;
     }
 
     public HashSet<Field> getLastDeadSuggestion(Board b) {

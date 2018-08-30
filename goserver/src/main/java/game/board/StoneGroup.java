@@ -1,16 +1,13 @@
-/**
- *
- */
 package game.board;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents a single group of stones on the board
  */
 public class StoneGroup implements BoardUpdater {
-    private final HashSet<Field> group;
-    private FieldType type;
+    private final Set<Field> group;
 
     /**
      * Creates a new StoneGroup containing given Field
@@ -20,7 +17,7 @@ public class StoneGroup implements BoardUpdater {
     public StoneGroup(Field field) {
         group = new HashSet<>();
         group.add(field);
-        this.type = field.getType();
+        FieldType type = field.getType();
     }
 
     /**
@@ -46,39 +43,12 @@ public class StoneGroup implements BoardUpdater {
     }
 
     /**
-     * Removes given field from the group
-     *
-     * @param field Field to remove
-     */
-    void remove(Field field) {
-        group.remove(field);
-    }
-
-    /**
      * Get fields in the group
      *
      * @return HashSet of Fields in the group.
      */
-    HashSet<Field> getFields() {
+    Set<Field> getFields() {
         return group;
-    }
-
-    /**
-     * Get type of fields in this group.
-     *
-     * @return FieldType of fields in this group.
-     */
-    FieldType getType() {
-        return type;
-    }
-
-    /**
-     * Change type of fields in this group
-     *
-     * @param type new type.
-     */
-    void changeType(FieldType type) {
-        this.type = type;
     }
 
 
@@ -100,9 +70,7 @@ public class StoneGroup implements BoardUpdater {
      */
     @Override
     public void setEmpty() {
-        for (Field field : group) {
-            field.setEmpty();
-        }
+        group.forEach(Field::setEmpty);
     }
 
 

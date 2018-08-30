@@ -45,7 +45,7 @@ public class Server implements Observer {
         if (listening && sst != null) {
             java.util.Enumeration<ClientHandler> e = this.clients.elements();
             while (e.hasMoreElements()) {
-                ClientHandler clientHandler = (ClientHandler) e.nextElement();
+                ClientHandler clientHandler = e.nextElement();
                 clientHandler.stopClient();
             }
             this.sst.stopServerThread();
@@ -108,7 +108,7 @@ public class Server implements Observer {
                     t.start();
                 }
             } catch (IOException ioe) {
-                System.out.println(ioe);
+                System.out.println(ioe.getMessage());
                 this.stopServerThread();
             }
         }
@@ -119,7 +119,7 @@ public class Server implements Observer {
             try {
                 if (ssocket != null) Server.this.ssocket.close();
             } catch (IOException ioe) {
-                System.out.println(ioe);
+                System.out.println(ioe.getMessage());
             }
         }
 

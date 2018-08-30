@@ -60,7 +60,7 @@ public class BoardTest {
                     for (int k = 0; k < length; k++) {
                         if (!(l == i && j == k)) {
                             try {
-                                assertTrue(board.getFieldType(l, k).equals(FieldType.EMPTY));
+                                assertEquals(board.getFieldType(l, k), FieldType.EMPTY);
                             } catch (FieldOutOfBoardException e) { e.printStackTrace(); }
                         }
                     }

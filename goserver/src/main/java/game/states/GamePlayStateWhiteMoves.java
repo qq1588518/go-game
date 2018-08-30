@@ -1,6 +1,3 @@
-/**
- *
- */
 package game.states;
 
 import game.Color;
@@ -10,7 +7,7 @@ import game.board.Field;
 import game.board.FieldType;
 import game.board.MoveState;
 
-import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author mk
@@ -36,7 +33,7 @@ public class GamePlayStateWhiteMoves implements GamePlayState {
             if (moveState.equals(MoveState.ACCEPTED)) {
                 gamePlay.getBoard().putStone(Color.WHITE, x, y);
 
-                HashSet<Field> removed = gamePlay.getBoard().update(new Field(x, y, FieldType.WHITE, gamePlay.getBoard()));
+                Set<Field> removed = gamePlay.getBoard().update(new Field(x, y, FieldType.WHITE, gamePlay.getBoard()));
                 gamePlay.getTranslator().confirmMove(p);
                 gamePlay.getTranslator().sendOpponentsMove(gamePlay.getBlack(), x, y, removed);
                 gamePlay.getTranslator().sendRemovedStones(gamePlay.getWhite(), removed);

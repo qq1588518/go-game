@@ -1,21 +1,15 @@
-/**
- *
- */
 package game.board;
 
 import game.Color;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 /**
  * Stores an array for go board, handles move possibility and consequences
  * i.e. updates the board after move.
- *
- * @author mk
  */
 public class Board {
     private final int size;
@@ -55,11 +49,11 @@ public class Board {
             if (isOnBoard(x, y) && !board[x][y].getType().equals(FieldType.EMPTY)) return MoveState.REJECTEDNOTEMPTY;
             Field move = new Field(x, y, ((c.equals(Color.BLACK)) ? FieldType.BLACK : FieldType.WHITE), this);
             if (groups.checkIfSuicidal(move)) return MoveState.REJECTEDSUICIDAL;
-            /**
-             * Ko rule:
-             * One may not capture just one stone, if that stone was played on the previous move,
-             * and that move also captured just one stone.
-             */
+
+            // Ko rule:
+            // One may not capture just one stone, if that stone was played on the previous move,
+            // and that move also captured just one stone.
+
             if (lastCaptured == null) return MoveState.ACCEPTED;
             Field f = groups.checkForKo(move);
             if (f == null) return MoveState.ACCEPTED;
@@ -124,7 +118,7 @@ public class Board {
      *
      * @param lastMove Field changed after a move
      */
-    public HashSet<Field> update(Field lastMove) {
+    public Set<Field> update(Field lastMove) {
         this.lastMove = lastMove;
         return groups.updateGroupsAfterMove(lastMove);
     }
@@ -144,13 +138,13 @@ public class Board {
      *
      * @param fields
      */
-    synchronized public void removeStones(HashSet<Field> fields) {
+    synchronized public void removeStones(Set<Field> fields) {
         Iterator<Field> it = fields.iterator();
         Field f;
 
-        /**
-         * Saves last captured stone for ko rule.
-         */
+
+         // Saves last captured stone for ko rule.
+
         if (fields.size() == 1) {
             f = it.next();
             lastCaptured = f;

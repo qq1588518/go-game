@@ -23,7 +23,7 @@ public class LoginTest {
         try {
             game.addPlayer("Gosia", clientHandler);
         } catch (NameContainsSpaceException | EmptyNameException e) { }
-        assertTrue(game.players.elementAt(0).getName().equals("Gosia"));
+        assertEquals("Gosia", game.players.elementAt(0).getName());
     }
 
     @Test

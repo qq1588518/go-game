@@ -1,9 +1,7 @@
-/**
- *
- */
 package game.board;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents a single field on the go board and handles its state.
@@ -11,8 +9,8 @@ import java.util.HashSet;
  * @author mk
  */
 public class Field implements BoardUpdater {
-    private static final int[] xdirections = {1, 0, -1, 0};
-    private static final int[] ydirections = {0, 1, 0, -1};
+    private static final int[] xDirections = {1, 0, -1, 0};
+    private static final int[] yDirections = {0, 1, 0, -1};
     private final int x;
     private final int y;
     private FieldType type;
@@ -51,15 +49,6 @@ public class Field implements BoardUpdater {
         this.type = type;
     }
 
-    /**
-     * Gets the Board to which the Field belongs.
-     *
-     * @return
-     */
-    Board getBoard() {
-        return board;
-    }
-
     /* (non-Javadoc)
      * @see goserver.BoardUpdater#checkLiberties()
      */
@@ -69,11 +58,9 @@ public class Field implements BoardUpdater {
         for (int i = 0; i < 4; i++) {
             FieldType t;
             try {
-                t = board.getFieldType(x + xdirections[i], y + ydirections[i]);
+                t = board.getFieldType(x + xDirections[i], y + yDirections[i]);
                 if (t == FieldType.EMPTY) liberties++;
-            } catch (FieldOutOfBoardException e) {
-                continue;
-            }
+            } catch (FieldOutOfBoardException ignored) { }
         }
         return liberties;
     }
@@ -89,16 +76,16 @@ public class Field implements BoardUpdater {
     /**
      * Gets four neighbours of the Field.
      *
-     * @return HashSet of the adjacent Fields.
+     * @return Set of the adjacent Fields.
      */
-    public HashSet<Field> getNeighbours() {
-        HashSet<Field> neigbours = new HashSet<Field>();
+    public Set<Field> getNeighbours() {
+        Set<Field> neighbours = new HashSet<>();
 
         for (int i = 0; i < 4; i++) {
-            Field f = board.getField(x + xdirections[i], y + ydirections[i]);
-            if (f != null) neigbours.add(f);
+            Field f = board.getField(x + xDirections[i], y + yDirections[i]);
+            if (f != null) neighbours.add(f);
         }
-        return neigbours;
+        return neighbours;
     }
 
     /**

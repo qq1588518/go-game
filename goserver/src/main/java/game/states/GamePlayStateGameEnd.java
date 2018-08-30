@@ -1,6 +1,3 @@
-/**
- *
- */
 package game.states;
 
 import game.Player;
@@ -19,7 +16,7 @@ public class GamePlayStateGameEnd implements GamePlayState {
 
     }
 
-    public void makeMove(Player player) {
+    public void makeMove() {
         // TODO Auto-generated method stub
 
     }

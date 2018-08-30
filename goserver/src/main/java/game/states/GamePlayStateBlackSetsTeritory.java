@@ -21,7 +21,7 @@ public class GamePlayStateBlackSetsTeritory implements GamePlayState {
     @Override
     public void makeMove(Player p, int x, int y) { }
 
-    public void makeMove(Player player) { }
+    public void makeMove() { }
 
     @Override
     public boolean makeMove(Player player, boolean wasPassed) { return false; }

@@ -1,6 +1,3 @@
-/**
- *
- */
 package game;
 
 
@@ -11,7 +8,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -26,8 +22,6 @@ public class GameTest {
     private static Server s;
     private static game.Game game;
     private static Socket socket;
-    private static PrintWriter out;
-    private static BufferedReader in;
     private static ClientHandler clientHandler;
 
     /**
@@ -40,8 +34,6 @@ public class GameTest {
         s.setPort(3333);
         game = new Game();
         socket = new Socket("localHost", 3333);
-        out = new PrintWriter(socket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         clientHandler = new ClientHandler(socket, game);
     }
 

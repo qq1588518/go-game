@@ -2,6 +2,8 @@ package game;
 
 import server.ClientHandler;
 
+import java.util.Objects;
+
 /**
  * Handles incoming messages from client and prepares and sends outgoing messages.
  */
@@ -60,7 +62,6 @@ public class ClientMessagesTranslator {
                 return;
             }
         } else if (message.startsWith("SURRENDER ")) {
-            message = message.replaceFirst("SURRENDER ", "");
             clientHandler.getPlayer().getGamePlay().endGame(clientHandler.getPlayer());
             return;
         } else if (message.startsWith("DEADSUGGESTION")) {
@@ -91,7 +92,7 @@ public class ClientMessagesTranslator {
         StringBuilder b = new StringBuilder();
         String myname = clientHandler.getPlayer().getName();
         for (String name : game.getNotBusyPlayersNames()) {
-            if (name != myname) b.append(name + " ");
+            if (!Objects.equals(name, myname)) b.append(name).append(" ");
         }
 
         return b.toString();
@@ -107,26 +108,10 @@ public class ClientMessagesTranslator {
     }
 
     /**
-     * Sends given message using players clientHandler method.
-     *
-     * @param message String to send.
-     */
-    public void sendMessage(String message) {
-        clientHandler.send(message);
-    }
-
-    /**
      * Sends a message which refusal of invitation.
      */
     public void sendRefusal() {
         clientHandler.send("DECLINED");
-    }
-
-    /**
-     * Sends a message with agreement to play together.
-     */
-    public void sendAgreement() {
-        clientHandler.send("AGREE");
     }
 
 

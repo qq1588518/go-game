@@ -8,13 +8,13 @@ import java.util.Vector;
  * Class handling Players connecting to the Server, pairing them and arranging new GamePlays.
  */
 public class Game extends Thread {
-    Vector<Player> players;
+    final Vector<Player> players;
 
     /**
      * Constructs a new Game object.
      */
     public Game() {
-        players = new Vector<Player>();
+        players = new Vector<>();
     }
 
     /**
@@ -23,7 +23,7 @@ public class Game extends Thread {
      * @return Vector of names of not busy Players.
      */
     public synchronized Vector<String> getNotBusyPlayersNames() {
-        Vector<String> notBusyPlayersNames = new Vector<String>();
+        Vector<String> notBusyPlayersNames = new Vector<>();
 
         for (Player player : players) {
             if (!player.isBusy()) notBusyPlayersNames.add(player.getName());

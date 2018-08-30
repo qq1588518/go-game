@@ -1,6 +1,3 @@
-/**
- *
- */
 package game;
 
 import game.board.Board;
@@ -16,13 +13,13 @@ import java.util.Random;
  * This class is a context for state design pattern specified in goserver.gamestate.states subpackage
  */
 public class GamePlay extends Thread {
-    private boolean wasPassed = false;
+    private static final int n = 19;
     private final Player black;
     private final Player white;
     private final Board board;
-    private final int n = 19;
-    private GamePlayState state;
     private final GamePlayTranslator translator;
+    private boolean wasPassed = false;
+    private GamePlayState state;
 
     /**
      * Creates a new GamePlay for given Players
@@ -56,7 +53,7 @@ public class GamePlay extends Thread {
     /**
      * Sets state of this game which specifies allowed actions.
      *
-     * @param gamePlayStateWhiteMoves
+     * @param state
      */
     public void setState(GamePlayState state) {
         this.state = state;
@@ -76,8 +73,6 @@ public class GamePlay extends Thread {
 
     /**
      * Tries to handle move from given Player without coordinates, i.e. a PASS move.
-     *
-     * @param p Player trying to make the move.
      */
     public void makeMove(Player player) {
         if (state.makeMove(player, wasPassed)) wasPassed = true;
@@ -87,7 +82,7 @@ public class GamePlay extends Thread {
      * Send proposal to a Player. Used when players are choosing dead stones and territories.
      *
      * @param player  Player to which the proposal is send
-     * @param message String with contents of the porposal.
+     * @param message String with contents of the proposal.
      */
     public void sendProposal(Player player, String message) {
         state.sendProposal(player, message);

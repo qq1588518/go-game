@@ -24,7 +24,6 @@ public class ClientHandler extends Observable implements Runnable {
      * Creates a new thread to handle single client with given socket
      *
      * @param socket Socket given by the server
-     * @param parent
      */
     public ClientHandler(Socket socket, Game game) {
         this.socket = socket;
@@ -55,7 +54,7 @@ public class ClientHandler extends Observable implements Runnable {
         try {
             this.socket.close();
         } catch (IOException ioe) {
-            System.out.println(ioe);
+            System.out.println(ioe.getMessage());
         }
     }
 
@@ -65,7 +64,7 @@ public class ClientHandler extends Observable implements Runnable {
      */
     @Override
     public void run() {
-        String message = null;
+        String message;
 
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -77,7 +76,7 @@ public class ClientHandler extends Observable implements Runnable {
                 clientMessagesTranslator.processIncomingMessage(message);
             }
         } catch (IOException ioe) {
-            System.out.println(ioe);
+            System.out.println(ioe.getMessage());
         }
         try {
             System.out.println("Closing connection");
@@ -85,7 +84,7 @@ public class ClientHandler extends Observable implements Runnable {
 
             this.socket.close();
         } catch (IOException ioe) {
-            System.out.println(ioe);
+            System.out.println(ioe.getMessage());
         }
 
         // Observer methods

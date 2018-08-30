@@ -3,20 +3,19 @@ package game.board;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Stores all StoneGroups and handles updating them.
- *
- * @author mk
  */
 class StoneGroupSet {
-    private final HashSet<StoneGroup> groups;
+    private final Set<StoneGroup> groups;
 
     /**
      * Constructs a new empty StoneGroupSet.
      */
     public StoneGroupSet() {
-        groups = new HashSet<StoneGroup>();
+        groups = new HashSet<>();
     }
 
     /**
@@ -38,7 +37,7 @@ class StoneGroupSet {
      * @param lastMove Field where a stone was recently put.
      * @return HashSet of Fields made empty after lastMove.
      */
-    public HashSet<Field> updateGroupsAfterMove(Field lastMove) {
+    public Set<Field> updateGroupsAfterMove(Field lastMove) {
         addFieldToGroup(lastMove);
         return handleConsequences(lastMove);
     }
@@ -49,18 +48,18 @@ class StoneGroupSet {
      * @param lastMove Field, which was lastly changed.
      * @return HashSet of Fields from which stones were removed.
      */
-    private HashSet<Field> handleConsequences(Field lastMove) {
-        HashSet<Field> neigbours = lastMove.getNeighbours();
-        HashSet<StoneGroup> ngroups = new HashSet<StoneGroup>();
-        HashSet<Field> removed = new HashSet<Field>();
+    private Set<Field> handleConsequences(Field lastMove) {
+        Set<Field> neighbours = lastMove.getNeighbours();
+        Set<StoneGroup> nGroups = new HashSet<>();
+        Set<Field> removed = new HashSet<>();
 
-        for (Field neighbour : neigbours) {
+        for (Field neighbour : neighbours) {
             if (!neighbour.getType().equals(lastMove.getType()) && !neighbour.getType().equals(FieldType.EMPTY)) {
                 StoneGroup g = find(neighbour);
-                if (g != null) ngroups.add(g);
+                if (g != null) nGroups.add(g);
             }
         }
-        for (StoneGroup stoneGroup : ngroups) {
+        for (StoneGroup stoneGroup : nGroups) {
             if (stoneGroup.checkLiberties() == 0) {
                 removed.addAll(stoneGroup.getFields());
                 stoneGroup.setEmpty();
@@ -86,11 +85,9 @@ class StoneGroupSet {
      * @param source      StoneGroup from which fields will be copied.
      * @return StoneGroup which is given destination with new elements added from source.
      */
-    private StoneGroup joinGroups(StoneGroup destination, StoneGroup source) {
+    private void joinGroups(StoneGroup destination, StoneGroup source) {
         destination.getFields().addAll(source.getFields());
         groups.remove(source);
-        source = null;
-        return destination;
     }
 
     /***
@@ -99,9 +96,9 @@ class StoneGroupSet {
      * If there are no adjacent groups, creates a new group for given field.
      * @param field Field to add to StoneGroup
      */
-    public void addFieldToGroup(Field field) {
-        HashSet<Field> neigbours = field.getNeighbours();
-        HashSet<StoneGroup> ngroups = new HashSet<StoneGroup>();
+    private void addFieldToGroup(Field field) {
+        Set<Field> neigbours = field.getNeighbours();
+        Set<StoneGroup> ngroups = new HashSet<>();
 
         for (Field neighbour : neigbours) {
             if (neighbour.getType().equals(field.getType())) {
@@ -117,7 +114,7 @@ class StoneGroupSet {
             g.add(field);
             while (it.hasNext()) {
                 StoneGroup h = it.next();
-                g = joinGroups(g, h);
+                joinGroups(g, h);
             }
         }
     }
@@ -129,9 +126,9 @@ class StoneGroupSet {
      * @return Field which would be captured after given move or null if none or more than one field would be captured.
      */
     public Field checkForKo(Field move) {
-        HashSet<Field> neighbours = move.getNeighbours();
-        HashSet<StoneGroup> suspected = new HashSet<StoneGroup>();
-        HashSet<Field> toRemove = new HashSet<Field>();
+        Set<Field> neighbours = move.getNeighbours();
+        Set<StoneGroup> suspected = new HashSet<>();
+        Set<Field> toRemove = new HashSet<>();
 
         for (Field neighbour : neighbours) {
             if (!neighbour.getType().equals(move.getType()) && !neighbour.getType().equals(FieldType.EMPTY)) {
@@ -145,7 +142,7 @@ class StoneGroupSet {
             }
         }
 
-        if (toRemove != null && toRemove.size() == 1) {
+        if (toRemove.size() == 1) {
             Iterator<Field> it = toRemove.iterator();
             return it.next();
         }
@@ -161,11 +158,10 @@ class StoneGroupSet {
     public boolean checkIfSuicidal(Field move) {
         if (move.checkLiberties() > 0) return false;
 
-        HashSet<Field> neighbours = move.getNeighbours();
-        HashSet<StoneGroup> myGroups = new HashSet<>();
+        Set<Field> neighbours = move.getNeighbours();
+        Set<StoneGroup> myGroups = new HashSet<>();
         HashMap<StoneGroup, Integer> opponentsGroups = new HashMap<>();
         int myColorNeighbours = 0;
-        int otherColorNeighbours = 0;
 
         for (Field neighbour : neighbours) {
             if (neighbour.getType().equals(move.getType())) {
@@ -181,9 +177,8 @@ class StoneGroupSet {
         int myGroupsLiberties = 0;
         for (StoneGroup g : myGroups) myGroupsLiberties += g.checkLiberties();
         if (myGroupsLiberties == myColorNeighbours) {
-            //int oppoGroupsLiberties = 0;
-            for (StoneGroup oppoGroup : opponentsGroups.keySet()) {
-                if (oppoGroup.checkLiberties() <= opponentsGroups.get(oppoGroup)) return false;
+            for (StoneGroup opponentGroup : opponentsGroups.keySet()) {
+                if (opponentGroup.checkLiberties() <= opponentsGroups.get(opponentGroup)) return false;
             }
             return true;
         }

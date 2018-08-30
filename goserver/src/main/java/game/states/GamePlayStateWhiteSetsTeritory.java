@@ -1,6 +1,3 @@
-/**
- *
- */
 package game.states;
 
 import game.Color;
@@ -43,9 +40,6 @@ public class GamePlayStateWhiteSetsTeritory implements GamePlayState {
 
     @Override
     public void makeMove(Player p, int x, int y) {
-    }
-
-    public void makeMove(Player player) {
     }
 
     @Override

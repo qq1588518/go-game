@@ -99,13 +99,6 @@ public class Player {
     }
 
     /**
-     * Sends agreement (on territories or dead stones)
-     */
-    public void sendAgreement() {
-        translator.sendAgreement();
-    }
-
-    /**
      * Gets GamePlay in which the Player is playing
      *
      * @return GamePlay in which the Player is playing
