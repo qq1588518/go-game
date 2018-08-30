@@ -14,7 +14,7 @@ import goclient.game.GameManager;
 public class GameStateMyMove implements GameState
 {
     
-    private GameManager manager;
+    private final GameManager manager;
     private boolean moveSent = false;
 
 	/**

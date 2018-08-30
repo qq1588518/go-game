@@ -14,7 +14,7 @@ import goclient.game.GameManager;
 public class GameStateOpponentsMove implements GameState
 {
     
-    private GameManager manager;
+    private final GameManager manager;
 
 	/**
 	 * Constructs a new State object.

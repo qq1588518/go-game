@@ -1,42 +1,26 @@
 package goclient.gui;
 
-import java.awt.Dimension;
+import goclient.program.ComponentException;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-
-import goclient.program.ComponentException;
 
 
 /**
- * 
  * @author Marcin
  * JDialog opens list of current players
- * 
- * 
  */
-public class PlayerList extends JDialog implements ActionListener {
-	
-	Socket socket = null;
-    PrintWriter out = null;
-    BufferedReader in = null;
-	private static final long serialVersionUID = 1L;
-	private JButton refresh, ok;
-	JList<String> list;
+class PlayerList extends JDialog implements ActionListener {
+
+	private final JButton refresh;
+	private final JButton ok;
+	private JList<String> list;
 	private JScrollPane listScrollPane;
-	private GUIMediator parent;
+	private final GUIMediator parent;
 	/*
 	 * Create List of Players GUI
 	 */
@@ -66,7 +50,7 @@ public class PlayerList extends JDialog implements ActionListener {
 		Box box = new Box(BoxLayout.PAGE_AXIS);
 		refresh = new JButton("Refresh");
 		ok = new JButton("OK");
-		JLabel label = new JLabel("<html>Currently there are no players avaliable.<br>Please try again later.</html>");
+		JLabel label = new JLabel("<html>Currently there are no players available.<br>Please try again later.</html>");
 				
 		if (playersList.trim().equals(""))
 		{
@@ -106,22 +90,18 @@ public class PlayerList extends JDialog implements ActionListener {
 		add(box);
 		this.setVisible(true);
 	}
-	
-	public GUIMediator getGuiMediator(){
-		return parent;
-	}
 
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		try
 		{
-	        if(arg0.getActionCommand()=="OK")
+	        if(arg0.getActionCommand().equals("OK"))
 	        {   
 	             parent.getProgramManager().chooseOpponent(list.getSelectedValue());
 	             this.setVisible(false);
 	        }
-	        else if(arg0.getActionCommand()=="Refresh")
+	        else if(arg0.getActionCommand().equals("Refresh"))
 	        {
 	            parent.getProgramManager().askForList();
 	            this.setVisible(false);

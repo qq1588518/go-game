@@ -13,7 +13,7 @@ import goclient.game.StoneType;
  */
 public class ProgramManager
 {
-    private Program parent = null;
+    private Program parent;
     private ProgramServerTranslator translator = null;
     private GameManager game = null;
     /**
@@ -35,7 +35,7 @@ public class ProgramManager
     }
     
     /**
-     * @param string
+     * @param name
      * @throws EmptyNameException 
      * @throws NameContainsSpaceException 
      * 
@@ -53,7 +53,7 @@ public class ProgramManager
     }
 
     /**
-     * @param replaceFirst
+     * @param oppname
      */
     public void chooseOpponent(String oppname) throws ComponentException
     {	
@@ -85,7 +85,7 @@ public class ProgramManager
     }
 
     /**
-     * @param replaceFirst
+     * @param name
      */
     public void invite(String name)
     {
@@ -94,7 +94,7 @@ public class ProgramManager
 
     /**
      * @param name
-     * @param b
+     * @param accepted
      */
     public void respondInvitation(String name, boolean accepted) throws ComponentException
     {

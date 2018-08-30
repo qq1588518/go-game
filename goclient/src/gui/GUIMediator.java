@@ -24,12 +24,12 @@ import goclient.program.ProgramManager;
 @SuppressWarnings("serial")
 public class GUIMediator extends JFrame
 {
-    private ProgramManager programManager;
+    private final ProgramManager programManager;
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
     private GameManager gameManager = null;
     private PlayerList playerList;
-    private ChooseNameDialog chooseNameDialog;
+    private final ChooseNameDialog chooseNameDialog;
     
     
     /**
@@ -180,15 +180,6 @@ public class GUIMediator extends JFrame
     	this.getOptionsPanel().getSurrenderButton().addActionListener(this.getOptionsPanel());
     	this.getOptionsPanel().getPassButton().addActionListener(this.getOptionsPanel());
     }
-    
-    /**
-     * @param message
-     * Shows error dialog
-     */
-    public void displayError(String message)
-    {
-        JOptionPane.showMessageDialog(this, message, "Something went wrong...", ERROR);
-    }
 
     /**
      * Shows message dialog
@@ -214,7 +205,7 @@ public class GUIMediator extends JFrame
 			message.append("<html> Game finished. ");
 			if (iAmTheWinner) message.append("Congratulations. You won.\n");
 			else  message.append("You lost.\n");
-			message.append("Results:\n BLACK: " + String.valueOf(black) + " WHITE: " + String.valueOf(white) + "\n");
+			message.append("Results:\n BLACK: ").append(String.valueOf(black)).append(" WHITE: ").append(String.valueOf(white)).append("\n");
 		}
 		else
 		{
@@ -226,8 +217,8 @@ public class GUIMediator extends JFrame
 		String title = iAmTheWinner ? "You are the winner!" : "You are the looser!";
 		
 		String[] options = new String[2];
-    	options[0] =	 new String("New game");
-    	options[1] = new String("Quit");
+    	options[0] = "New game";
+    	options[1] = "Quit";
     	int choice = JOptionPane.showOptionDialog(this, message.toString(), title, 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
     	System.out.println(choice);
     	if (choice == 1) System.exit(1);
@@ -251,12 +242,5 @@ public class GUIMediator extends JFrame
 		optionsPanel = new OptionsPanel(this);
 		repaint();
 	}
-	/**
-	 * 
-	 * @return list of players
-	 */
-	public PlayerList getPlayerList(){
-    	return playerList;
-    }
 
 }

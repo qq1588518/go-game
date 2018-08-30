@@ -9,5 +9,5 @@ package goclient.program;
  */
 public abstract class ServerTranslator
 {
-   abstract public void processIncommingMessage(String input);
+   abstract public void processIncomingMessage(String input);
 }

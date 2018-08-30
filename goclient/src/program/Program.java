@@ -1,6 +1,3 @@
-/**
- * 
- */
 package goclient.program;
 
 import java.awt.EventQueue;
@@ -11,18 +8,14 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import goclient.gui.GUIMediator;
 
-/**
- * TODO: Jak rozwiązać zmianę translatorów i managerów?
- *
- */
-public class Program
+class Program
 {   
-    private ProgramManager programManager;
-    private ProgramServerTranslator translator;
+    private final ProgramManager programManager;
+    private final ProgramServerTranslator translator;
     private GUIMediator frame;
-    private SocketClient socket;
+    private final SocketClient socket;
     
-    public Program()
+    private Program()
     {
         programManager = new ProgramManager(this);
 
@@ -40,17 +33,7 @@ public class Program
         frame.setVisible(true);
         socket.start();
     }
-    
-    public ProgramManager getProgramManager()
-    {
-        return programManager;
-    }
-    
-    public ProgramServerTranslator getTranslator()
-    {
-        return translator;
-    }
-    
+
     public SocketClient getSocket()
     {
         return socket;
@@ -68,31 +51,24 @@ public class Program
     	frame.setVisible(true);
     }
     
-    /**
-     * @param args
-     */
+
     public static void main(String[] args) 
     {
-        EventQueue.invokeLater(new Runnable() 
-        {
-            @Override
-            public void run() 
+        EventQueue.invokeLater(() -> {
+            try
             {
-                try 
+                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels())
                 {
-                    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) 
+                    if ("Nimbus".equals(info.getName()))
                     {
-                        if ("Nimbus".equals(info.getName())) 
-                        {
-                            UIManager.setLookAndFeel(info.getClassName());
-                            break;
-                        }
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
                     }
-                } catch (Exception e) {}
-                
-                new Program(); 
-            }
-        });     
+                }
+            } catch (Exception ignored) {}
+
+            new Program();
+        });
     }
     
 }

@@ -7,7 +7,7 @@ import goclient.gui.DrawingMode;
 
 public class GameStateIAmChoosingDead implements GameState {
 
-	private GameManager manager;
+	private final GameManager manager;
 	private Point last = null;
 	private boolean alreadySent = false;
 

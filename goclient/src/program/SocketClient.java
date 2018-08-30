@@ -16,10 +16,9 @@ import java.net.UnknownHostException;
  */
 public class SocketClient extends Thread
 {
-    Socket socket = null;
-    PrintWriter out = null;
-    BufferedReader in = null;
-    ServerTranslator translator = null;
+    private Socket socket = null;
+    private PrintWriter out = null;
+    private ServerTranslator translator;
 
     public SocketClient(ServerTranslator translator)
     {
@@ -29,21 +28,21 @@ public class SocketClient extends Thread
     /**
      * Listens to the socket, sends user queries and prints out server responses.
      */
-    public void listenSocket()
+    private void listenSocket()
     {
         try 
         {
             socket = new Socket("localhost", 5556);
             out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
             System.out.println(in.readLine());
             out.println("CONNECTION OK");
             String serverLine;
             while((serverLine = in.readLine()) != null)
             {
-                System.out.println("Serwer: " + serverLine);
-                translator.processIncommingMessage(serverLine);
+                System.out.println("Server: " + serverLine);
+                translator.processIncomingMessage(serverLine);
             }
         }
         catch (UnknownHostException e) 

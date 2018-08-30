@@ -13,9 +13,9 @@ import goclient.program.ComponentException;
  * @author mk
  * Manages mouse buttons. Allows mouse to put stones, mark teritories and uncheck stones.
  */
-public class Mouse implements MouseListener
+class Mouse implements MouseListener
 {
-    private GUIMediator parent;
+    private final GUIMediator parent;
     
     public Mouse(GUIMediator parent)
     {
@@ -30,60 +30,41 @@ public class Mouse implements MouseListener
     {
        Point coords = e.getPoint();
 
-       if (e.getButton() == MouseEvent.BUTTON1) 
-       {
-           coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
-           if (coords != null) try
-           {
-        	   parent.getGameManager().makeMove(coords.x, coords.y);
-           }
-           catch (ComponentException e1)
-           {
-               System.out.println(e1.getMessage());
-           }
-       }
-       else if (e.getButton() == MouseEvent.BUTTON3) 
-       {
-    	   coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
-    	   if (coords != null) try
-           {
-                parent.getGameManager().remove(coords.x, coords.y);
-           }
-           catch (ComponentException e1)
-           {
-               System.out.println(e1.getMessage());
-           }
-       }
+        handleMouseEvent(e, coords);
     }
-    
-    
+
+    private void handleMouseEvent(MouseEvent e, Point coords) {
+        if (e.getButton() == MouseEvent.BUTTON1)
+        {
+            coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
+            if (coords != null) try
+            {
+                parent.getGameManager().makeMove(coords.x, coords.y);
+            }
+            catch (ComponentException e1)
+            {
+                System.out.println(e1.getMessage());
+            }
+        }
+        else if (e.getButton() == MouseEvent.BUTTON3)
+        {
+            coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
+            if (coords != null) try
+            {
+                 parent.getGameManager().remove(coords.x, coords.y);
+            }
+            catch (ComponentException e1)
+            {
+                System.out.println(e1.getMessage());
+            }
+        }
+    }
+
+
     @Override
     public void mousePressed(MouseEvent e) { 
-    	Point coords = e.getPoint(); 
-    	if (e.getButton() == MouseEvent.BUTTON1) 
-         {
-             coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
-             if (coords != null) try
-             {
-          	   parent.getGameManager().makeMove(coords.x, coords.y);
-             }
-             catch (ComponentException e1)
-             {
-                 System.out.println(e1.getMessage());
-             }
-         }
-         else if (e.getButton() == MouseEvent.BUTTON3) 
-         {
-      	   coords = parent.getGamePanel().getBoardPanel().pullToGrid(coords);
-      	   if (coords != null) try
-             {
-                  parent.getGameManager().remove(coords.x, coords.y);
-             }
-             catch (ComponentException e1)
-             {
-                 System.out.println(e1.getMessage());
-             }
-         }
+    	Point coords = e.getPoint();
+        handleMouseEvent(e, coords);
     }
     
     @Override

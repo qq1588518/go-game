@@ -171,12 +171,7 @@ public class OptionsPanel extends JPanel implements ActionListener
     {
         messageArea.append(input);
     }
-    
-    public void displayStatistics(String input)
-    {
-    	statisticsArea.setText(input);
-    }
-    
+
     public void activateTeritoriesBox(boolean withRadioButtons)
     {
     	sendProposisionButton.setEnabled(true);
@@ -242,7 +237,7 @@ public class OptionsPanel extends JPanel implements ActionListener
 		if(arg0.getSource().equals(myTerritoryRB))
 		{
 			try {
-				if (myTerritoryRB.isSelected()) parent.getGameManager().getDrawingManager().drawingMode = DrawingMode.MYTERITORY;
+				if (myTerritoryRB.isSelected()) parent.getGameManager().getDrawingManager().drawingMode = DrawingMode.MYTERRITORY;
 
 			} catch (ComponentException e) { e.printStackTrace(); }
 		}

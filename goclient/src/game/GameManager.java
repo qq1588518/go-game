@@ -5,6 +5,7 @@ package goclient.game;
 
 import java.awt.Point;
 import java.util.HashSet;
+import java.util.Set;
 
 import goclient.game.states.GameState;
 import goclient.game.states.GameStateMyMove;
@@ -18,13 +19,14 @@ import goclient.program.ComponentException;
 public class GameManager
 {
     private GameState state;
-    private GUIMediator mediator;
-    private DrawingManager drawingManager;
-    private int boardSize;
+    private final GUIMediator mediator;
+    private final DrawingManager drawingManager;
+    private final int boardSize;
     public final StoneType myColor;
     private GameServerTranslator translator;
-    public enum Field {BLACK, WHITE, EMPTY};
-    private Field[][] board;
+    public enum Field {BLACK, WHITE, EMPTY}
+
+    private final Field[][] board;
     private int waitingX;
     private int waitingY;
    
@@ -140,14 +142,7 @@ public class GameManager
     {
     	return drawingManager;
     }
-    /**
-     * 
-     * @return
-     */
-    public int getBoardSize()
-    {
-    	return boardSize;
-    }
+
     /**
      * 
      * @return
@@ -194,7 +189,7 @@ public class GameManager
     	String explanation = "";
     	StringBuilder message = new StringBuilder();
     	
-    	message.append("Your move to [" + String.valueOf(waitingX) + ", " + String.valueOf(waitingY) + "] was incorrect because ");
+    	message.append("Your move to [").append(String.valueOf(waitingX)).append(", ").append(String.valueOf(waitingY)).append("] was incorrect because ");
     	if(reason.contains("SUICIDAL")) explanation = "it was suicidal. ";
     	else if(reason.contains("KO")) explanation = "of the KO rule. ";
     	else if(reason.contains("NOT EMPTY")) explanation = "the field was already occupied. ";
@@ -208,8 +203,8 @@ public class GameManager
 
     /**
      * Adds opponent move to user board
-     * @param valueOf
-     * @param valueOf2
+     * @param x
+     * @param y
      */
     public void addOpponentsMove(Integer x, Integer y)
     {
@@ -244,14 +239,13 @@ public class GameManager
     
 	/**
 	 * Removes stones with indicated hashset
-	 * @param fields
-	 */
-    synchronized public void removeStones(HashSet<Point> fields)
+     * @param fields
+     */
+    synchronized public void removeStones(Set<Point> fields)
     {
     	for (Point point : fields)
         {
-        	StoneType c = (board[point.x][point.y] == Field.BLACK) ? StoneType.BLACK : StoneType.WHITE;
-            mediator.getGamePanel().getBoardPanel().removeStone(point.x, point.y, c);
+            mediator.getGamePanel().getBoardPanel().removeStone(point.x, point.y);
             board[point.x][point.y] = Field.EMPTY;
         }
         state.nextTurn();
@@ -293,7 +287,7 @@ public class GameManager
 		state.remove(x, y);
 	}
 
-	public void addDeadStoneSuggestion(HashSet<Point> dead) 
+	public void addDeadStoneSuggestion(Set<Point> dead)
 	{
 		drawingManager.setDeadStones(dead);
 		state.nextTurn();
@@ -301,8 +295,8 @@ public class GameManager
 	
 	public void addTerritorySuggestion(HashSet<Point> my, HashSet<Point> oppo) 
 	{
-		drawingManager.setMyTeritory(my);
-		drawingManager.setOpponentsTeritory(oppo);
+		drawingManager.setMyTerritory(my);
+		drawingManager.setOpponentsTerritory(oppo);
 		state.nextTurn();
 	}
 
@@ -338,11 +332,10 @@ public class GameManager
 	 */
 	public void manageResults(double black, double white) 
 	{
-		boolean blackWon = (black > white) ? true : false;
+		boolean blackWon = black > white;
 		boolean iAmTheWinner;
 		if (myColor.equals(StoneType.BLACK) && blackWon) iAmTheWinner = true;
-		else if (myColor.equals(StoneType.WHITE) && !blackWon) iAmTheWinner = true; 
-		else iAmTheWinner = false;
+		else iAmTheWinner = myColor.equals(StoneType.WHITE) && !blackWon;
 		
 		state = new GameStateNotStartedYet();
 		mediator.manageGameEnd(black, white, iAmTheWinner, false);

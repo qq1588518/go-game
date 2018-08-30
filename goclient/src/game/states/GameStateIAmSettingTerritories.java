@@ -12,7 +12,7 @@ import goclient.game.GameManager;
  */
 public class GameStateIAmSettingTerritories implements GameState 
 {
-	private GameManager manager;
+	private final GameManager manager;
 	private Point last = null;
 	private boolean alreadySent = false;
 
@@ -66,8 +66,8 @@ public class GameStateIAmSettingTerritories implements GameState
 	@Override
 	public void sendProposal() 
 	{
-		if (!alreadySent ) manager.getTranslator().sendTerritories(manager.getDrawingManager().getMyTeritory(), 
-												manager.getDrawingManager().getOpponentsTeritory());
+		if (!alreadySent ) manager.getTranslator().sendTerritories(manager.getDrawingManager().getMyTerritory(),
+												manager.getDrawingManager().getOpponentsTerritory());
 		alreadySent = true;
 	}
 }

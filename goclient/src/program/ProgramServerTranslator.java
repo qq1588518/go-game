@@ -11,7 +11,7 @@ import goclient.game.StoneType;
  */
 public class ProgramServerTranslator extends ServerTranslator
 {
-    private ProgramManager manager = null;
+    private ProgramManager manager;
     private SocketClient socket;
     
     public ProgramServerTranslator(ProgramManager manager)
@@ -19,7 +19,7 @@ public class ProgramServerTranslator extends ServerTranslator
        this.manager = manager;
     }
     
-    public void processIncommingMessage(String input)
+    public void processIncomingMessage(String input)
     {       
         
         if(input.startsWith("SETNAME"))
@@ -64,17 +64,9 @@ public class ProgramServerTranslator extends ServerTranslator
         else if(input.startsWith("CHOOSEOPPONENTAGAIN"))
         {
         	input = input.replaceFirst("CHOOSEOPPONENTAGAIN ", "");
-        	manager.showPlayers(input, "Chosen player is no longer avaliable. Please choose again.");
+        	manager.showPlayers(input, "Chosen player is no longer available. Please choose again.");
         }
-        else System.out.println("Uknown server response");
-    }
-    
-    /**
-     * @param name
-     */
-    public void setManager(ProgramManager manager)
-    {
-        this.manager = manager;
+        else System.out.println("Unknown server response");
     }
 
     /**

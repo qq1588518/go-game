@@ -9,7 +9,7 @@ import goclient.game.GameManager;
  */
 public class GameStateOpponentsChoosingDead implements GameState 
 {
-	private GameManager manager;
+	private final GameManager manager;
 
 	public GameStateOpponentsChoosingDead(GameManager manager) 
 	{

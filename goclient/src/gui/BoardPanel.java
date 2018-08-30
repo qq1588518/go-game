@@ -12,9 +12,7 @@ import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Vector;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -36,7 +34,7 @@ public class BoardPanel extends JPanel
     private int stoneRadius;
     private Point[][] fields;
     private Point[] hoshi;
-    private Vector<Stone> stones;
+    private final ArrayList<Stone> stones;
     
     private BufferedImage blackStone;
 	private BufferedImage whiteStone;
@@ -48,7 +46,7 @@ public class BoardPanel extends JPanel
     public BoardPanel(GUIMediator parent)
     {
         this.parent = parent;
-        stones = new Vector<Stone>();
+        stones = new ArrayList<>();
         initComponents();
     }
 
@@ -122,7 +120,7 @@ public class BoardPanel extends JPanel
         drawBoard(g);
         drawStone(g);
         drawDeadSigns(g);
-        drawTeritories(g);
+        drawTerritories(g);
     }
     
     /**
@@ -201,7 +199,7 @@ public class BoardPanel extends JPanel
          Stroke s = g2d.getStroke();
          g2d.setStroke(new BasicStroke(3));
          try {
-			HashSet<Point> dead = parent.getGameManager().getDrawingManager().getDead();
+			Set<Point> dead = parent.getGameManager().getDrawingManager().getDead();
 			
 			for (Point point : dead) 
 			{
@@ -218,19 +216,20 @@ public class BoardPanel extends JPanel
 	}
 
     /**
-     * Allows us draw teritories with given colors
+     * Allows us draw territories with given colors
      * @param g
      */
-    private void drawTeritories(Graphics g)
+    private void drawTerritories(Graphics g)
     {         
 		 try 
 		 {
-			 HashSet<Point> my = parent.getGameManager().getDrawingManager().getMyTeritory();
+			 Set<Point> my = parent.getGameManager().getDrawingManager().getMyTerritory();
 			 drawRectangles(g, new Color(0f,1f,0f,.5f), my);
-			 HashSet<Point> oppo = parent.getGameManager().getDrawingManager().getOpponentsTeritory();
+			 Set<Point> oppo = parent.getGameManager().getDrawingManager().getOpponentsTerritory();
 			 drawRectangles(g, new Color(0f,0f,1f,.5f), oppo);
 		} 
-		catch (ComponentException e) { return; }
+		catch (ComponentException e) {
+        }
     }
     
     /**
@@ -239,7 +238,7 @@ public class BoardPanel extends JPanel
      * @param c Color of rectangles
      * @param points HashSet of Points of centers of rectangles to draw.
      */
-    private void drawRectangles(Graphics g, Color c, HashSet<Point> points)
+    private void drawRectangles(Graphics g, Color c, Set<Point> points)
     {
 		 Graphics2D g2d = (Graphics2D) g;
 		 g2d.setPaint(c);
@@ -254,7 +253,7 @@ public class BoardPanel extends JPanel
     /**
      * Calculates point on grid which is closest to given one. 
      * If given point is further than precision allows, returns null.
-     * @param Point to pull to grid
+     * @param p to pull to grid
      * @return Point on grid closest to given point or null if given point doesn't match any.
      */
     public Point pullToGrid(Point p)
@@ -267,11 +266,11 @@ public class BoardPanel extends JPanel
         
         int xn = fields[n-1][n-1].x;
         int yn = fields[n-1][n-1].y;
-        int xsize = xn-x0 + fieldSize;
-        int ysize = yn-y0 + fieldSize;
+        int xSize = xn-x0 + fieldSize;
+        int ySize = yn-y0 + fieldSize;
        
-        double gridX= (x - x0) / xsize * n;
-        double gridY= (y - y0) / ysize * n;
+        double gridX= (x - x0) / xSize * n;
+        double gridY= (y - y0) / ySize * n;
        
         int gridYrounded = (int)Math.round(gridY);
         int gridXrounded = (int)Math.round(gridX);
@@ -289,8 +288,7 @@ public class BoardPanel extends JPanel
     /**    
     * Adds a new Stone to Vector of Stones to draw on board.
     * @param stoneType color of Stone
-    * @param p Point with coords on grid
-    */
+     */
    synchronized public void addStone(StoneType stoneType, int x, int y) throws WrongCoordsException
    {
        if (x >= 0 && x < n && y >= 0 && y < n) stones.add(new Stone(x, y, stoneType));
@@ -301,27 +299,18 @@ public class BoardPanel extends JPanel
     /**
      * @param x
      * @param y
-     * @param field
      */
-    synchronized public void removeStone(int x, int y, StoneType type)
+    synchronized public void removeStone(int x, int y)
     {
     	Iterator<Stone> iter = stones.iterator();
     	while (iter.hasNext()) 
     	{
     	    Stone s = iter.next();
 
-    	    if ((s.getX() == x) && (s.getY() == y))    iter.remove();
+    	    if ((s.getX() == x) && (s.getY() == y)) iter.remove();
     	}
     	
         repaint();
-    }
-    
-    /**
-     * Returns vector of stones
-     * @return
-     */
-    public Vector<Stone> getStones(){
-    	return stones;
     }
 
 }

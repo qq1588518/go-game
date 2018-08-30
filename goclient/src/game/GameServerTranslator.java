@@ -5,6 +5,7 @@ package goclient.game;
 
 import java.awt.Point;
 import java.util.HashSet;
+import java.util.Set;
 
 import goclient.game.states.GameStateIAmChoosingDead;
 import goclient.game.states.GameStateIAmSettingTerritories;
@@ -20,8 +21,8 @@ import goclient.program.SocketClient;
  */
 public class GameServerTranslator extends ServerTranslator
 {
-    private GameManager manager;
-    private SocketClient socket;
+    private final GameManager manager;
+    private final SocketClient socket;
 
     /**
      * Translate all messages from server connected with gameplay, after game start.
@@ -40,7 +41,7 @@ public class GameServerTranslator extends ServerTranslator
      *  
      */
     
-    public void processIncommingMessage(String input)
+    public void processIncomingMessage(String input)
     {
         if (input.startsWith("SERVERMESSAGE: "))
         {
@@ -100,21 +101,11 @@ public class GameServerTranslator extends ServerTranslator
         else if (input.startsWith("DEADSUGGESTION"))
         {
         	manager.displayMessage("Opponent suggested dead stones. Now it is your turn.\n");
-        	HashSet<Point> dead = new HashSet<>();
+
         	input = input.replaceFirst("DEADSUGGESTION ", "");
-        	if (!input.trim().equals("NONE"))
-        	{
-        		String[] pairs = input.split(" ");
-            	
-            	for (String pair : pairs) 
-            	{
-                    String[] coords = pair.split(",");
-                    Point p = new Point(Integer.valueOf(coords[0].trim()), Integer.valueOf(coords[1].trim()));
-                    dead.add(p);        
-    			}
-        	}
-        	
-        	manager.addDeadStoneSuggestion(dead);
+            Set<Point> dead = GetFieldsCoords(input);
+
+			manager.addDeadStoneSuggestion(dead);
         	manager.setState(new GameStateIAmChoosingDead(manager));
         	manager.getMediator().getOptionsPanel().activateTeritoriesBox(false);
         }
@@ -130,20 +121,10 @@ public class GameServerTranslator extends ServerTranslator
         {
         	
         	manager.displayMessage("You have reached agreement on dead stones. Now your opponent is suggesting territories.\n");
-        	HashSet<Point> dead = new HashSet<>();
+
         	input = input.replaceFirst("DEADOK ", "");
-        	if (!input.trim().equals("NONE"))
-        	{
-        		String[] pairs = input.split(" ");
-            	
-            	for (String pair : pairs) 
-            	{
-                    String[] coords = pair.split(",");
-                    Point p = new Point(Integer.valueOf(coords[0].trim()), Integer.valueOf(coords[1].trim()));
-                    dead.add(p);        
-    			}
-        	}
-        	manager.getDrawingManager().removeAllSigns();
+            Set<Point> dead = GetFieldsCoords(input);
+			manager.getDrawingManager().removeAllSigns();
         	manager.removeStones(dead);
         	manager.setState(new GameStateOpponentsSettingTerritories(manager));
         	manager.getMediator().getOptionsPanel().disactivateTeritoriesBox(false);
@@ -207,7 +188,23 @@ public class GameServerTranslator extends ServerTranslator
         else System.out.println("Unknown system command");
     }
 
-    /**
+	private Set<Point> GetFieldsCoords(String input) {
+    	Set<Point> points = new HashSet<>();
+		if (!input.trim().equals("NONE"))
+		{
+			String[] pairs = input.split(" ");
+
+			for (String pair : pairs)
+			{
+				String[] coords = pair.split(",");
+				Point p = new Point(Integer.valueOf(coords[0].trim()), Integer.valueOf(coords[1].trim()));
+				points.add(p);
+			}
+		}
+		return points;
+	}
+
+	/**
      * @param x
      * @param y
      */
@@ -235,22 +232,12 @@ public class GameServerTranslator extends ServerTranslator
 	private void handleRemoved(String input)
 	{
         input = input.replaceFirst("REMOVED ", "");
-        HashSet<Point> points = new HashSet<Point>();
         System.out.println(input);
-        if (!input.trim().equals("NONE"))
-        {
-            String[] pairs = input.split(" ");
-            for (String string : pairs)
-            {
-                String[] pair = string.split(",");
-                Point p = new Point(Integer.valueOf(pair[0].trim()), Integer.valueOf(pair[1].trim()));
-                points.add(p);
-            }         	
-        }
-        manager.removeStones(points);
+        Set<Point> points = GetFieldsCoords(input);
+		manager.removeStones(points);
 	}
 
-	public void sendTerritories(HashSet<Point> myTeritory, HashSet<Point> opponentsTeritory) 
+	public void sendTerritories(Set<Point> myTeritory, Set<Point> opponentsTeritory)
 	{
 		StringBuilder message = new StringBuilder("TERRITORYSUGGESTION ");
 		message.append("BLACK ");
@@ -262,21 +249,19 @@ public class GameServerTranslator extends ServerTranslator
 		socket.send(message.toString());
 	}
 	
-	public void sendDead(HashSet<Point> dead) 
+	public void sendDead(Set<Point> dead)
 	{
-		StringBuilder message = new StringBuilder("DEADSUGGESTION ");
-		message.append(createFieldsList(dead));
-		socket.send(message.toString());
+        socket.send("DEADSUGGESTION " + createFieldsList(dead));
 	} 
 	
-    private String createFieldsList(HashSet<Point> fields)
+    private String createFieldsList(Set<Point> fields)
     {
     	StringBuilder message = new StringBuilder();
     	if(fields != null && !fields.isEmpty())
         {
             for (Point p : fields)
             {
-                message.append(String.valueOf(p.x) + "," + String.valueOf(p.y) + " ");
+                message.append(String.valueOf(p.x)).append(",").append(String.valueOf(p.y)).append(" ");
             }       
         }
     	else message.append("NONE");

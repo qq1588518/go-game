@@ -28,14 +28,13 @@ import goclient.program.NameContainsSpaceException;
  * 	Displays warnings about wrong name - if contains space or is empty
  */
 
-@SuppressWarnings("serial")
-public class ChooseNameDialog extends JDialog implements ActionListener
+class ChooseNameDialog extends JDialog implements ActionListener
 {
-    private GUIMediator parent;
-    private JLabel text;
-    private JTextField field;
-    private JPanel panel;
-    private JButton button;
+    private final GUIMediator parent;
+    private final JLabel text;
+    private final JTextField field;
+    private final JPanel panel;
+    private final JButton button;
         
     /**
      * Build dialog which gives user possibility to set his nickname
@@ -112,13 +111,11 @@ public class ChooseNameDialog extends JDialog implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
     	 {
-    	        String name = "";
-    	        try {
-    	        	name = field.getText();
-    				
-    				try {
-    					name.trim();
-    					
+             try {
+                 String name = field.getText();
+
+                 try {
+    					name = name.trim();
     					parent.getProgramManager().sendChosenName(name);
     					this.setVisible(false);
     				} catch (ComponentException e1) {

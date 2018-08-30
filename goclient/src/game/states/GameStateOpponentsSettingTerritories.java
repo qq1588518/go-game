@@ -13,7 +13,7 @@ import goclient.game.GameManager;
 public class GameStateOpponentsSettingTerritories implements GameState 
 {
 
-	private GameManager manager;
+	private final GameManager manager;
 
 	/**
 	 * Constructs a new State object.
